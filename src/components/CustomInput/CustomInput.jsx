@@ -24,7 +24,8 @@ function CustomInput({ ...props }) {
     white,
     inputRootCustomClasses,
     success,
-    helpText
+    helpText,
+    type
   } = props;
 
   const labelClasses = classNames({
@@ -77,6 +78,7 @@ function CustomInput({ ...props }) {
         }}
         id={id}
         {...inputProps}
+        type={type}
       />
       {helpText !== undefined ? (
         <FormHelperText id={id + "-text"} className={helpTextClasses}>

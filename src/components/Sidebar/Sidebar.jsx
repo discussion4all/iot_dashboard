@@ -44,7 +44,8 @@ var ps;
 class SidebarWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {       
+    };
   }
   componentDidMount() {
     // pubsub.subscribe('DATA_MQTT', data => {
@@ -57,8 +58,8 @@ class SidebarWrapper extends React.Component {
         suppressScrollY: false
       });
     }
-  }
 
+  }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
@@ -89,6 +90,7 @@ class Sidebar extends React.Component {
       openMaps: this.activeRoute("/maps"),
       openPages: this.activeRoute("-page"),
       miniActive: true
+
     };
     this.activeRoute.bind(this);
   }
@@ -97,9 +99,17 @@ class Sidebar extends React.Component {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
 
-  // componentDidMount() {
+  componentDidMount() {
   //   setInterval(this.timer, 3000);
-  // }
+      let accessToken = localStorage.getItem('accessToken');
+      let user_role = localStorage.getItem('user_role');
+      console.log('Token>>>>>>>>>>>>',accessToken);
+      if(accessToken == '' || user_role == '' || accessToken == null || user_role == null){
+          console.log('if>>>>');
+          localStorage.clear();
+          this.props.history.push('/pages/login-page');
+      }
+  }
 
   // timer = () => {
   //   let msg = localStorage.getItem('msg');
@@ -398,7 +408,7 @@ class Sidebar extends React.Component {
           <img src={logo} alt="logo" className={classes.img} />
         </a>
         <a href="https://www.creative-tim.com" className={logoNormal}>
-          ROMA Dashboard
+          IOT Dashboard
         </a>
       </div>
     );
@@ -441,20 +451,6 @@ class Sidebar extends React.Component {
               <CardBody className={sidebarWrapper}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6} className={classes.myclass}>
-                    <div className="loginArea">
-                      <Button
-                        className={classes.myCustomButton}
-                        component={Link}
-                        to="/pages/register-page">
-                        Sign up
-                      </Button>
-                      <Button
-                        className={classes.myCustomButton}
-                        component={Link}
-                        to="/pages/login-page">
-                        Log in
-                      </Button>
-                    </div>
                     <CustomInput
                       rtlActive={rtlActive}
                       formControlProps={{
@@ -488,8 +484,7 @@ class Sidebar extends React.Component {
                         </Button>
                         <Button color="danger" className={classes.myCustomButton}>
                           Status
-                        </Button>
-                        <div>ALERT</div>
+                        </Button>                        
                       </div>
                     </div>
                   </GridItem>
@@ -520,20 +515,7 @@ class Sidebar extends React.Component {
               <CardBody className={sidebarWrapper}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6} className={classes.myclass}>
-                    <div className="loginArea">
-                      <Button
-                        className={classes.myCustomButton}
-                        component={Link}
-                        to="/pages/register-page">
-                        Sign up
-                      </Button>
-                      <Button
-                        className={classes.myCustomButton}
-                        component={Link}
-                        to="/pages/login-page">
-                        Log in
-                      </Button>
-                    </div>
+                    
                     <CustomInput
                       rtlActive={rtlActive}
                       formControlProps={{

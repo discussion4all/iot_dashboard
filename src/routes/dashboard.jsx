@@ -124,9 +124,9 @@ var dashRoutes = [
       },
       {
         path: "/views/pages",
-        name: "TestPage",
+        name: "Dashboard",
         mini: "T",
-        component: TestPage
+        component: Dashboard
       }
     ]
   },
@@ -213,7 +213,7 @@ var dashRoutes = [
     ]
   },
   { path: "/pTestPage", name: "P Test Page", icon: WidgetsIcon, component: pTestPage },
-  { path: "/AssignedItems", name: "Assigned Items", icon: Timeline, component: AssignedItems },
-  { redirect: true, path: "/", pathTo: "/views/pages", name: "Dashboard" }
+  { path: "/AssignedItems", name: "Assigned Items", icon: Timeline, component: AssignedItems }
+ // { redirect: true, path: "/", pathTo: "/views/pages", name: "Dashboard" }
 ];
 export default dashRoutes;

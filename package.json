@@ -32,7 +32,8 @@
     "react-swipeable-views": "0.13.0",
     "react-table": "6.8.6",
     "react-tagsinput": "3.19.0",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "sweetalert": "^2.1.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",

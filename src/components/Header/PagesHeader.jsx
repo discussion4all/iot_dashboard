@@ -51,7 +51,7 @@ class PagesHeader extends React.Component {
     });
     var list = (
       <List className={classes.list}>
-        <ListItem className={classes.listItem}>
+        <ListItem className={classes.listItem} style={{display:"none"}}>
           <NavLink to={"/dashboard"} className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
               <Dashboard />

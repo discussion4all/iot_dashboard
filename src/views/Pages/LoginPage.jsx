@@ -23,13 +23,24 @@ import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
+import config from "../../config";
+import axios from "axios";
+import swal from "sweetalert";
+
+let REST_API_DOMAIN = config.REST_API_DOMAIN;
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden" 
+      cardAnimaton: "cardHidden",
+      username: "",
+      password: "" 
     };
+
+    this.login = this.login.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
@@ -44,6 +55,36 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
+  handleChange(e){    
+    let change = {};
+    change[e.target.id] = e.target.value;
+    this.setState(change);
+  }
+  login(e){
+
+    let data = {
+      username : this.state.username,
+      password : this.state.password
+    }
+    axios.post('https://'+REST_API_DOMAIN+'/user/login',data).then((response) => {
+       
+        let accessToken = response.data.accessToken;
+        let user_role = response.data.user_role;
+
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('user_role', user_role);
+        this.props.history.push('/views/pages');
+    }).catch(async(err) => {
+      
+       const willDelete = await swal({
+        title: "Error",
+        text: err.response.data.errors.toString(),
+        icon: "warning",
+        dangerMode: true,
+      });           
+
+    })
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -56,44 +97,12 @@ class LoginPage extends React.Component {
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
                 >
-                  <h4 className={classes.cardTitle}>Log in</h4>
-                  <div className={classes.socialLine}>
-                    {[
-                      "fab fa-facebook-square",
-                      "fab fa-twitter",
-                      "fab fa-google-plus"
-                    ].map((prop, key) => {
-                      return (
-                        <Button
-                          color="transparent"
-                          justIcon
-                          key={key}
-                          className={classes.customButtonClass}
-                        >
-                          <i className={prop} />
-                        </Button>
-                      );
-                    })}
-                  </div>
+                  <h4 className={classes.cardTitle}>Log in</h4>                  
                 </CardHeader>
-                <CardBody>
+                <CardBody>                  
                   <CustomInput
-                    labelText="First Name.."
-                    id="firstname"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Face className={classes.inputAdornmentIcon} />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <CustomInput
-                    labelText="Email..."
-                    id="email"
+                    labelText="Email"
+                    id="username"                    
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -102,12 +111,15 @@ class LoginPage extends React.Component {
                         <InputAdornment position="end">
                           <Email className={classes.inputAdornmentIcon} />
                         </InputAdornment>
-                      )
+                      ),
+                      onChange : this.handleChange
                     }}
+                    
                   />
                   <CustomInput
                     labelText="Password"
                     id="password"
+                    type="password"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -118,12 +130,14 @@ class LoginPage extends React.Component {
                             lock_outline
                           </Icon>
                         </InputAdornment>
-                      )
+                      ),
+                      onChange : this.handleChange
                     }}
+                    
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block>
+                  <Button color="rose" simple size="lg" block onClick={this.login}>
                     Let's Go
                   </Button>
                 </CardFooter>
