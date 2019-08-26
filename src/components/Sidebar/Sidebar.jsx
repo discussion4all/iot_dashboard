@@ -489,6 +489,7 @@ class Sidebar extends React.Component {
                         <Button color="danger" className={classes.myCustomButton}>
                           Status
                         </Button>
+                        <div>ALERT</div>
                       </div>
                     </div>
                   </GridItem>
