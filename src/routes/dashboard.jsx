@@ -27,6 +27,8 @@ import LoginPage from "views/Pages/LoginPage.jsx";
 import AssignedItems from "views/Pages/AssignedItems.jsx";
 import pTestPage from "views/Pages/pTestPage.jsx";
 
+import Dashboard_new from "views/Pages/Dashboard_new.jsx";
+
 import pagesRoutes from "./pages.jsx";
 
 // @material-ui/icons
@@ -127,9 +129,19 @@ var dashRoutes = [
         name: "Dashboard",
         mini: "T",
         component: Dashboard
+      },
+      {
+        path : "/Calendar",
+        name: "Calendar",
+        component: Calendar
+      },
+      {
+        path: "/Widgets",
+        name: "Widgets",
+        component: Widgets
       }
     ]
-  },
+  }, 
   {
     collapse: true,
     path: "/forms",
@@ -213,7 +225,10 @@ var dashRoutes = [
     ]
   },
   { path: "/pTestPage", name: "P Test Page", icon: WidgetsIcon, component: pTestPage },
-  { path: "/AssignedItems", name: "Assigned Items", icon: Timeline, component: AssignedItems }
- // { redirect: true, path: "/", pathTo: "/views/pages", name: "Dashboard" }
+  { path: "/AssignedItems", name: "Assigned Items", icon: Timeline, component: AssignedItems },
+  { path: "/charts", name: "Charts", icon: Timeline, component: Charts },
+  { redirect: true, path: "/", pathTo: "/pages/login-page", name: "Dashboard" },
+ /* { path: "/Dashboard_new", name: "Dashboard New", component: Dashboard_new }*/
+
 ];
 export default dashRoutes;

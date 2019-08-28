@@ -31,40 +31,8 @@ import {
 
 import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 
-import { WidthProvider, Responsive } from "react-grid-layout";
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const originalLayouts = getFromLS("layouts") || {};
-
-
-class pTestPage extends React.Component {
-    
-    constructor(props) {
-    super(props);
-
-    this.state = {
-      layouts: JSON.parse(JSON.stringify(originalLayouts))
-    };
-  }
-
-  static get defaultProps() {
-    return {
-      className: "",
-      cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-      rowHeight: 30
-    };
-  }
-
-  resetLayout() {
-    this.setState({ layouts: {} });
-  }
-
-  onLayoutChange(layout, layouts) {
-    console.log("State to be replaced with", layouts);
-    saveToLS("layouts", layouts);
-    this.setState({ layouts });
-  }
-    render() {
+class Dashboard_new extends React.Component {
+  render() {
     const { classes } = this.props;
     return (
       <div>
@@ -99,94 +67,6 @@ class pTestPage extends React.Component {
             </span>
           }
         />
-
-        <ResponsiveReactGridLayout
-          {...this.props}
-          layouts={this.state.layouts}
-          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}>
-          <div
-            key="1"
-            data-grid={{ w: 3.5, h: 8, x: 0, y: 0, minW: 2, minH: 8 }}
-            style={{ border: "1px solid purple" }}>
-            <GridItem xs={12} sm={12} md={10}>
-            <Card chart>
-              <CardHeader color="rose">
-                <ChartistGraph
-                  className="ct-chart-white-colors"
-                  data={roundedLineChart.data}
-                  type="Line"
-                  options={roundedLineChart.options}
-                  listener={roundedLineChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Rounded Line Chart</h4>
-                <p className={classes.cardCategory}>Line Chart</p>
-              </CardBody>
-            </Card>
-          </GridItem>
-          </div>
-          <div
-            key="2"
-            data-grid={{ w: 4, h: 8, x: 2, y: 0, minW: 2, minH: 8 }}
-            style={{ border: "1px solid purple" }}>
-            <GridItem xs={12} sm={12} md={10}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart-white-colors"
-                  data={straightLinesChart.data}
-                  type="Line"
-                  options={straightLinesChart.options}
-                  listener={straightLinesChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Straight Lines Chart</h4>
-                <p className={classes.cardCategory}>Line Chart with Points</p>
-              </CardBody>
-            </Card>
-          </GridItem>
-
-
-            
-          </div>
-          <div
-            key="3"
-            data-grid={{ w: 4, h: 8, x: 4, y: 0, minW: 2, minH: 8 }}
-            style={{ border: "1px solid purple" }}>
-             <GridItem xs={12} sm={12} md={10}>
-            <Card chart>
-              <CardHeader color="info">
-                <ChartistGraph
-                  className="ct-chart-white-colors"
-                  data={simpleBarChart.data}
-                  type="Bar"
-                  options={simpleBarChart.options}
-                  responsiveOptions={simpleBarChart.responsiveOptions}
-                  listener={simpleBarChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Simple Bar Chart</h4>
-                <p className={classes.cardCategory}>Bar Chart</p>
-              </CardBody>
-            </Card>
-          </GridItem>
-          </div>
-          <div
-            key="4"
-            data-grid={{ w: 2, h: 3, x: 6, y: 0, minW: 2, minH: 3 }}
-            style={{ border: "1px solid purple" }}>
-            <span className="text">4</span>
-          </div>
-          <div
-            key="5"
-            data-grid={{ w: 2, h: 3, x: 8, y: 0, minW: 2, minH: 3 }}
-            style={{ border: "1px solid purple" }}>
-            <span className="text">5</span>
-          </div>
-        </ResponsiveReactGridLayout>
         <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <Card chart>
@@ -336,29 +216,4 @@ class pTestPage extends React.Component {
   }
 }
 
-export default withStyles(chartsStyle)(pTestPage);
-
-
-function getFromLS(key) {
-  let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls[key];
-}
-
-function saveToLS(key, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(
-      "rgl-8",
-      JSON.stringify({
-        [key]: value
-      })
-    );
-  }
-}
-
+export default withStyles(chartsStyle)(Dashboard_new);

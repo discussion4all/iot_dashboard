@@ -28,6 +28,7 @@ import headerLinksStyle from "assets/jss/material-dashboard-pro-react/components
 class HeaderLinks extends React.Component {
   state = {
     open: false
+    
   };
   handleClick = () => {
     this.setState({ open: !this.state.open });
@@ -35,9 +36,10 @@ class HeaderLinks extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
   };
+  
   render() {
     const { classes, rtlActive } = this.props;
-    const { open } = this.state;
+    const { open  } = this.state;
     const searchButton =
       classes.top +
       " " +
@@ -212,8 +214,9 @@ class HeaderLinks extends React.Component {
           className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
           muiClasses={{
             label: rtlActive ? classes.labelRTL : ""
-          }}
+          }}          
         >
+
           <Person
             className={
               classes.headerLinksSvg + 
