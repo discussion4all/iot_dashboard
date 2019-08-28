@@ -102,7 +102,7 @@ class pTestPage extends React.Component {
           {...this.props}
           layouts={this.state.layouts}
           onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}>
-          <div key="1" data-grid={{ w: 4, h: 8.7, x: 0, y: 0, minW: 2 }}>
+          <div key="1" data-grid={{ w: 4, h: 9, x: 0, y: 0, minW: 3, minH: 6 }}>
             <Card chart style={{ height: "100%" }}>
               <CardHeader color="rose" style={{ height: "80%" }}>
                 <ChartistGraph
@@ -120,7 +120,7 @@ class pTestPage extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <div key="2" data-grid={{ w: 4, h: 8.7, x: 4, y: 0, minW: 2 }}>
+          <div key="2" data-grid={{ w: 4, h: 9, x: 4, y: 0, minW: 3, minH: 6 }}>
             <Card chart style={{ height: "100%" }}>
               <CardHeader color="warning" style={{ height: "80%" }}>
                 <ChartistGraph
@@ -138,7 +138,7 @@ class pTestPage extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <div key="3" data-grid={{ w: 4, h: 8.7, x: 8, y: 0, minW: 2, minH: 3 }}>
+          <div key="3" data-grid={{ w: 4, h: 9, x: 8, y: 0, minW: 3, minH: 6 }}>
             <Card chart style={{ height: "100%" }}>
               <CardHeader color="info" style={{ height: "80%" }}>
                 <ChartistGraph
@@ -157,7 +157,7 @@ class pTestPage extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <div key="4" data-grid={{ w: 6, h: 11, x: 0, y: 2, minW: 2, minH: 3 }}>
+          <div key="4" data-grid={{ w: 6, h: 11, x: 0, y: 2, minW: 4, minH: 10 }}>
             <Card style={{ height: "100%" }}>
               <CardHeader color="info" icon style={{ height: "20%" }}>
                 <CardIcon color="info">
@@ -178,7 +178,7 @@ class pTestPage extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <div key="5" data-grid={{ w: 6, h: 11, x: 6, y: 2, minW: 2, minH: 3 }}>
+          <div key="5" data-grid={{ w: 6, h: 11, x: 6, y: 2, minW: 4, minH: 10 }}>
             <Card style={{ height: "100%" }}>
               <CardHeader color="danger" icon style={{ height: "20%" }}>
                 <CardIcon color="danger">
@@ -202,7 +202,7 @@ class pTestPage extends React.Component {
               </CardFooter>
             </Card>
           </div>
-          <div key="6" data-grid={{ w: 6, h: 11, x: 0, y: 4, minW: 2, minH: 3 }}>
+          <div key="6" data-grid={{ w: 6, h: 11, x: 0, y: 4, minW: 4, minH: 10 }}>
             <Card style={{ height: "100%" }}>
               <CardHeader color="rose" icon style={{ height: "20%" }}>
                 <CardIcon color="rose">
@@ -223,7 +223,7 @@ class pTestPage extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <div key="7" data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 2, minH: 3 }}>
+          <div key="7" data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
             <Card style={{ height: "100%" }}>
               <CardHeader color="warning" icon style={{ height: "20%" }}>
                 <CardIcon color="warning">
