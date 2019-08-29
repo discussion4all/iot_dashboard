@@ -47,6 +47,8 @@ import {
   BarChartMultipleBars,
   LinesChartColoured
 } from "./ChartsComponent/ChartComponents";
+import buttonsStyle from "assets/jss/material-dashboard-pro-react/views/buttonsStyle.jsx";
+import Button from "components/CustomButtons/Button.jsx";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
@@ -74,6 +76,7 @@ class pTestPage extends React.Component {
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.onRemoveItem = this.onRemoveItem.bind(this);
+    this.saveLayout = this.saveLayout.bind(this);
   }
 
   static get defaultProps() {
@@ -164,11 +167,14 @@ class pTestPage extends React.Component {
   }
 
   onLayoutChange(layout, layouts) {
-    saveToLS("layouts", layout);
     this.setState({ items: layout });
   }
 
-  handleSimple = event => {
+  saveLayout = () => {
+    saveToLS("layouts", this.state.items);
+  };
+
+  addChart = event => {
     const selectedItem = event.target.value;
     const { items } = this.state;
 
@@ -230,90 +236,101 @@ class pTestPage extends React.Component {
             </span>
           }
         />
-
-        <InputLabel
-          htmlFor="simple-select"
-          className={classes.selectLabel}
-          style={{ marginRight: "15px" }}>
-          Choose A Component To Display
-        </InputLabel>
-        <Select
-          MenuProps={{
-            className: classes.selectMenu
-          }}
-          classes={{
-            select: classes.select
-          }}
-          value={this.state.simpleSelect}
-          onChange={this.handleSimple}
-          inputProps={{
-            name: "simpleSelect",
-            id: "simple-select"
-          }}>
-          <MenuItem
-            disabled
-            classes={{
-              root: classes.selectMenuItem
-            }}>
-            Choose A Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="0">
-            Rounded Line Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="1">
-            Straight Lines Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="2">
-            Simple Bar Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="3">
-            Coloured Line Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="4">
-            Pie Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="5">
-            Multiple Bars Chart
-          </MenuItem>
-          <MenuItem
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value="6">
-            Coloured Lines Chart
-          </MenuItem>
-        </Select>
+        <div style={{ display: "flex" }}>
+          <div style={{ width: "90%" }}>
+            <InputLabel
+              htmlFor="simple-select"
+              className={classes.selectLabel}
+              style={{ marginRight: "15px" }}>
+              Choose A Component To Display
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.simpleSelect}
+              onChange={this.addChart}
+              inputProps={{
+                name: "simpleSelect",
+                id: "simple-select"
+              }}>
+              <MenuItem
+                disabled={items.filter(item => item.i === "0").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="0">
+                Rounded Line Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "1").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="1">
+                Straight Lines Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "2").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="2">
+                Simple Bar Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "3").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="3">
+                Coloured Line Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "4").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="4">
+                Pie Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "5").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="5">
+                Multiple Bars Chart
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "6").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="6">
+                Coloured Lines Chart
+              </MenuItem>
+            </Select>
+          </div>
+          <div>
+            <Button
+              color="primary"
+              className={classes.marginRight}
+              onClick={() => this.saveLayout()}>
+              Save Your Layout
+            </Button>
+          </div>
+        </div>
 
         <ResponsiveReactGridLayout
           {...this.props}
