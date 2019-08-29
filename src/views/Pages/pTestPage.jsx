@@ -60,6 +60,8 @@ const originalLayouts =
       y: 0,
       w: 4,
       h: 9,
+      minW: 3,
+      minH: 6,
       add: i === (list.length - 1).toString()
     };
   });
@@ -191,7 +193,9 @@ class pTestPage extends React.Component {
           x: 0,
           y: Infinity, // puts it at the bottom
           w: 4,
-          h: 9
+          h: 9,
+          minW: 3,
+          minH: 6
         })
       });
     }
