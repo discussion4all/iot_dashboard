@@ -19,6 +19,9 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import "./custom.css";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import {
   roundedLineChart,
@@ -33,17 +36,44 @@ import {
 import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 
 import { WidthProvider, Responsive } from "react-grid-layout";
+import _ from "lodash";
+
+import {
+  LineChartRound,
+  LineChartStraight,
+  BarChart,
+  ChartPie,
+  LineChartColoured,
+  BarChartMultipleBars,
+  LinesChartColoured
+} from "./ChartsComponent/ChartComponents";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const originalLayouts = getFromLS("layouts") || {};
+const originalLayouts =
+  getFromLS("layouts") ||
+  [0, 1, 4, 6].map(function(i, key, list) {
+    return {
+      i: i.toString(),
+      x: i * 4,
+      y: 0,
+      w: 4,
+      h: 9,
+      add: i === (list.length - 1).toString()
+    };
+  });
 
 class pTestPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      layouts: JSON.parse(JSON.stringify(originalLayouts))
+      items: JSON.parse(JSON.stringify(originalLayouts)),
+      simpleSelect: "",
+      newCounter: 0
     };
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.onRemoveItem = this.onRemoveItem.bind(this);
   }
 
   static get defaultProps() {
@@ -58,13 +88,116 @@ class pTestPage extends React.Component {
     this.setState({ layouts: {} });
   }
 
-  onLayoutChange(layout, layouts) {
-    console.log("State to be replaced with", layouts);
-    saveToLS("layouts", layouts);
-    this.setState({ layouts });
+  createElement(el) {
+    const removeStyle = {
+      position: "absolute",
+      right: "2px",
+      top: 0,
+      cursor: "pointer"
+    };
+
+    const i = el.add ? "+" : el.i;
+
+    if (i === "0") {
+      return (
+        <div key={i} data-grid={el}>
+          <LineChartRound removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(0)} />
+        </div>
+      );
+    }
+    if (i === "1") {
+      return (
+        <div key={i} data-grid={el}>
+          <LineChartStraight removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(1)} />
+        </div>
+      );
+    }
+    if (i === "2") {
+      return (
+        <div key={i} data-grid={el}>
+          <BarChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(2)} />
+        </div>
+      );
+    }
+    if (i === "3") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 2, minW: 4, minH: 10 }}>
+          <LineChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(3)} />
+        </div>
+      );
+    }
+    if (i === "4") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 0, y: 2, minW: 4, minH: 10 }}>
+          <ChartPie removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(4)} />
+        </div>
+      );
+    }
+    if (i === "5") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 0, y: 4, minW: 4, minH: 10 }}>
+          <BarChartMultipleBars
+            removeStyle={removeStyle}
+            onRemoveItem={() => this.onRemoveItem(5)}
+          />
+        </div>
+      );
+    }
+    if (i === "6") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+          <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} />
+        </div>
+      );
+    }
   }
+
+  onRemoveItem = i => {
+    this.setState({ items: _.filter(this.state.items, item => item.i !== i.toString()) });
+  };
+
+  onBreakpointChange(breakpoint, cols) {
+    this.setState({
+      breakpoint: breakpoint,
+      cols: cols
+    });
+  }
+
+  onLayoutChange(layout, layouts) {
+    saveToLS("layouts", layout);
+    this.setState({ items: layout });
+  }
+
+  handleSimple = event => {
+    const selectedItem = event.target.value;
+    const { items } = this.state;
+
+    console.log(items.filter(item => item.i === selectedItem));
+
+    const query = items.filter(item => item.i === selectedItem);
+
+    if (query.length > 0) {
+      alert("Chart Already On The Page");
+    } else {
+      this.setState({
+        items: this.state.items.concat({
+          i: selectedItem,
+          x: 0,
+          y: Infinity, // puts it at the bottom
+          w: 4,
+          h: 9
+        })
+      });
+    }
+  };
+
   render() {
     const { classes } = this.props;
+    const { items } = this.state;
+    const removeStyle = {
+      cursor: "pointer"
+    };
+    console.log("RENDERED", items[items.length - 1]);
     return (
       <div>
         <Heading
@@ -98,152 +231,95 @@ class pTestPage extends React.Component {
           }
         />
 
+        <InputLabel
+          htmlFor="simple-select"
+          className={classes.selectLabel}
+          style={{ marginRight: "15px" }}>
+          Choose A Component To Display
+        </InputLabel>
+        <Select
+          MenuProps={{
+            className: classes.selectMenu
+          }}
+          classes={{
+            select: classes.select
+          }}
+          value={this.state.simpleSelect}
+          onChange={this.handleSimple}
+          inputProps={{
+            name: "simpleSelect",
+            id: "simple-select"
+          }}>
+          <MenuItem
+            disabled
+            classes={{
+              root: classes.selectMenuItem
+            }}>
+            Choose A Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="0">
+            Rounded Line Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="1">
+            Straight Lines Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="2">
+            Simple Bar Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="3">
+            Coloured Line Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="4">
+            Pie Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="5">
+            Multiple Bars Chart
+          </MenuItem>
+          <MenuItem
+            classes={{
+              root: classes.selectMenuItem,
+              selected: classes.selectMenuItemSelected
+            }}
+            value="6">
+            Coloured Lines Chart
+          </MenuItem>
+        </Select>
+
         <ResponsiveReactGridLayout
           {...this.props}
-          layouts={this.state.layouts}
-          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}>
-          <div key="1" data-grid={{ w: 4, h: 9, x: 0, y: 0, minW: 3, minH: 6 }}>
-            <Card chart style={{ height: "100%" }}>
-              <CardHeader color="rose" style={{ height: "80%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  className="ct-chart-white-colors"
-                  data={roundedLineChart.data}
-                  type="Line"
-                  options={roundedLineChart.options}
-                  listener={roundedLineChart.animation}
-                />
-              </CardHeader>
-              <CardBody style={{ height: "20%" }}>
-                <h4 className={classes.cardTitle}>Rounded Line Chart</h4>
-                <p className={classes.cardCategory}>Line Chart</p>
-              </CardBody>
-            </Card>
-          </div>
-          <div key="2" data-grid={{ w: 4, h: 9, x: 4, y: 0, minW: 3, minH: 6 }}>
-            <Card chart style={{ height: "100%" }}>
-              <CardHeader color="warning" style={{ height: "80%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  className="ct-chart-white-colors"
-                  data={straightLinesChart.data}
-                  type="Line"
-                  options={straightLinesChart.options}
-                  listener={straightLinesChart.animation}
-                />
-              </CardHeader>
-              <CardBody style={{ height: "20%" }}>
-                <h4 className={classes.cardTitle}>Straight Lines Chart</h4>
-                <p className={classes.cardCategory}>Line Chart with Points</p>
-              </CardBody>
-            </Card>
-          </div>
-          <div key="3" data-grid={{ w: 4, h: 9, x: 8, y: 0, minW: 3, minH: 6 }}>
-            <Card chart style={{ height: "100%" }}>
-              <CardHeader color="info" style={{ height: "80%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  className="ct-chart-white-colors"
-                  data={simpleBarChart.data}
-                  type="Bar"
-                  options={simpleBarChart.options}
-                  responsiveOptions={simpleBarChart.responsiveOptions}
-                  listener={simpleBarChart.animation}
-                />
-              </CardHeader>
-              <CardBody style={{ height: "20%" }}>
-                <h4 className={classes.cardTitle}>Simple Bar Chart</h4>
-                <p className={classes.cardCategory}>Bar Chart</p>
-              </CardBody>
-            </Card>
-          </div>
-          <div key="4" data-grid={{ w: 6, h: 11, x: 0, y: 2, minW: 4, minH: 10 }}>
-            <Card style={{ height: "100%" }}>
-              <CardHeader color="info" icon style={{ height: "20%" }}>
-                <CardIcon color="info">
-                  <Timeline />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>
-                  Coloured Line Chart <small>- Rounded</small>
-                </h4>
-              </CardHeader>
-              <CardBody style={{ height: "80%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  data={colouredLineChart.data}
-                  type="Line"
-                  options={colouredLineChart.options}
-                  listener={colouredLineChart.animation}
-                />
-              </CardBody>
-            </Card>
-          </div>
-          <div key="5" data-grid={{ w: 6, h: 11, x: 6, y: 2, minW: 4, minH: 10 }}>
-            <Card style={{ height: "100%" }}>
-              <CardHeader color="danger" icon style={{ height: "20%" }}>
-                <CardIcon color="danger">
-                  <Timeline />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>Pie Chart</h4>
-              </CardHeader>
-              <CardBody style={{ height: "80%" }}>
-                <ChartistGraph
-                  data={pieChart.data}
-                  type="Pie"
-                  options={pieChart.options}
-                  style={{ height: "100%" }}
-                />
-              </CardBody>
-              <CardFooter stats className={classes.cardFooter}>
-                <h6 className={classes.legendTitle}>Legend</h6>
-                <i className={"fas fa-circle " + classes.info} /> Apple{` `}
-                <i className={"fas fa-circle " + classes.warning} /> Samsung{` `}
-                <i className={"fas fa-circle " + classes.danger} /> Windows Phone{` `}
-              </CardFooter>
-            </Card>
-          </div>
-          <div key="6" data-grid={{ w: 6, h: 11, x: 0, y: 4, minW: 4, minH: 10 }}>
-            <Card style={{ height: "100%" }}>
-              <CardHeader color="rose" icon style={{ height: "20%" }}>
-                <CardIcon color="rose">
-                  <Timeline />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>
-                  Multiple Bars Chart <small>- Bar Chart</small>
-                </h4>
-              </CardHeader>
-              <CardBody style={{ height: "80%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  data={multipleBarsChart.data}
-                  type="Bar"
-                  options={multipleBarsChart.options}
-                  listener={multipleBarsChart.animation}
-                />
-              </CardBody>
-            </Card>
-          </div>
-          <div key="7" data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
-            <Card style={{ height: "100%" }}>
-              <CardHeader color="warning" icon style={{ height: "20%" }}>
-                <CardIcon color="warning">
-                  <Timeline />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>
-                  Coloured Lines Chart <small>- Rounded</small>
-                </h4>
-              </CardHeader>
-              <CardBody style={{ height: "20%" }}>
-                <ChartistGraph
-                  style={{ height: "100%" }}
-                  data={colouredLinesChart.data}
-                  type="Line"
-                  options={colouredLinesChart.options}
-                  listener={colouredLinesChart.animation}
-                />
-              </CardBody>
-            </Card>
-          </div>
+          onLayoutChange={this.onLayoutChange}
+          onBreakpointChange={this.onBreakpointChange}>
+          {_.map(items, el => this.createElement(el))}
         </ResponsiveReactGridLayout>
       </div>
     );

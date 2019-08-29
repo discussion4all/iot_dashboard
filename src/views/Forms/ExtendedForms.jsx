@@ -61,6 +61,7 @@ class ExtendedForms extends React.Component {
   }
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(event.target.value);
   };
   handleMultiple = event => {
     this.setState({ multipleSelect: event.target.value });
@@ -85,14 +86,10 @@ class ExtendedForms extends React.Component {
                 <h4 className={classes.cardIconTitle}>Datetime Picker</h4>
               </CardHeader>
               <CardBody>
-                <InputLabel className={classes.label}>
-                  Datetime Picker
-                </InputLabel>
+                <InputLabel className={classes.label}>Datetime Picker</InputLabel>
                 <br />
                 <FormControl fullWidth>
-                  <Datetime
-                    inputProps={{ placeholder: "Datetime Picker Here" }}
-                  />
+                  <Datetime inputProps={{ placeholder: "Datetime Picker Here" }} />
                 </FormControl>
               </CardBody>
             </Card>
@@ -109,10 +106,7 @@ class ExtendedForms extends React.Component {
                 <InputLabel className={classes.label}>Date Picker</InputLabel>
                 <br />
                 <FormControl fullWidth>
-                  <Datetime
-                    timeFormat={false}
-                    inputProps={{ placeholder: "Date Picker Here" }}
-                  />
+                  <Datetime timeFormat={false} inputProps={{ placeholder: "Date Picker Here" }} />
                 </FormControl>
               </CardBody>
             </Card>
@@ -129,10 +123,7 @@ class ExtendedForms extends React.Component {
                 <InputLabel className={classes.label}>Time Picker</InputLabel>
                 <br />
                 <FormControl fullWidth>
-                  <Datetime
-                    dateFormat={false}
-                    inputProps={{ placeholder: "Time Picker Here" }}
-                  />
+                  <Datetime dateFormat={false} inputProps={{ placeholder: "Time Picker Here" }} />
                 </FormControl>
               </CardBody>
             </Card>
@@ -196,14 +187,8 @@ class ExtendedForms extends React.Component {
                     <legend>Customisable Select</legend>
                     <GridContainer>
                       <GridItem xs={12} sm={6} md={5} lg={5}>
-                        <FormControl
-                          fullWidth
-                          className={classes.selectFormControl}
-                        >
-                          <InputLabel
-                            htmlFor="simple-select"
-                            className={classes.selectLabel}
-                          >
+                        <FormControl fullWidth className={classes.selectFormControl}>
+                          <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
                             Choose City
                           </InputLabel>
                           <Select
@@ -218,14 +203,12 @@ class ExtendedForms extends React.Component {
                             inputProps={{
                               name: "simpleSelect",
                               id: "simple-select"
-                            }}
-                          >
+                            }}>
                             <MenuItem
                               disabled
                               classes={{
                                 root: classes.selectMenuItem
-                              }}
-                            >
+                              }}>
                               Choose City
                             </MenuItem>
                             <MenuItem
@@ -233,8 +216,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="2"
-                            >
+                              value="2">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -242,8 +224,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="3"
-                            >
+                              value="3">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -251,8 +232,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="4"
-                            >
+                              value="4">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -260,8 +240,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="5"
-                            >
+                              value="5">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -269,8 +248,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="6"
-                            >
+                              value="6">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -278,8 +256,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="7"
-                            >
+                              value="7">
                               Piatra Neamt
                             </MenuItem>
                             <MenuItem
@@ -287,8 +264,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="8"
-                            >
+                              value="8">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -296,8 +272,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="9"
-                            >
+                              value="9">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -305,8 +280,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="10"
-                            >
+                              value="10">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -314,8 +288,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="11"
-                            >
+                              value="11">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -323,8 +296,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="12"
-                            >
+                              value="12">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -332,8 +304,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="13"
-                            >
+                              value="13">
                               Piatra Neamt
                             </MenuItem>
                             <MenuItem
@@ -341,8 +312,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="14"
-                            >
+                              value="14">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -350,8 +320,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="15"
-                            >
+                              value="15">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -359,8 +328,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="16"
-                            >
+                              value="16">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -368,8 +336,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="17"
-                            >
+                              value="17">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -377,8 +344,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="18"
-                            >
+                              value="18">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -386,22 +352,15 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelected
                               }}
-                              value="19"
-                            >
+                              value="19">
                               Piatra Neamt
                             </MenuItem>
                           </Select>
                         </FormControl>
                       </GridItem>
                       <GridItem xs={12} sm={6} md={5} lg={5}>
-                        <FormControl
-                          fullWidth
-                          className={classes.selectFormControl}
-                        >
-                          <InputLabel
-                            htmlFor="multiple-select"
-                            className={classes.selectLabel}
-                          >
+                        <FormControl fullWidth className={classes.selectFormControl}>
+                          <InputLabel htmlFor="multiple-select" className={classes.selectLabel}>
                             Choose City
                           </InputLabel>
                           <Select
@@ -413,14 +372,12 @@ class ExtendedForms extends React.Component {
                             inputProps={{
                               name: "multipleSelect",
                               id: "multiple-select"
-                            }}
-                          >
+                            }}>
                             <MenuItem
                               disabled
                               classes={{
                                 root: classes.selectMenuItem
-                              }}
-                            >
+                              }}>
                               Choose City
                             </MenuItem>
                             <MenuItem
@@ -428,8 +385,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="2"
-                            >
+                              value="2">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -437,8 +393,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="3"
-                            >
+                              value="3">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -446,8 +401,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="4"
-                            >
+                              value="4">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -455,8 +409,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="5"
-                            >
+                              value="5">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -464,8 +417,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="6"
-                            >
+                              value="6">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -473,8 +425,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="7"
-                            >
+                              value="7">
                               Piatra Neamt
                             </MenuItem>
                             <MenuItem
@@ -482,8 +433,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="8"
-                            >
+                              value="8">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -491,8 +441,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="9"
-                            >
+                              value="9">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -500,8 +449,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="10"
-                            >
+                              value="10">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -509,8 +457,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="11"
-                            >
+                              value="11">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -518,8 +465,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="12"
-                            >
+                              value="12">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -527,8 +473,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="13"
-                            >
+                              value="13">
                               Piatra Neamt
                             </MenuItem>
                             <MenuItem
@@ -536,8 +481,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="14"
-                            >
+                              value="14">
                               Paris
                             </MenuItem>
                             <MenuItem
@@ -545,8 +489,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="15"
-                            >
+                              value="15">
                               Bucharest
                             </MenuItem>
                             <MenuItem
@@ -554,8 +497,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="16"
-                            >
+                              value="16">
                               Rome
                             </MenuItem>
                             <MenuItem
@@ -563,8 +505,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="17"
-                            >
+                              value="17">
                               New York
                             </MenuItem>
                             <MenuItem
@@ -572,8 +513,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="18"
-                            >
+                              value="18">
                               Miami
                             </MenuItem>
                             <MenuItem
@@ -581,8 +521,7 @@ class ExtendedForms extends React.Component {
                                 root: classes.selectMenuItem,
                                 selected: classes.selectMenuItemSelectedMultiple
                               }}
-                              value="19"
-                            >
+                              value="19">
                               Piatra Neamt
                             </MenuItem>
                           </Select>
@@ -640,10 +579,7 @@ class ExtendedForms extends React.Component {
                                     simple: true
                                   }}
                                   dropPlacement="right-start"
-                                  dropdownList={[
-                                    "Subsubmenu action 1",
-                                    "Subsubmenu action 2"
-                                  ]}
+                                  dropdownList={["Subsubmenu action 1", "Subsubmenu action 2"]}
                                 />,
                                 <CustomDropdown
                                   ref="multi"
@@ -691,8 +627,7 @@ class ExtendedForms extends React.Component {
                         sm={6}
                         md={6}
                         lg={6}
-                        className={`${classes.mrAuto} ${classes.mlAuto}`}
-                      >
+                        className={`${classes.mrAuto} ${classes.mlAuto}`}>
                         <CustomDropdown
                           dropup
                           buttonText="Dropup"
@@ -723,16 +658,8 @@ class ExtendedForms extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <legend>Progress Bars</legend>
-                    <CustomLinearProgress
-                      variant="determinate"
-                      color="primary"
-                      value={30}
-                    />
-                    <CustomLinearProgress
-                      variant="determinate"
-                      color="info"
-                      value={60}
-                    />
+                    <CustomLinearProgress variant="determinate" color="primary" value={30} />
+                    <CustomLinearProgress variant="determinate" color="info" value={60} />
                     <CustomLinearProgress
                       variant="determinate"
                       color="success"
