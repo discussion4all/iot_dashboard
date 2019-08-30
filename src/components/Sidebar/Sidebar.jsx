@@ -23,6 +23,11 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
+import axios from "axios";
+import swal from "sweetalert";
+import config from "../../config";
+
+let GRAPHQL_DOMAIN = config.GRAPHQL_DOMAIN;
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -57,6 +62,7 @@ class SidebarWrapper extends React.Component {
 
 class Sidebar extends React.Component {
     constructor(props) {
+        
         super(props);
         this.state = {
             openAvatar: false,
@@ -65,9 +71,60 @@ class Sidebar extends React.Component {
             openTables: this.activeRoute("/tables"),
             openMaps: this.activeRoute("/maps"),
             openPages: this.activeRoute("-page"),
-            miniActive: true
+            miniActive: true,
+            username: ''
         };
         this.activeRoute.bind(this);
+    }
+
+    componentDidMount(){
+        
+        this.getdistributorProfile();
+
+    }
+    getdistributorProfile(){
+        console.log('Distributor Profile>>>');
+
+        let accessToken = localStorage.getItem('accessToken');
+        let data = {
+            query : "{getdistributorProfile( AuthToken: \""+accessToken+"\" distributorID: \"\" ) { contactLastName contactFirstName contactEmail }}"
+        }
+        axios.post(GRAPHQL_DOMAIN,data).then((response) => {
+            
+            let output = response.data;
+            console.log('Output>>>>',output);
+
+            if(output.errors.length > 0){
+                console.log('Error Message',output.errors[0].message);
+                let errmsg = output.errors[0].message;
+                const willDelete = swal({
+                    title: "Error",
+                    text: errmsg,
+                    icon: "warning",
+                    dangerMode: true,
+                }).then(() => {
+                    localStorage.clear();
+                    this.props.history.push('/pages/login-page');  
+                })
+               
+                
+            }else{
+                let distributorData = response.data.data.getdistributorProfile[0];
+                //console.log('DistributorData',distributorData);
+                this.setState({ username : distributorData.contactFirstName+ ' '+distributorData.contactLastName });    
+            }
+            
+        }).catch((err) => {
+            console.log('Error>>>>',err);
+
+            // const willDelete = await swal({
+            //     title: "Error",
+            //     text: err.response.data.errors.toString(),
+            //     icon: "warning",
+            //     dangerMode: true,
+            // });
+
+        })
     }
     // verifies if routeName is the one active (in browser input)
     activeRoute(routeName) {
@@ -145,7 +202,7 @@ class Sidebar extends React.Component {
                             onClick={() => this.openCollapse("openAvatar")}
                         >
                             <ListItemText
-                                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
+                                primary={rtlActive ? "تانيا أندرو" : this.state.username }
                                 secondary={
                                     <b
                                         className={
