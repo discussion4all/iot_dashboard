@@ -20,32 +20,22 @@ class Pages extends React.Component {
     document.body.style.overflow = "unset";
   }
   render() {
+    console.log("Pages component");
     const { classes, ...rest } = this.props;
     return (
       <div>
         <PagesHeader {...rest} />
         <div className={classes.wrapper} ref="wrapper">
-          <div
-            className={classes.fullPage}
-            style={{ backgroundImage: "url(" + bgImage + ")" }}
-          >
+          <div className={classes.fullPage} style={{ backgroundImage: "url(" + bgImage + ")" }}>
             <Switch>
               {pagesRoutes.map((prop, key) => {
                 if (prop.collapse) {
                   return null;
                 }
                 if (prop.redirect) {
-                  return (
-                    <Redirect from={prop.path} to={prop.pathTo} key={key} />
-                  );
+                  return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
                 }
-                return (
-                  <Route
-                    path={prop.path}
-                    component={prop.component}
-                    key={key}
-                  />
-                );
+                return <Route path={prop.path} component={prop.component} key={key} />;
               })}
             </Switch>
             <Footer white />

@@ -24,13 +24,10 @@ import logo from "assets/img/logo-white.svg";
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+      if (prop.redirect) return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
       if (prop.collapse)
         return prop.views.map((prop, key) => {
-          return (
-            <Route path={prop.path} component={prop.component} key={key} />
-          );
+          return <Route path={prop.path} component={prop.component} key={key} />;
         });
       return <Route path={prop.path} component={prop.component} key={key} />;
     })}
@@ -87,14 +84,14 @@ class Dashboard extends React.Component {
     }
   }
   render() {
+    console.log("Dashboard component");
     const { classes, ...rest } = this.props;
     const mainPanel =
       classes.mainPanel +
       " " +
       cx({
         [classes.mainPanelSidebarMini]: this.state.miniActive,
-        [classes.mainPanelWithPerfectScrollbar]:
-          navigator.platform.indexOf("Win") > -1
+        [classes.mainPanelWithPerfectScrollbar]: navigator.platform.indexOf("Win") > -1
       });
     return (
       <div className={classes.wrapper}>
