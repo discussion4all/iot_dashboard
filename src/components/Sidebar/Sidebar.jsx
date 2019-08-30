@@ -92,9 +92,19 @@ class Sidebar extends React.Component {
         axios.post(GRAPHQL_DOMAIN,data).then((response) => {
             
             let output = response.data;
-            console.log('Output>>>>',output);
+            console.log('Output>>>>',output);           
 
-            if(output.errors.length > 0){
+            if(output.data.getdistributorProfile.length > 0){
+
+                let distributorData = response.data.data.getdistributorProfile[0];                
+                let username =  distributorData.contactFirstName+ ' '+distributorData.contactLastName;                
+                username = username.trim();
+                if(username == null || username == '' || username == undefined)  {
+                    username = 'Distributor';
+                }                
+                this.setState({ username : username }); 
+            }else{
+
                 console.log('Error Message',output.errors[0].message);
                 let errmsg = output.errors[0].message;
                 const willDelete = swal({
@@ -105,13 +115,7 @@ class Sidebar extends React.Component {
                 }).then(() => {
                     localStorage.clear();
                     this.props.history.push('/pages/login-page');  
-                })
-               
-                
-            }else{
-                let distributorData = response.data.data.getdistributorProfile[0];
-                //console.log('DistributorData',distributorData);
-                this.setState({ username : distributorData.contactFirstName+ ' '+distributorData.contactLastName });    
+                })    
             }
             
         }).catch((err) => {
@@ -123,6 +127,8 @@ class Sidebar extends React.Component {
             //     icon: "warning",
             //     dangerMode: true,
             // });
+            localStorage.clear();
+            this.props.history.push('/pages/login-page');
 
         })
     }
