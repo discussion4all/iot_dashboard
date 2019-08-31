@@ -1,37 +1,14 @@
 import React from "react";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-// @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-
 // core components
 import Heading from "components/Heading/Heading.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardIcon from "components/Card/CardIcon.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
 import "./custom.css";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
-
-import {
-  roundedLineChart,
-  straightLinesChart,
-  simpleBarChart,
-  colouredLineChart,
-  multipleBarsChart,
-  colouredLinesChart,
-  pieChart
-} from "variables/charts.jsx";
 
 import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 
@@ -47,7 +24,7 @@ import {
   BarChartMultipleBars,
   LinesChartColoured
 } from "./ChartsComponent/ChartComponents";
-import buttonsStyle from "assets/jss/material-dashboard-pro-react/views/buttonsStyle.jsx";
+
 import Button from "components/CustomButtons/Button.jsx";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -202,9 +179,6 @@ class pTestPage extends React.Component {
   render() {
     const { classes } = this.props;
     const { items } = this.state;
-    const removeStyle = {
-      cursor: "pointer"
-    };
 
     return (
       <div>

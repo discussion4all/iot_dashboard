@@ -23,11 +23,8 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
-import axios from "axios";
-import swal from "sweetalert";
-import config from "../../config";
 
-let GRAPHQL_DOMAIN = config.GRAPHQL_DOMAIN;
+
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -107,16 +104,7 @@ class Sidebar extends React.Component {
                     rtlActive && this.props.miniActive && this.state.miniActive,
                 [classes.itemTextRTL]: rtlActive
             });
-        const collapseItemText =
-            classes.collapseItemText +
-            " " +
-            cx({
-                [classes.collapseItemTextMini]:
-                    this.props.miniActive && this.state.miniActive,
-                [classes.collapseItemTextMiniRTL]:
-                    rtlActive && this.props.miniActive && this.state.miniActive,
-                [classes.collapseItemTextRTL]: rtlActive
-            });
+       
         const userWrapperClass =
             classes.user +
             " " +
@@ -129,12 +117,7 @@ class Sidebar extends React.Component {
             cx({
                 [classes.caretRTL]: rtlActive
             });
-        const collapseItemMini =
-            classes.collapseItemMini +
-            " " +
-            cx({
-                [classes.collapseItemMiniRTL]: rtlActive
-            });
+       
         const photo =
             classes.photo +
             " " +

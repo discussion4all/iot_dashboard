@@ -9,10 +9,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
-import Group from "@material-ui/icons/Group";
-import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 import Check from "@material-ui/icons/Check";
@@ -22,7 +18,6 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
@@ -122,10 +117,7 @@ class RegisterPage extends React.Component {
                         }}
                         inputProps={{
                           startAdornment: (
-                            <InputAdornment
-                              position="start"
-                              className={classes.inputAdornment}
-                            >
+                            <InputAdornment position="start" className={classes.inputAdornment}>
                               <Email className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
@@ -139,13 +131,8 @@ class RegisterPage extends React.Component {
                         }}
                         inputProps={{
                           startAdornment: (
-                            <InputAdornment
-                              position="start"
-                              className={classes.inputAdornment}
-                            >
-                              <Icon className={classes.inputAdornmentIcon}>
-                                lock_outline
-                              </Icon>
+                            <InputAdornment position="start" className={classes.inputAdornment}>
+                              <Icon className={classes.inputAdornmentIcon}>lock_outline</Icon>
                             </InputAdornment>
                           ),
                           placeholder: "Password..."
@@ -158,13 +145,8 @@ class RegisterPage extends React.Component {
                         }}
                         inputProps={{
                           startAdornment: (
-                            <InputAdornment
-                              position="start"
-                              className={classes.inputAdornment}
-                            >
-                              <Icon className={classes.inputAdornmentIcon}>
-                                lock_outline
-                              </Icon>
+                            <InputAdornment position="start" className={classes.inputAdornment}>
+                              <Icon className={classes.inputAdornmentIcon}>lock_outline</Icon>
                             </InputAdornment>
                           ),
                           placeholder: "Confirm Password..."
@@ -179,9 +161,7 @@ class RegisterPage extends React.Component {
                           <Checkbox
                             tabIndex={-1}
                             onClick={() => this.handleToggle(1)}
-                            checkedIcon={
-                              <Check className={classes.checkedIcon} />
-                            }
+                            checkedIcon={<Check className={classes.checkedIcon} />}
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
                               checked: classes.checked,
@@ -191,8 +171,7 @@ class RegisterPage extends React.Component {
                         }
                         label={
                           <span>
-                            I agree to the{" "}
-                            <a href="#pablo">terms and conditions</a>.
+                            I agree to the <a href="#pablo">terms and conditions</a>.
                           </span>
                         }
                       />
