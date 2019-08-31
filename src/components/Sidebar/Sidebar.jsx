@@ -77,61 +77,7 @@ class Sidebar extends React.Component {
         this.activeRoute.bind(this);
     }
 
-    componentDidMount(){
-        
-        this.getdistributorProfile();
-
-    }
-    getdistributorProfile(){
-        console.log('Distributor Profile>>>');
-
-        let accessToken = localStorage.getItem('accessToken');
-        let data = {
-            query : "{getdistributorProfile( AuthToken: \""+accessToken+"\" distributorID: \"\" ) { contactLastName contactFirstName contactEmail }}"
-        }
-        axios.post(GRAPHQL_DOMAIN,data).then((response) => {
-            
-            let output = response.data;
-            console.log('Output>>>>',output);           
-
-            if(output.data.getdistributorProfile.length > 0){
-
-                let distributorData = response.data.data.getdistributorProfile[0];                
-                let username =  distributorData.contactFirstName+ ' '+distributorData.contactLastName;                
-                username = username.trim();
-                if(username == null || username == '' || username == undefined)  {
-                    username = 'Distributor';
-                }                
-                this.setState({ username : username }); 
-            }else{
-
-                console.log('Error Message',output.errors[0].message);
-                let errmsg = output.errors[0].message;
-                const willDelete = swal({
-                    title: "Error",
-                    text: errmsg,
-                    icon: "warning",
-                    dangerMode: true,
-                }).then(() => {
-                    localStorage.clear();
-                    this.props.history.push('/pages/login-page');  
-                })    
-            }
-            
-        }).catch((err) => {
-            console.log('Error>>>>',err);
-
-            // const willDelete = await swal({
-            //     title: "Error",
-            //     text: err.response.data.errors.toString(),
-            //     icon: "warning",
-            //     dangerMode: true,
-            // });
-            localStorage.clear();
-            this.props.history.push('/pages/login-page');
-
-        })
-    }
+   
     // verifies if routeName is the one active (in browser input)
     activeRoute(routeName) {
         return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
@@ -204,11 +150,10 @@ class Sidebar extends React.Component {
                     <ListItem className={classes.item + " " + classes.userItem}>
                         <NavLink
                             to={"#"}
-                            className={classes.itemLink + " " + classes.userCollapseButton}
-                            onClick={() => this.openCollapse("openAvatar")}
+                            className={classes.itemLink + " " + classes.userCollapseButton}                            
                         >
                             <ListItemText
-                                primary={rtlActive ? "تانيا أندرو" : this.state.username }
+                                primary={rtlActive ? "تانيا أندرو" : "Dhruti Shah"}
                                 secondary={
                                     <b
                                         className={
@@ -223,64 +168,7 @@ class Sidebar extends React.Component {
                                 disableTypography={true}
                                 className={itemText + " " + classes.userItemText}
                             />
-                        </NavLink>
-                        <Collapse in={this.state.openAvatar} unmountOnExit>
-                            <List className={classes.list + " " + classes.collapseList}>
-                                <ListItem className={classes.collapseItem}>
-                                    <NavLink
-                                        to="#"
-                                        className={
-                                            classes.itemLink + " " + classes.userCollapseLinks
-                                        }
-                                    >
-                                        <span className={collapseItemMini}>
-                                            {rtlActive ? "مع" : "MP"}
-                                        </span>
-                                        <ListItemText
-                                            primary={rtlActive ? "ملفي" : "My Profile"}
-                                            disableTypography={true}
-                                            className={collapseItemText}
-                                        />
-                                    </NavLink>
-                                </ListItem>
-                                <ListItem className={classes.collapseItem}>
-                                    <NavLink
-                                        to="#"
-                                        className={
-                                            classes.itemLink + " " + classes.userCollapseLinks
-                                        }
-                                    >
-                                        <span className={collapseItemMini}>
-                                            {rtlActive ? "هوع" : "EP"}
-                                        </span>
-                                        <ListItemText
-                                            primary={
-                                                rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
-                                            }
-                                            disableTypography={true}
-                                            className={collapseItemText}
-                                        />
-                                    </NavLink>
-                                </ListItem>
-                                <ListItem className={classes.collapseItem}>
-                                    <NavLink
-                                        to="#"
-                                        className={
-                                            classes.itemLink + " " + classes.userCollapseLinks
-                                        }
-                                    >
-                                        <span className={collapseItemMini}>
-                                            {rtlActive ? "و" : "S"}
-                                        </span>
-                                        <ListItemText
-                                            primary={rtlActive ? "إعدادات" : "Settings"}
-                                            disableTypography={true}
-                                            className={collapseItemText}
-                                        />
-                                    </NavLink>
-                                </ListItem>
-                            </List>
-                        </Collapse>
+                        </NavLink>                        
                     </ListItem>
                 </List>
             </div>

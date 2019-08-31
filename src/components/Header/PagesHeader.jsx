@@ -51,7 +51,7 @@ class PagesHeader extends React.Component {
     });
     var list = (
       <List className={classes.list}>
-        <ListItem className={classes.listItem} style={{display:"none"}}>
+        <ListItem className={classes.listItem} style={{ display: "none" }}>
           <NavLink to={"/dashboard"} className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
               <Dashboard />
@@ -81,7 +81,7 @@ class PagesHeader extends React.Component {
                 <ListItemText
                   primary={prop.short}
                   disableTypography={true}
-                  className={classes.listItemText} 
+                  className={classes.listItemText}
                 />
               </NavLink>
             </ListItem>
@@ -95,14 +95,14 @@ class PagesHeader extends React.Component {
           <Hidden smDown>
             <div className={classes.flex}>
               <Button href="#" className={classes.title} color="transparent">
-               ROMA
+                IOT Dashboard
               </Button>
             </div>
           </Hidden>
           <Hidden mdUp>
             <div className={classes.flex}>
               <Button href="#" className={classes.title} color="transparent">
-                ROMA
+                IOT Dashboard
               </Button>
             </div>
           </Hidden>
@@ -113,8 +113,7 @@ class PagesHeader extends React.Component {
               color="transparent"
               justIcon
               aria-label="open drawer"
-              onClick={this.handleDrawerToggle}
-            >
+              onClick={this.handleDrawerToggle}>
               <Menu />
             </Button>
           </Hidden>
@@ -130,8 +129,7 @@ class PagesHeader extends React.Component {
                 onClose={this.handleDrawerToggle}
                 ModalProps={{
                   keepMounted: true // Better open performance on mobile.
-                }}
-              >
+                }}>
                 {list}
               </Drawer>
             </Hidden>

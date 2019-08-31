@@ -180,8 +180,6 @@ class pTestPage extends React.Component {
     const selectedItem = event.target.value;
     const { items } = this.state;
 
-    console.log(items.filter(item => item.i === selectedItem));
-
     const query = items.filter(item => item.i === selectedItem);
 
     if (query.length > 0) {
@@ -207,7 +205,7 @@ class pTestPage extends React.Component {
     const removeStyle = {
       cursor: "pointer"
     };
-    console.log("RENDERED", items[items.length - 1]);
+
     return (
       <div>
         <Heading

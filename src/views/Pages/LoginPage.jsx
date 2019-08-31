@@ -36,7 +36,7 @@ class LoginPage extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
       username: "",
-      password: "" 
+      password: ""
     };
 
     this.login = this.login.bind(this);
@@ -55,35 +55,34 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
-  handleChange(e){    
+  handleChange(e) {
     let change = {};
     change[e.target.id] = e.target.value;
     this.setState(change);
   }
-  login(e){
-
+  login(e) {
     let data = {
-      username : this.state.username,
-      password : this.state.password
-    }
-    axios.post('https://'+REST_API_DOMAIN+'/user/login',data).then((response) => {
-       
+      username: this.state.username,
+      password: this.state.password
+    };
+    axios
+      .post("https://" + REST_API_DOMAIN + "/user/login", data)
+      .then(response => {
         let accessToken = response.data.accessToken;
         let user_role = response.data.user_role;
 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('user_role', user_role);
-        this.props.history.push('/views/pages');
-    }).catch(async(err) => {
-      
-       const willDelete = await swal({
-        title: "Error",
-        text: err.response.data.errors.toString(),
-        icon: "warning",
-        dangerMode: true,
-      });           
-
-    })
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("user_role", user_role);
+        this.props.history.push("/dashboard");
+      })
+      .catch(async err => {
+        const willDelete = await swal({
+          title: "Error",
+          text: err.response.data.errors.toString(),
+          icon: "warning",
+          dangerMode: true
+        });
+      });
   }
   render() {
     const { classes } = this.props;
@@ -93,16 +92,13 @@ class LoginPage extends React.Component {
           <GridItem xs={12} sm={6} md={4}>
             <form>
               <Card login className={classes[this.state.cardAnimaton]}>
-                <CardHeader
-                  className={`${classes.cardHeader} ${classes.textCenter}`}
-                  color="rose"
-                >
-                  <h4 className={classes.cardTitle}>Log in</h4>                  
+                <CardHeader className={`${classes.cardHeader} ${classes.textCenter}`} color="rose">
+                  <h4 className={classes.cardTitle}>Log in</h4>
                 </CardHeader>
-                <CardBody>                  
+                <CardBody>
                   <CustomInput
                     labelText="Email"
-                    id="username"                    
+                    id="username"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -112,9 +108,8 @@ class LoginPage extends React.Component {
                           <Email className={classes.inputAdornmentIcon} />
                         </InputAdornment>
                       ),
-                      onChange : this.handleChange
+                      onChange: this.handleChange
                     }}
-                    
                   />
                   <CustomInput
                     labelText="Password"
@@ -126,14 +121,11 @@ class LoginPage extends React.Component {
                     inputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <Icon className={classes.inputAdornmentIcon}>
-                            lock_outline
-                          </Icon>
+                          <Icon className={classes.inputAdornmentIcon}>lock_outline</Icon>
                         </InputAdornment>
                       ),
-                      onChange : this.handleChange
+                      onChange: this.handleChange
                     }}
-                    
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
