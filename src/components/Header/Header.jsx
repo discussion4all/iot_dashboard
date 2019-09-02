@@ -36,7 +36,7 @@ function Header({ ...props }) {
       }
       return null;
     });
-    if(name){
+    if (name) {
       return name;
     } else {
       return "Default Brand Name";
@@ -58,22 +58,11 @@ function Header({ ...props }) {
         <Hidden smDown implementation="css">
           <div className={sidebarMinimize}>
             {props.miniActive ? (
-              <Button
-                justIcon
-                round
-                color="white"
-                onClick={props.sidebarMinimize}
-              >
-               
+              <Button justIcon round color="white" onClick={props.sidebarMinimize}>
                 <ViewList className={classes.sidebarMiniIcon} />
               </Button>
             ) : (
-              <Button
-                justIcon
-                round
-                color="white"
-                onClick={props.sidebarMinimize}
-              >
+              <Button justIcon round color="white" onClick={props.sidebarMinimize}>
                 <MoreVert className={classes.sidebarMiniIcon} />
               </Button>
             )}
@@ -94,8 +83,7 @@ function Header({ ...props }) {
             color="transparent"
             justIcon
             aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
+            onClick={props.handleDrawerToggle}>
             <Menu />
           </Button>
         </Hidden>

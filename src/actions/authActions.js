@@ -49,5 +49,5 @@ export const logoutUser = history => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 
-  history.push("/dashboard");
+  // history.push("/dashboard");
 };
