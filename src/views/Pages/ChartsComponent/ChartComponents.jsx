@@ -6,6 +6,9 @@ import ChartistGraph from "react-chartist";
 import CardIcon from "components/Card/CardIcon.jsx";
 import Timeline from "@material-ui/icons/Timeline";
 import CardFooter from "components/Card/CardFooter.jsx";
+import DeleteIcon from '@material-ui/icons/Delete';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import {
   roundedLineChart,
@@ -25,8 +28,11 @@ class RoundedLineChart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card chart style={{ height: "100%" }} className="tr">
-        <CardHeader color="rose" style={{ height: "80%" }}>
-          <ChartistGraph
+        <CardHeader style={{ height: "15%" }}>
+          <h4 className={classes.cardTitle}>Rounded Line Chart </h4>                              
+        </CardHeader>
+        <CardBody style={{ height: "75%" , backgroundColor: "#db2164" }}>
+          	<ChartistGraph
             style={{ height: "100%" }}
             className="ct-chart-white-colors"
             data={roundedLineChart.data}
@@ -34,14 +40,17 @@ class RoundedLineChart extends Component {
             options={roundedLineChart.options}
             listener={roundedLineChart.animation}
           />
-          <span className="close-btn" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
-        </CardHeader>
-        <CardBody style={{ height: "20%" }}>
-          <h4 className={classes.cardTitle}>Rounded Line Chart </h4>{" "}
-          <p className={classes.cardCategory}>Line Chart</p>
         </CardBody>
+        <CardFooter style={{height: "10%"}}>
+	        <Grid container className="close-btn">
+			      <Grid item xs={6} style={{textAlign: 'right'}}>
+			        <DeleteIcon className="hoverText redcolorClass" /> 
+			      </Grid>
+			      <Grid item xs={6}>
+			        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+			      </Grid>
+	      	</Grid>
+      	</CardFooter>
       </Card>
     );
   }
@@ -52,7 +61,10 @@ class StraightLineChart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card chart style={{ height: "100%" }} className="tr">
-        <CardHeader color="warning" style={{ height: "80%" }}>
+        <CardHeader style={{ height: "15%" }}>
+          <h4 className={classes.cardTitle}>Straight Lines Chart</h4>                    
+        </CardHeader>
+        <CardBody style={{ height: "75%" , backgroundColor: "#fc930a" }}>          
           <ChartistGraph
             style={{ height: "100%" }}
             className="ct-chart-white-colors"
@@ -61,14 +73,17 @@ class StraightLineChart extends Component {
             options={straightLinesChart.options}
             listener={straightLinesChart.animation}
           />
-          <span className="close-btn" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
-        </CardHeader>
-        <CardBody style={{ height: "20%" }}>
-          <h4 className={classes.cardTitle}>Straight Lines Chart</h4>
-          <p className={classes.cardCategory}>Line Chart with Points</p>
         </CardBody>
+        <CardFooter style={{ height: "10%" }}>
+        	<Grid container className="close-btn">
+		      <Grid item xs={6} style={{textAlign: 'right'}}>
+		        <DeleteIcon className="hoverText redcolorClass" /> 
+		      </Grid>
+		      <Grid item xs={6}>
+		        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+		      </Grid>
+      		</Grid>
+      	</CardFooter>
       </Card>
     );
   }
@@ -79,24 +94,31 @@ class SimpleBarChart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card chart style={{ height: "100%" }} className="tr">
-        <CardHeader color="info" style={{ height: "80%" }}>
-          <ChartistGraph
-            style={{ height: "100%" }}
-            className="ct-chart-white-colors"
-            data={simpleBarChart.data}
-            type="Bar"
-            options={simpleBarChart.options}
-            responsiveOptions={simpleBarChart.responsiveOptions}
-            listener={simpleBarChart.animation}
-          />
-          <span className="close-btn" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
+        <CardHeader style={{ height: "15%" }}>
+        	<h4 className={classes.cardTitle}>Simple Bar Chart</h4>          	                   
         </CardHeader>
-        <CardBody style={{ height: "20%" }}>
-          <h4 className={classes.cardTitle}>Simple Bar Chart</h4>
-          <p className={classes.cardCategory}>Bar Chart</p>
-        </CardBody>
+        <CardBody style={{ height: "75%" , backgroundColor: "#00bcd4"}}>          
+	          <ChartistGraph
+	            style={{ height: "100%" }}
+	            className="ct-chart-white-colors"
+	            data={simpleBarChart.data}
+	            type="Bar"
+	            options={simpleBarChart.options}
+	            responsiveOptions={simpleBarChart.responsiveOptions}
+	            listener={simpleBarChart.animation}
+	          />	       	          
+        </CardBody>           	    
+	    <CardFooter style={{ height: "10%"}}>
+	    	 <Grid container className="close-btn">
+			      <Grid item xs={6} style={{textAlign: 'right'}}>
+			        <DeleteIcon className="hoverText redcolorClass" /> 
+			      </Grid>
+			      <Grid item xs={6}>
+			        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+			      </Grid>
+      		 </Grid>
+	    </CardFooter>
+	    
       </Card>
     );
   }
@@ -107,16 +129,17 @@ class PieChart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card style={{ height: "100%" }} className="tr">
-        <CardHeader color="danger" icon style={{ height: "20%" }}>
+        <CardHeader color="danger" icon style={{ height: "25%" }}>
           <CardIcon color="danger">
-            <Timeline />
+            <Timeline />            
           </CardIcon>
           <h4 className={classes.cardIconTitle}>Pie Chart</h4>
-          <span className="close-btn black-sign" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
+          <h6 className={classes.legendTitle}>Legend</h6>
+	      <i className={"fas fa-circle " + classes.info} /> <Typography>Apple{` `}</Typography>
+	      <i className={"fas fa-circle " + classes.warning} /> <Typography>Samsung{` `}</Typography>
+	      <i className={"fas fa-circle " + classes.danger} /><Typography> Windows Phone{` `} </Typography>         
         </CardHeader>
-        <CardBody style={{ height: "80%" }}>
+        <CardBody style={{ height: "50%" }}>
           <ChartistGraph
             data={pieChart.data}
             type="Pie"
@@ -124,12 +147,18 @@ class PieChart extends Component {
             style={{ height: "100%" }}
           />
         </CardBody>
-        <CardFooter stats className={classes.cardFooter}>
-          <h6 className={classes.legendTitle}>Legend</h6>
-          <i className={"fas fa-circle " + classes.info} /> Apple{` `}
-          <i className={"fas fa-circle " + classes.warning} /> Samsung{` `}
-          <i className={"fas fa-circle " + classes.danger} /> Windows Phone{` `}
-        </CardFooter>
+        <CardFooter style={{height : "10%"}}>
+          
+        
+	        <Grid container className="close-btn">
+			      <Grid item xs={6} style={{textAlign: 'right'}}>
+			        <DeleteIcon className="hoverText redcolorClass" /> 
+			      </Grid>
+			      <Grid item xs={6}>
+			        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+			      </Grid>
+	      	</Grid>
+      	</CardFooter>
       </Card>
     );
   }
@@ -140,18 +169,15 @@ class ColouredLineChart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card style={{ height: "100%" }} className="tr">
-        <CardHeader color="info" icon style={{ height: "20%" }}>
+        <CardHeader color="info" icon style={{ height: "15%" }}>
           <CardIcon color="info">
             <Timeline />
           </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Coloured Line Chart <small>- Rounded</small>
-          </h4>
-          <span className="close-btn black-sign" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
+          </h4>          
         </CardHeader>
-        <CardBody style={{ height: "80%" }}>
+        <CardBody style={{ height: "75%" }}>
           <ChartistGraph
             style={{ height: "100%" }}
             data={colouredLineChart.data}
@@ -160,6 +186,16 @@ class ColouredLineChart extends Component {
             listener={colouredLineChart.animation}
           />
         </CardBody>
+        <CardFooter style={{ height: "10%"}}>
+	        <Grid container className="close-btn">
+			      <Grid item xs={6} style={{textAlign: 'right'}}>
+			        <DeleteIcon className="hoverText redcolorClass" /> 
+			      </Grid>
+			      <Grid item xs={6}>
+			        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+			      </Grid>
+	      	</Grid>
+	    </CardFooter>  	
       </Card>
     );
   }
@@ -170,18 +206,15 @@ class MultipleBarchart extends Component {
     const { classes, removeStyle, onRemoveItem } = this.props;
     return (
       <Card style={{ height: "100%" }} className="tr">
-        <CardHeader color="rose" icon style={{ height: "20%" }}>
+        <CardHeader color="rose" icon style={{ height: "15%" }}>
           <CardIcon color="rose">
             <Timeline />
           </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Multiple Bars Chart <small>- Bar Chart</small>
-          </h4>
-          <span className="close-btn black-sign" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
+          </h4>          
         </CardHeader>
-        <CardBody style={{ height: "80%" }}>
+        <CardBody style={{ height: "75%" }}>
           <ChartistGraph
             style={{ height: "100%" }}
             data={multipleBarsChart.data}
@@ -190,6 +223,16 @@ class MultipleBarchart extends Component {
             listener={multipleBarsChart.animation}
           />
         </CardBody>
+        <CardFooter style={{height: "10%"}}>
+	        <Grid container className="close-btn">
+			      <Grid item xs={6} style={{textAlign: 'right'}}>
+			        <DeleteIcon className="hoverText redcolorClass" /> 
+			      </Grid>
+			      <Grid item xs={6}>
+			        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+			      </Grid>
+	      	</Grid>
+	    </CardFooter>  	
       </Card>
     );
   }
@@ -206,10 +249,7 @@ class ColouredLinesChart extends Component {
           </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Coloured Lines Chart <small>- Rounded</small>
-          </h4>
-          <span className="close-btn black-sign" style={removeStyle} onClick={() => onRemoveItem()}>
-            <b>X</b>
-          </span>
+          </h4>          
         </CardHeader>
         <CardBody style={{ height: "20%" }}>
           <ChartistGraph
@@ -220,6 +260,14 @@ class ColouredLinesChart extends Component {
             listener={colouredLinesChart.animation}
           />
         </CardBody>
+        <Grid container className="close-btn">
+		      <Grid item xs={6} style={{textAlign: 'right'}}>
+		        <DeleteIcon className="hoverText redcolorClass" /> 
+		      </Grid>
+		      <Grid item xs={6}>
+		        <Typography className="hoverText redcolorClass" style={{marginTop: '2%', marginBottom: '2%'}} onClick={() => onRemoveItem()}>Remove</Typography>
+		      </Grid>
+      	</Grid>
       </Card>
     );
   }

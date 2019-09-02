@@ -53,14 +53,31 @@
 }
 
 .tr:hover .close-btn {
-  display: inline-block;
+  display: inline-flex !important;
+  cursor: pointer;
 }
 
 .close-btn {
-  display: none;
+  display: none !important;
   float: right;
 }
+.close-btn:hover .hoverText{
+  opacity: 1 !important;
+}
+.hoverText{  
+  opacity: 0.4;
+}
+.redcolorClass{
+  color: red !important;
+}
 
-.black-sign {
-  color: black;
+@media only screen and (max-width: 768px) {
+
+    .close-btn {
+      display: inline-flex !important;
+       cursor: pointer;
+    }
+    .hoverText{
+      opacity: 1 !important;
+    }
 }
