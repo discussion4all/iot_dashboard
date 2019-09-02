@@ -25,7 +25,9 @@ function CustomInput({ ...props }) {
     inputRootCustomClasses,
     success,
     helpText,
-    type
+    type,
+    required,
+    displayError
   } = props;
 
   const labelClasses = classNames({
@@ -35,7 +37,7 @@ function CustomInput({ ...props }) {
   const underlineClasses = classNames({
     [classes.underlineError]: error,
     [classes.underlineSuccess]: success && !error,
-    [classes.underline]: true,
+    // [classes.underline]: true,
     [classes.whiteUnderline]: white
   });
   const marginTop = classNames({
@@ -47,10 +49,7 @@ function CustomInput({ ...props }) {
   });
   var formControlClasses;
   if (formControlProps !== undefined) {
-    formControlClasses = classNames(
-      formControlProps.className,
-      classes.formControl
-    );
+    formControlClasses = classNames(formControlProps.className, classes.formControl);
   } else {
     formControlClasses = classes.formControl;
   }
@@ -58,18 +57,16 @@ function CustomInput({ ...props }) {
     [classes.labelRootError]: error,
     [classes.labelRootSuccess]: success && !error
   });
+
   return (
     <FormControl {...formControlProps} className={formControlClasses}>
       {labelText !== undefined ? (
-        <InputLabel
-          className={classes.labelRoot + " " + labelClasses}
-          htmlFor={id}
-          {...labelProps}
-        >
+        <InputLabel className={classes.labelRoot + " " + labelClasses} htmlFor={id} {...labelProps}>
           {labelText}
         </InputLabel>
       ) : null}
       <Input
+        error={displayError}
         classes={{
           input: inputClasses,
           root: marginTop,

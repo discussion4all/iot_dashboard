@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
-
+import { Typography } from "@material-ui/core";
 // @material-ui/icons
 
 import Email from "@material-ui/icons/Email";
@@ -39,10 +39,12 @@ class LoginPage extends React.Component {
       cardAnimaton: "cardHidden",
       username: "",
       password: "",
-      errors: {}
+      errors: "",
+      showErrorFromApi: false,
+      showErrorEmail: false,
+      showErrorPassword: false
     };
 
-    this.login = this.login.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
@@ -67,7 +69,8 @@ class LoginPage extends React.Component {
 
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
+        showErrorFromApi: true
       });
     }
   }
@@ -76,47 +79,60 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
+
   handleChange(e) {
-    this.setState({ [e.target.id]: e.target.value });
+    const key = e.target.id;
+    const value = e.target.value;
+    if (key === "username") {
+      this.setState({
+        [key]: value,
+        showErrorEmail: false,
+        showErrorFromApi: false
+      });
+    } else {
+      this.setState({
+        [key]: value,
+        showErrorPassword: false,
+        showErrorFromApi: false
+      });
+    }
   }
 
   onSubmit = e => {
     e.preventDefault();
 
-    const userData = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    console.log("Submitted");
-    this.props.loginUser(userData);
+    if (this.state.username.length <= 0) {
+      if (this.state.password.length <= 0) {
+        // Email & Password both are empty
+        this.setState({
+          showErrorEmail: true,
+          showErrorPassword: true
+        });
+      } else {
+        // Email is empty
+        this.setState({
+          showErrorEmail: true
+        });
+      }
+    } else if (this.state.password.length <= 0) {
+      // Password is empty
+      this.setState({
+        showErrorPassword: true
+      });
+    } else {
+      // If input fields are not empty make the API call
+      const userData = {
+        username: this.state.username,
+        password: this.state.password
+      };
+
+      this.props.loginUser(userData);
+    }
   };
 
-  login(e) {
-    let data = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    axios
-      .post("https://" + REST_API_DOMAIN + "/user/login", data)
-      .then(response => {
-        let accessToken = response.data.accessToken;
-        let user_role = response.data.user_role;
-
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("user_role", user_role);
-        this.props.history.push("/dashboard");
-      })
-      .catch(async err => {
-        await swal({
-          title: "Error",
-          text: err.response.data.errors.toString(),
-          icon: "warning",
-          dangerMode: true
-        });
-      });
-  }
   render() {
     const { classes } = this.props;
+
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
@@ -141,6 +157,8 @@ class LoginPage extends React.Component {
                       ),
                       onChange: this.handleChange
                     }}
+                    displayError={this.state.showErrorEmail}
+                    helpText={this.state.showErrorEmail && "Email is required"}
                   />
                   <CustomInput
                     labelText="Password"
@@ -157,7 +175,12 @@ class LoginPage extends React.Component {
                       ),
                       onChange: this.handleChange
                     }}
+                    displayError={this.state.showErrorPassword}
+                    helpText={this.state.showErrorPassword && "Password is required"}
                   />
+                  <Typography style={{ color: "red", textAlign: "center" }}>
+                    {this.state.showErrorFromApi && this.state.errors}
+                  </Typography>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
                   <Button color="rose" simple size="lg" block type="submit">
@@ -177,7 +200,7 @@ LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

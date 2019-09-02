@@ -11,7 +11,7 @@ import setAuthToken from "./utils/setAuthToken";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import { setCurrentUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 import indexRoutes from "routes/index.jsx";
 
@@ -30,6 +30,16 @@ if (localStorage.accessToken) {
 
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
+
+  // Check for expired token
+  const currentTime = Date.now() / 1000; // To get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+
+    // Redirect to login
+    window.location.href = "./";
+  }
 }
 
 ReactDOM.render(

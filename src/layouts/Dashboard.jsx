@@ -84,7 +84,6 @@ class Dashboard extends React.Component {
     }
   }
   render() {
-    console.log("Dashboard component");
     const { classes, ...rest } = this.props;
     const mainPanel =
       classes.mainPanel +

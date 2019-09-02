@@ -8,12 +8,11 @@ import config from "../config";
 
 // Login - get user token
 export const loginUser = userData => dispatch => {
-  console.log(userData);
   axios
     .post(`https://${config.REST_API_DOMAIN}/user/login`, userData)
     .then(res => {
       // Save to localstorage
-      console.log(res.data);
+
       // Set token to local storage
       const { accessToken, user_role } = res.data;
       localStorage.setItem("accessToken", accessToken);
@@ -28,7 +27,7 @@ export const loginUser = userData => dispatch => {
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err.errors[0]
+        payload: err.response.data.errors.toString()
       });
     });
 };
@@ -39,4 +38,16 @@ export const setCurrentUser = decoded => {
     type: SET_CURRENT_USER,
     payload: decoded
   };
+};
+
+// Log user out
+export const logoutUser = history => dispatch => {
+  // Remove token from localstorage
+  localStorage.removeItem("accessToken");
+  // Remove auth header for future requests
+  setAuthToken(false);
+  // Set current user to empty object {} which will set isAuthenticated to false
+  dispatch(setCurrentUser({}));
+
+  history.push("/dashboard");
 };
