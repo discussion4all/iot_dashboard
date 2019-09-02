@@ -13,8 +13,13 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
+// components
 import indexRoutes from "routes/index.jsx";
+import Pages from "layouts/Pages.jsx";
+import PrivateRoute from "./routes/PrivateRoute";
+import Dashboard from "layouts/Dashboard.jsx";
 
+// Stylesheet
 import "assets/scss/material-dashboard-pro-react.css?v=1.4.0";
 
 const hist = createBrowserHistory();
@@ -47,7 +52,14 @@ ReactDOM.render(
     <Router history={hist}>
       <Switch>
         {indexRoutes.map(({ component, path }, key) => {
-          return <Route path={path} component={component} key={key} />;
+          console.log(path);
+          if (path === "/dashboard") {
+            return <PrivateRoute exact path={path} component={component} key={key} />;
+          }
+          if (!path) {
+            return <Route component={localStorage.jwtTokenTeams ? Dashboard : component} />;
+          }
+          return <Route exact path={path} component={component} key={key} />;
         })}
       </Switch>
     </Router>

@@ -14,6 +14,8 @@ import pagesRoutes from "routes/pages.jsx";
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 
 import bgImage from "assets/img/register.jpeg";
+import LoginPage from "views/Pages/LoginPage.jsx";
+import RegisterPage from "views/Pages/RegisterPage.jsx";
 
 class Pages extends React.Component {
   componentDidMount() {
@@ -35,7 +37,8 @@ class Pages extends React.Component {
                 if (prop.redirect) {
                   return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
                 }
-                return <Route path={prop.path} component={prop.component} key={key} />;
+
+                return <Route exact path={prop.path} component={prop.component} key={key} />;
               })}
             </Switch>
             <Footer white />

@@ -20,6 +20,7 @@ import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardS
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo-white.svg";
+import pTestPage from "views/Pages/pTestPage.jsx";
 
 const switchRoutes = (
   <Switch>
@@ -27,10 +28,11 @@ const switchRoutes = (
       if (prop.redirect) return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
       if (prop.collapse)
         return prop.views.map((prop, key) => {
-          return <Route path={prop.path} component={prop.component} key={key} />;
+          return <Route exact path={prop.path} component={prop.component} key={key} />;
         });
-      return <Route path={prop.path} component={prop.component} key={key} />;
+      return <Route exact path={prop.path} component={prop.component} key={key} />;
     })}
+    {/* <Route path="/dashboard" component={pTestPage} /> */}
   </Switch>
 );
 
