@@ -182,36 +182,6 @@ class pTestPage extends React.Component {
 
     return (
       <div>
-        <Heading
-          textAlign="center"
-          title="React Chartist with swapable functionality"
-          category={
-            <span>
-              A react wrapper for{" "}
-              <a
-                target="_blank"
-                href="https://gionkunz.github.io/chartist-js/"
-                rel="noopener noreferrer">
-                Chartist.js
-              </a>
-              . Please checkout the{" "}
-              <a
-                href="https://gionkunz.github.io/chartist-js/getting-started.html"
-                target="_blank"
-                rel="noopener noreferrer">
-                full documentation of Chartist.js
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://fraserxu.me/react-chartist/"
-                target="_blank"
-                rel="noopener noreferrer">
-                full documentation of react-chartist
-              </a>
-              .
-            </span>
-          }
-        />
         <div style={{ display: "flex" }}>
           <div style={{ width: "90%" }}>
             <InputLabel
