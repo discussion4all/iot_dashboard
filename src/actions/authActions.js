@@ -45,6 +45,7 @@ export const logoutUser = history => dispatch => {
   // Remove token from localstorage
   localStorage.removeItem("accessToken");
   // Remove auth header for future requests
+  localStorage.removeItem("user_role");
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
