@@ -156,11 +156,7 @@ class PieChart extends Component {
             <Timeline />
           </CardIcon>
           <h4 className={classes.cardIconTitle}>Pie Chart</h4>
-          <h6 className={classes.legendTitle}>Legend</h6>
-          <i className={"fas fa-circle " + classes.info} /> <Typography>Apple{` `}</Typography>
-          <i className={"fas fa-circle " + classes.warning} /> <Typography>Samsung{` `}</Typography>
-          <i className={"fas fa-circle " + classes.danger} />
-          <Typography> Windows Phone{` `} </Typography>
+          
         </CardHeader>
         <CardBody style={{ height: "50%" }}>
           <ChartistGraph
