@@ -235,8 +235,8 @@ class pTestPage extends React.Component {
 
     return (
       <div>
-        <Grid container>
-          <Grid item xs={8}>
+        <Grid container md={12}>
+          <Grid item md={8}>
             <InputLabel
               htmlFor="simple-select"
               className={classes.selectLabel}
@@ -339,7 +339,7 @@ class pTestPage extends React.Component {
               </MenuItem>
             </Select>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item md={2}>
             <Button
               color="primary"
               className={classes.marginRight}
@@ -347,7 +347,7 @@ class pTestPage extends React.Component {
               Save Your Layout
             </Button>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item md={2}>
             {" "}
             <Button
               color="primary"
