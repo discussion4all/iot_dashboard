@@ -98,6 +98,7 @@ class HeaderLinks extends React.Component {
           <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
         </Button>
         <Button
+          style={{display: "none"}}
           color="transparent"
           simple
           aria-label="Dashboard"
@@ -114,7 +115,7 @@ class HeaderLinks extends React.Component {
             }
           />
           <Hidden mdUp implementation="css">
-            <span className={classes.linkText}>{rtlActive ? "لوحة القيادة" : "Dashboard"}</span>
+            <span className={classes.linkText}>{rtlActive ? "لوحة القيادة" : "Dashboardtest"}</span>
           </Hidden>
         </Button>
         <div className={managerClasses}>
@@ -213,7 +214,7 @@ class HeaderLinks extends React.Component {
 
             <Hidden mdUp implementation="css">
               <span onClick={this.handleLogout} className={classes.linkText}>
-                {rtlActive ? "إعلام" : "Notification"}
+                {rtlActive ? "إعلام" : "Profile"}
               </span>
             </Hidden>
           </Button>
