@@ -33,17 +33,32 @@ import Button from "components/CustomButtons/Button.jsx";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
-  [0, 1, 4, 6,7,8].map(function(i, key, list) {
-    return {
-      i: i.toString(),
-      x: i * 4,
-      y: 0,
-      w: 4,
-      h: 9,
-      minW: 3,
-      minH: 6,
-      add: i === (list.length - 1).toString()
-    };
+  [0, 1, 2, 4, 5, 7, 8].map(function(i, key, list) {
+    if (i === 0 || i === 1 || i === 2) {
+      console.log("if", i);
+      return {
+        i: i.toString(),
+        x: i * 4,
+        y: 0,
+        w: 4,
+        h: 9,
+        minW: 3,
+        minH: 6,
+        add: i === (list.length - 1).toString()
+      };
+    } else {
+      console.log("else", i);
+      return {
+        i: i.toString(),
+        x: i % 2 === 0 ? 6 : 0,
+        y: 9,
+        w: 6,
+        h: 11,
+        minW: 4,
+        minH: 10,
+        add: i === (list.length - 1).toString()
+      };
+    }
   });
 
 class pTestPage extends React.Component {
@@ -106,21 +121,21 @@ class pTestPage extends React.Component {
     }
     if (i === "3") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 2, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <LineChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(3)} />
         </div>
       );
     }
     if (i === "4") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 0, y: 2, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <ChartPie removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(4)} />
         </div>
       );
     }
     if (i === "5") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 0, y: 4, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <BarChartMultipleBars
             removeStyle={removeStyle}
             onRemoveItem={() => this.onRemoveItem(5)}
@@ -130,21 +145,21 @@ class pTestPage extends React.Component {
     }
     if (i === "6") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} />
         </div>
       );
     }
     if (i === "7") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <Speedometer removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(7)} />
         </div>
       );
     }
     if (i === "8") {
       return (
-        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+        <div key={i} data-grid={el}>
           <DountChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(8)} />
         </div>
       );
@@ -179,17 +194,31 @@ class pTestPage extends React.Component {
     if (query.length > 0) {
       alert("Chart Already On The Page");
     } else {
-      this.setState({
-        items: this.state.items.concat({
-          i: selectedItem,
-          x: 0,
-          y: Infinity, // puts it at the bottom
-          w: 4,
-          h: 9,
-          minW: 3,
-          minH: 6
-        })
-      });
+      if (selectedItem === 0 || selectedItem === 1 || selectedItem === 2) {
+        this.setState({
+          items: this.state.items.concat({
+            i: selectedItem,
+            x: 0,
+            y: Infinity, // puts it at the bottom
+            w: 4,
+            h: 9,
+            minW: 3,
+            minH: 6
+          })
+        });
+      } else {
+        this.setState({
+          items: this.state.items.concat({
+            i: selectedItem,
+            x: 0,
+            y: Infinity, // puts it at the bottom
+            w: 6,
+            h: 11,
+            minW: 4,
+            minH: 10
+          })
+        });
+      }
     }
   };
 
@@ -283,7 +312,7 @@ class pTestPage extends React.Component {
                 value="6">
                 Coloured Lines Chart
               </MenuItem>
-               <MenuItem
+              <MenuItem
                 disabled={items.filter(item => item.i === "7").length > 0}
                 classes={{
                   root: classes.selectMenuItem,
