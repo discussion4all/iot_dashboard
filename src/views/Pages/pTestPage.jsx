@@ -29,6 +29,7 @@ import {
 } from "./ChartsComponent/ChartComponents";
 
 import Button from "components/CustomButtons/Button.jsx";
+import Grid from "@material-ui/core/Grid";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
@@ -100,42 +101,42 @@ class pTestPage extends React.Component {
 
     if (i === "0") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <LineChartRound removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(0)} />
         </div>
       );
     }
     if (i === "1") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <LineChartStraight removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(1)} />
         </div>
       );
     }
     if (i === "2") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <BarChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(2)} />
         </div>
       );
     }
     if (i === "3") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <LineChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(3)} />
         </div>
       );
     }
     if (i === "4") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <ChartPie removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(4)} />
         </div>
       );
     }
     if (i === "5") {
       return (
-        <div  style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <BarChartMultipleBars
             removeStyle={removeStyle}
             onRemoveItem={() => this.onRemoveItem(5)}
@@ -145,21 +146,21 @@ class pTestPage extends React.Component {
     }
     if (i === "6") {
       return (
-        <div style={{paddingBottom: "20px"}} key={i} data-grid={el}>
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
           <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} />
         </div>
       );
     }
     if (i === "7") {
       return (
-        <div key={i} style={{paddingBottom: "20px"}} data-grid={el}>
+        <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
           <Speedometer removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(7)} />
         </div>
       );
     }
     if (i === "8") {
       return (
-        <div key={i} style={{paddingBottom: "20px"}} data-grid={el}>
+        <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
           <DountChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(8)} />
         </div>
       );
@@ -183,6 +184,10 @@ class pTestPage extends React.Component {
 
   saveLayout = () => {
     saveToLS("layouts", this.state.items);
+  };
+
+  resetLayout = () => {
+    this.setState({ items: JSON.parse(JSON.stringify(getFromLS("layouts"))) });
   };
 
   addChart = event => {
@@ -230,8 +235,8 @@ class pTestPage extends React.Component {
 
     return (
       <div>
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "90%" }}>
+        <Grid container>
+          <Grid item xs={8}>
             <InputLabel
               htmlFor="simple-select"
               className={classes.selectLabel}
@@ -333,16 +338,25 @@ class pTestPage extends React.Component {
                 Donut chart
               </MenuItem>
             </Select>
-          </div>
-          <div>
+          </Grid>
+          <Grid item xs={2}>
             <Button
               color="primary"
               className={classes.marginRight}
               onClick={() => this.saveLayout()}>
               Save Your Layout
             </Button>
-          </div>
-        </div>
+          </Grid>
+          <Grid item xs={2}>
+            {" "}
+            <Button
+              color="primary"
+              className={classes.marginRight}
+              onClick={() => this.resetLayout()}>
+              Reset Layout
+            </Button>
+          </Grid>
+        </Grid>
 
         <ResponsiveReactGridLayout
           {...this.props}
