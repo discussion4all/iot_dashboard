@@ -194,7 +194,9 @@ class pTestPage extends React.Component {
     if (query.length > 0) {
       alert("Chart Already On The Page");
     } else {
-      if (selectedItem === 0 || selectedItem === 1 || selectedItem === 2) {
+      console.log("selec", typeof selectedItem);
+      if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
+        console.log("selcted", selectedItem);
         this.setState({
           items: this.state.items.concat({
             i: selectedItem,
@@ -210,7 +212,7 @@ class pTestPage extends React.Component {
         this.setState({
           items: this.state.items.concat({
             i: selectedItem,
-            x: 0,
+            x: selectedItem % 2 === 0 ? 6 : 0,
             y: Infinity, // puts it at the bottom
             w: 6,
             h: 11,
