@@ -22,7 +22,10 @@ import {
   ChartPie,
   LineChartColoured,
   BarChartMultipleBars,
-  LinesChartColoured
+  LinesChartColoured,
+  Speedometer,
+  Circlechart,
+  DountChart
 } from "./ChartsComponent/ChartComponents";
 
 import Button from "components/CustomButtons/Button.jsx";
@@ -30,7 +33,7 @@ import Button from "components/CustomButtons/Button.jsx";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
-  [0, 1, 4, 6].map(function(i, key, list) {
+  [0, 1, 4, 6,7,8].map(function(i, key, list) {
     return {
       i: i.toString(),
       x: i * 4,
@@ -129,6 +132,20 @@ class pTestPage extends React.Component {
       return (
         <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
           <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} />
+        </div>
+      );
+    }
+    if (i === "7") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+          <Speedometer removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(7)} />
+        </div>
+      );
+    }
+    if (i === "8") {
+      return (
+        <div key={i} data-grid={{ w: 6, h: 11, x: 6, y: 4, minW: 4, minH: 10 }}>
+          <DountChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(8)} />
         </div>
       );
     }
@@ -265,6 +282,24 @@ class pTestPage extends React.Component {
                 }}
                 value="6">
                 Coloured Lines Chart
+              </MenuItem>
+               <MenuItem
+                disabled={items.filter(item => item.i === "7").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="7">
+                Speedometer
+              </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "8").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="8">
+                Donut chart
               </MenuItem>
             </Select>
           </div>
