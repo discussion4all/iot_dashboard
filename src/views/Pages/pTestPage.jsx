@@ -68,7 +68,7 @@ class pTestPage extends React.Component {
 
     this.state = {
       items: JSON.parse(JSON.stringify(originalLayouts)),
-      simpleSelect: "",
+      simpleSelect: "selectItem",
       newCounter: 0
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -256,6 +256,9 @@ class pTestPage extends React.Component {
                 name: "simpleSelect",
                 id: "simple-select"
               }}>
+              <MenuItem value="selectItem" disabled>
+                Select Item
+              </MenuItem>
               <MenuItem
                 disabled={items.filter(item => item.i === "0").length > 0}
                 classes={{
