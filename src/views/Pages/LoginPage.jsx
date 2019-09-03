@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 import { Typography } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 // @material-ui/icons
 
 import Email from "@material-ui/icons/Email";
@@ -26,6 +28,7 @@ import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginP
 import config from "../../config";
 import axios from "axios";
 import swal from "sweetalert";
+import "./custom.css";
 
 import { loginUser } from "../../actions/authActions";
 
@@ -42,7 +45,9 @@ class LoginPage extends React.Component {
       errors: "",
       showErrorFromApi: false,
       showErrorEmail: false,
-      showErrorPassword: false
+      showErrorPassword: false,
+      loading: false
+
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -70,7 +75,8 @@ class LoginPage extends React.Component {
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
-        showErrorFromApi: true
+        showErrorFromApi: true,
+        loading: false
       });
     }
   }
@@ -120,6 +126,8 @@ class LoginPage extends React.Component {
         showErrorPassword: true
       });
     } else {
+
+      this.setState({ loading : true });
       // If input fields are not empty make the API call
       const userData = {
         username: this.state.username,
@@ -132,11 +140,14 @@ class LoginPage extends React.Component {
 
   render() {
     const { classes } = this.props;
+    
+    const { loading } =this.state;
+    
 
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={6} md={4}>
+          <GridItem xs={12} sm={6} md={4}>            
             <form onSubmit={this.onSubmit}>
               <Card login className={classes[this.state.cardAnimaton]}>
                 <CardHeader className={`${classes.cardHeader} ${classes.textCenter}`} color="rose">
@@ -183,9 +194,15 @@ class LoginPage extends React.Component {
                   </Typography>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block type="submit">
-                    Let's Go
-                  </Button>
+                  <div style={{display: "flex" , alignItems : "center"}}>   
+                                 
+                      <Button color="rose" style={{paddingRight: "18px"}} simple size="lg" block type="submit" disabled={loading}>
+                        Let's Go                      
+                      </Button>
+                      {loading && <CircularProgress size={24} color="secondary"  />}
+                    
+                  </div>  
+                  
                 </CardFooter>
               </Card>
             </form>
