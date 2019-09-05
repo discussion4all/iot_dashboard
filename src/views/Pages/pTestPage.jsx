@@ -24,7 +24,6 @@ import {
   BarChartMultipleBars,
   LinesChartColoured,
   Speedometer,
-  Circlechart,
   DountChart
 } from "./ChartsComponent/ChartComponents";
 
@@ -228,7 +227,7 @@ class pTestPage extends React.Component {
   render() {
     const { classes } = this.props;
     const { items } = this.state;
-
+    console.log(this.props.data);
     return (
       <div>
         <Grid container md={12}>

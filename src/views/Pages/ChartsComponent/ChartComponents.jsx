@@ -29,11 +29,33 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
+// mqtt
+import { subscribe } from "mqtt-react";
+
 am4core.useTheme(am4themes_animated);
 
 class RoundedLineChart extends Component {
+  state = {
+    labels: ["M", "T", "W", "T", "F", "S", "S"],
+    series: [[]]
+  };
+
+  componentWillReceiveProps(nextProps, nextState) {
+    if (nextProps.data.length !== 0) {
+      const newData = nextProps.data.slice(0, 7);
+      console.log("newData", newData);
+      let seriesA = this.state.series;
+      seriesA[0] = newData;
+      this.setState(prevState => {
+        series: seriesA;
+      });
+    }
+  }
+
   render() {
     const { classes, removeStyle, onRemoveItem } = this.props;
+
+    // console.log("in render", this.props.data);
     return (
       <Card chart style={{ height: "100%" }} className="tr">
         <CardHeader style={{ height: "15%" }}>
@@ -43,7 +65,7 @@ class RoundedLineChart extends Component {
           <ChartistGraph
             style={{ height: "100%" }}
             className="ct-chart-white-colors"
-            data={roundedLineChart.data}
+            data={this.state}
             type="Line"
             options={roundedLineChart.options}
             listener={roundedLineChart.animation}
@@ -156,7 +178,6 @@ class PieChart extends Component {
             <Timeline />
           </CardIcon>
           <h4 className={classes.cardIconTitle}>Pie Chart</h4>
-          
         </CardHeader>
         <CardBody style={{ height: "50%" }}>
           <ChartistGraph
@@ -364,101 +385,6 @@ class Speedometer extends Component {
   }
 }
 
-class Circlechart extends React.Component {
-  componentDidMount() {
-    console.log("Did Mount>>>");
-    this.loadChart();
-  }
-  loadChart() {
-    console.log("load chart");
-    let circulargauge: CircularGauge = new CircularGauge({
-      width: "100%",
-      height: "100%",
-      axes: [
-        {
-          radius: "90%", //position of label circle from outside
-          startAngle: 230,
-          endAngle: 130,
-          majorTicks: {
-            width: 3,
-            color: "#00ffff",
-            position: "Inside" //or Outside
-          },
-          lineStyle: { width: 0, color: "#0f4a7d" }, //outer line
-          background: "#0f2f51", // circle background
-
-          minorTicks: {
-            width: 1,
-            color: "#00ffff",
-            position: "Inside", //or Outside
-            interval: 1
-          },
-          labelStyle: {
-            font: {
-              fontFamily: "Roboto",
-              size: "16px",
-              fontWeight: "Regular",
-              color: "#00ffff" //font color
-            },
-            offset: 10 // distance from circular line
-          },
-          pointers: [
-            {
-              value: 60,
-              radius: "60%",
-              pointerWidth: 7,
-              color: "#00ffff",
-              cap: {
-                radius: 8,
-                color: "#00ffff",
-                border: { width: 0 }
-              },
-              needleTail: {
-                length: "0%",
-                color: "#00ffff"
-              },
-              animation: {
-                enable: true,
-                duration: 3000
-              }
-            }
-          ]
-        }
-      ]
-    });
-    circulargauge.appendTo("#gauge");
-  }
-  render() {
-    const { classes, removeStyle, onRemoveItem } = this.props;
-    return (
-      <Card style={{ height: "100%" }} className="tr">
-        <CardHeader color="warning" icon style={{ height: "10%" }}>
-          <CardIcon color="warning">
-            <Timeline />
-          </CardIcon>
-          <h4 style={{ color: "#000" }}>Circular Chart</h4>
-        </CardHeader>
-        <CardBody style={{ height: "80%" }}>
-          <div id="gauge" style={{ height: "90%", textAlign: "center" }}></div>
-        </CardBody>
-        <Grid container className="close-btn">
-          <Grid item xs={6} style={{ textAlign: "right" }}>
-            <DeleteIcon className="hoverText redcolorClass" />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              className="hoverText redcolorClass"
-              style={{ marginTop: "2%", marginBottom: "2%" }}
-              onClick={() => onRemoveItem()}>
-              Remove
-            </Typography>
-          </Grid>
-        </Grid>
-      </Card>
-    );
-  }
-}
-
 class DountChart extends Component {
   componentDidMount() {
     let chart = am4core.create("chartdiv", am4charts.PieChart);
@@ -565,7 +491,10 @@ class DountChart extends Component {
   }
 }
 
-const LineChartRound = withStyles(chartsStyle)(RoundedLineChart);
+const LineChartRound = subscribe({
+  topic: "@mqtt/chart/roundline"
+})(withStyles(chartsStyle)(RoundedLineChart));
+
 const LineChartStraight = withStyles(chartsStyle)(StraightLineChart);
 const BarChart = withStyles(chartsStyle)(SimpleBarChart);
 const ChartPie = withStyles(chartsStyle)(PieChart);
@@ -582,6 +511,5 @@ export {
   BarChartMultipleBars,
   LinesChartColoured,
   Speedometer,
-  Circlechart,
   DountChart
 };

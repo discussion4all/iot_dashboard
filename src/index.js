@@ -13,6 +13,9 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
+// Mqtt
+import { Connector } from "mqtt-react";
+
 // components
 import indexRoutes from "routes/index.jsx";
 import Pages from "layouts/Pages.jsx";
@@ -49,19 +52,21 @@ if (localStorage.accessToken) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hist}>
-      <Switch>
-        {indexRoutes.map(({ component, path }, key) => {
-          if (path === "/dashboard") {
-            return <PrivateRoute exact path={path} component={component} key={key} />;
-          }
-          if (!path) {
-            return <Route component={localStorage.jwtTokenTeams ? Dashboard : component} />;
-          }
-          return <Route exact path={path} component={component} key={key} />;
-        })}
-      </Switch>
-    </Router>
+    <Connector mqttProps="mqtt://admin:admin123@mqtt.omnivoltaic.com:9001">
+      <Router history={hist}>
+        <Switch>
+          {indexRoutes.map(({ component, path }, key) => {
+            if (path === "/dashboard") {
+              return <PrivateRoute exact path={path} component={component} key={key} />;
+            }
+            if (!path) {
+              return <Route component={localStorage.jwtTokenTeams ? Dashboard : component} />;
+            }
+            return <Route exact path={path} component={component} key={key} />;
+          })}
+        </Switch>
+      </Router>
+    </Connector>
   </Provider>,
   document.getElementById("root")
 );
