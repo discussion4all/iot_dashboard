@@ -36,7 +36,6 @@ const originalLayouts =
   getFromLS("layouts") ||
   [0, 1, 2, 4, 5, 7, 8].map(function(i, key, list) {
     if (i === 0 || i === 1 || i === 2) {
-      console.log("if", i);
       return {
         i: i.toString(),
         x: i * 4,
@@ -48,7 +47,6 @@ const originalLayouts =
         add: i === (list.length - 1).toString()
       };
     } else {
-      console.log("else", i);
       return {
         i: i.toString(),
         x: i % 2 === 0 ? 6 : 0,
@@ -83,10 +81,6 @@ class pTestPage extends React.Component {
       cols: { lg: 16, md: 12, sm: 6, xs: 4, xxs: 2 },
       rowHeight: 30
     };
-  }
-
-  resetLayout() {
-    this.setState({ layouts: {} });
   }
 
   createElement(el) {
@@ -187,7 +181,11 @@ class pTestPage extends React.Component {
   };
 
   resetLayout = () => {
-    this.setState({ items: JSON.parse(JSON.stringify(getFromLS("layouts"))) });
+    const savedLayout = JSON.parse(JSON.stringify(originalLayouts));
+    this.setState({ items: [] });
+    setTimeout(() => {
+      this.setState({ items: savedLayout });
+    }, 0);
   };
 
   addChart = event => {
@@ -199,9 +197,7 @@ class pTestPage extends React.Component {
     if (query.length > 0) {
       alert("Chart Already On The Page");
     } else {
-      console.log("selec", typeof selectedItem);
       if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
-        console.log("selcted", selectedItem);
         this.setState({
           items: this.state.items.concat({
             i: selectedItem,
@@ -363,7 +359,7 @@ class pTestPage extends React.Component {
 
         <ResponsiveReactGridLayout
           {...this.props}
-          onLayoutChange={this.onLayoutChange}
+          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
           onBreakpointChange={this.onBreakpointChange}>
           {_.map(items, el => this.createElement(el))}
         </ResponsiveReactGridLayout>

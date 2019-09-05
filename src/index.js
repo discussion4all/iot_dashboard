@@ -52,7 +52,6 @@ ReactDOM.render(
     <Router history={hist}>
       <Switch>
         {indexRoutes.map(({ component, path }, key) => {
-          console.log(path);
           if (path === "/dashboard") {
             return <PrivateRoute exact path={path} component={component} key={key} />;
           }
