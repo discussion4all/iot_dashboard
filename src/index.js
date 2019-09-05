@@ -52,7 +52,7 @@ if (localStorage.accessToken) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Connector mqttProps="mqtt://admin:admin123@mqtt.omnivoltaic.com:9001">
+    <Connector mqttProps="wss://admin:admin123@mqtt.omnivoltaic.com:9001">
       <Router history={hist}>
         <Switch>
           {indexRoutes.map(({ component, path }, key) => {
