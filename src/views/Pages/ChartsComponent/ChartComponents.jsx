@@ -20,6 +20,12 @@ import {
   colouredLinesChart
 } from "variables/charts.jsx";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import { FixedSizeList } from "react-window";
 import { withStyles } from "@material-ui/core";
 import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 import drawGauge from "./d3gauge.js";
@@ -491,6 +497,45 @@ class DountChart extends Component {
   }
 }
 
+function Row(props) {
+  const { index, style } = props;
+
+  return (
+    <ListItem style={style} key={index}>
+      <ListItemText primary={`Item ${index + 1}`} />
+    </ListItem>
+  );
+}
+
+const PlainMqttMsg = props => {
+  const root = {
+    width: "100%",
+    height: 400,
+    maxWidth: "100%",
+    backgroundColor: "white"
+  };
+  return (
+    <div style={root} className="tr">
+      <FixedSizeList height={400} width="100%" itemSize={46} itemCount={200}>
+        {Row}
+      </FixedSizeList>
+      <Grid container className="close-btn">
+        <Grid item xs={6} style={{ textAlign: "right" }}>
+          <DeleteIcon className="hoverText redcolorClass" />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            className="hoverText redcolorClass"
+            style={{ marginTop: "2%", marginBottom: "2%" }}
+            onClick={() => props.onRemoveItem()}>
+            Remove
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
 const LineChartRound = subscribe({
   topic: "@mqtt/chart/roundline"
 })(withStyles(chartsStyle)(RoundedLineChart));
@@ -501,6 +546,7 @@ const ChartPie = withStyles(chartsStyle)(PieChart);
 const LineChartColoured = withStyles(chartsStyle)(ColouredLineChart);
 const BarChartMultipleBars = withStyles(chartsStyle)(MultipleBarchart);
 const LinesChartColoured = withStyles(chartsStyle)(ColouredLinesChart);
+// const SimpleMqttMsgs = withStyles(chartsStyle)(PlainMqttMsg);
 
 export {
   LineChartRound,
@@ -511,5 +557,7 @@ export {
   BarChartMultipleBars,
   LinesChartColoured,
   Speedometer,
-  DountChart
+  DountChart,
+  PlainMqttMsg
+  // SimpleMqttMsgs
 };

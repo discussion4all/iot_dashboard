@@ -25,13 +25,14 @@ import {
   BarChartMultipleBars,
   LinesChartColoured,
   Speedometer,
-  DountChart
+  DountChart,
+  PlainMqttMsg
+  // SimpleMqttMsgs
 } from "./ChartsComponent/ChartComponents";
 
 import Button from "components/CustomButtons/Button.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getDashboard, saveDashboard } from "../../actions/dashboard_actions";
-
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
@@ -40,12 +41,13 @@ const originalLayouts =
     if (i === 0 || i === 1 || i === 2) {
       return {
         i: i.toString(),
-        x: i * 4,
+        x: i * 6,
         y: 0,
-        w: 4,
+        w: 1,
         h: 9,
-        minW: 3,
+        minW: 1,
         minH: 6,
+        maxW: 2,
         add: i === (list.length - 1).toString()
       };
     } else {
@@ -53,10 +55,11 @@ const originalLayouts =
         i: i.toString(),
         x: i % 2 === 0 ? 6 : 0,
         y: 9,
-        w: 6,
+        w: 1,
         h: 11,
-        minW: 4,
+        minW: 1,
         minH: 10,
+        maxW: 2,
         add: i === (list.length - 1).toString()
       };
     }
@@ -77,37 +80,28 @@ class pTestPage extends React.Component {
     this.saveLayout = this.saveLayout.bind(this);
   }
 
-  componentDidMount(){
-    console.log('Component Did Mount>>>');
-    //console.log(this.props);
-    this.props.getDashboard('');
-    //console.log('Prossssssssssssss',this.props);    
+  componentDidMount() {
+    this.props.getDashboard("");
   }
-  componentWillReceiveProps(nextProps){
-    
-    console.log('Will Receive');
-     if(nextProps.dashboard.layout.length > 0){
-        
-       let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
-        console.log('Items Data........................',itemsData);
-       this.setState({
-          items : itemsData.layouts
-       })
-       saveToLS("layouts", itemsData.layouts);
-     }else{
-        console.log('Else............');
-        this.setState({
-          items : JSON.parse(JSON.stringify(originalLayouts))
-       })
-       saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts))); 
-     }
-      
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dashboard.layout.length > 0) {
+      let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
 
+      this.setState({
+        items: itemsData.layouts
+      });
+      saveToLS("layouts", itemsData.layouts);
+    } else {
+      this.setState({
+        items: JSON.parse(JSON.stringify(originalLayouts))
+      });
+      saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts)));
+    }
   }
   static get defaultProps() {
     return {
       className: "",
-      cols: { lg: 16, md: 12, sm: 6, xs: 4, xxs: 2 },
+      cols: { lg: 16, md: 2, sm: 6, xs: 4, xxs: 2 },
       rowHeight: 30
     };
   }
@@ -188,6 +182,16 @@ class pTestPage extends React.Component {
         </div>
       );
     }
+    if (i === "9") {
+      return (
+        <div
+          key={i}
+          style={{ paddingBottom: "20px" }}
+          data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
+          <PlainMqttMsg removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} />
+        </div>
+      );
+    }
   }
 
   onRemoveItem = i => {
@@ -206,23 +210,19 @@ class pTestPage extends React.Component {
   }
 
   saveLayout = () => {
-
-   
-    
     saveToLS("layouts", this.state.items);
     let tmpdata = getFromLS("layouts");
-    console.log('Data>>>',tmpdata);
+
     let obj = { layouts: tmpdata };
-    let data = { layoutData : obj }
+    let data = { layoutData: obj };
     this.props.saveDashboard(data);
   };
 
   resetLayout = () => {
-
     let DBLayout = getFromLS("layouts");
-    console.log('DB layout...',DBLayout);
+
     const savedLayout = JSON.parse(JSON.stringify(DBLayout));
-    
+
     this.setState({ items: [] });
     setTimeout(() => {
       this.setState({ items: savedLayout });
@@ -244,10 +244,11 @@ class pTestPage extends React.Component {
             i: selectedItem,
             x: 0,
             y: Infinity, // puts it at the bottom
-            w: 4,
+            w: 1,
             h: 9,
-            minW: 3,
-            minH: 6
+            minW: 1,
+            minH: 6,
+            maxW: 2
           })
         });
       } else {
@@ -256,10 +257,11 @@ class pTestPage extends React.Component {
             i: selectedItem,
             x: selectedItem % 2 === 0 ? 6 : 0,
             y: Infinity, // puts it at the bottom
-            w: 6,
+            w: 1,
             h: 11,
-            minW: 4,
-            minH: 10
+            minW: 1,
+            minH: 10,
+            maxW: 2
           })
         });
       }
@@ -269,7 +271,7 @@ class pTestPage extends React.Component {
   render() {
     const { classes } = this.props;
     const { items } = this.state;
-   // console.log('Items>>>>',items);
+
     return (
       <div>
         <Grid container md={12}>
@@ -377,6 +379,15 @@ class pTestPage extends React.Component {
                 value="8">
                 Donut chart
               </MenuItem>
+              <MenuItem
+                disabled={items.filter(item => item.i === "9").length > 0}
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="9">
+                MQTT MSGs
+              </MenuItem>
             </Select>
           </Grid>
           <Grid item md={2}>
@@ -410,19 +421,19 @@ class pTestPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  dashboard: state.dashboard  
+  dashboard: state.dashboard
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     getDashboard: itemData => {
-      dispatch(getDashboard(itemData))
+      dispatch(getDashboard(itemData));
     },
     saveDashboard: itemData => {
-      dispatch(saveDashboard(itemData))
+      dispatch(saveDashboard(itemData));
     }
-  }
-}
+  };
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
@@ -441,7 +452,6 @@ function getFromLS(key) {
 }
 
 function saveToLS(key, value) {
-
   //return JSON.stringify({[key]: value});
   if (global.localStorage) {
     global.localStorage.setItem(
