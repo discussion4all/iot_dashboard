@@ -2,6 +2,7 @@ import React from "react";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { connect } from "react-redux";
 
 // core components
 import Heading from "components/Heading/Heading.jsx";
@@ -29,6 +30,8 @@ import {
 
 import Button from "components/CustomButtons/Button.jsx";
 import Grid from "@material-ui/core/Grid";
+import { getDashboard, saveDashboard } from "../../actions/dashboard_actions";
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
@@ -74,6 +77,33 @@ class pTestPage extends React.Component {
     this.saveLayout = this.saveLayout.bind(this);
   }
 
+  componentDidMount(){
+    console.log('Component Did Mount>>>');
+    //console.log(this.props);
+    this.props.getDashboard('');
+    //console.log('Prossssssssssssss',this.props);    
+  }
+  componentWillReceiveProps(nextProps){
+    
+    console.log('Will Receive');
+     if(nextProps.dashboard.layout.length > 0){
+        
+       let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
+        console.log('Items Data........................',itemsData);
+       this.setState({
+          items : itemsData.layouts
+       })
+       saveToLS("layouts", itemsData.layouts);
+     }else{
+        console.log('Else............');
+        this.setState({
+          items : JSON.parse(JSON.stringify(originalLayouts))
+       })
+       saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts))); 
+     }
+      
+
+  }
   static get defaultProps() {
     return {
       className: "",
@@ -176,11 +206,23 @@ class pTestPage extends React.Component {
   }
 
   saveLayout = () => {
+
+   
+    
     saveToLS("layouts", this.state.items);
+    let tmpdata = getFromLS("layouts");
+    console.log('Data>>>',tmpdata);
+    let obj = { layouts: tmpdata };
+    let data = { layoutData : obj }
+    this.props.saveDashboard(data);
   };
 
   resetLayout = () => {
-    const savedLayout = JSON.parse(JSON.stringify(originalLayouts));
+
+    let DBLayout = getFromLS("layouts");
+    console.log('DB layout...',DBLayout);
+    const savedLayout = JSON.parse(JSON.stringify(DBLayout));
+    
     this.setState({ items: [] });
     setTimeout(() => {
       this.setState({ items: savedLayout });
@@ -227,7 +269,7 @@ class pTestPage extends React.Component {
   render() {
     const { classes } = this.props;
     const { items } = this.state;
-    console.log(this.props.data);
+   // console.log('Items>>>>',items);
     return (
       <div>
         <Grid container md={12}>
@@ -367,7 +409,24 @@ class pTestPage extends React.Component {
   }
 }
 
-export default withStyles(chartsStyle)(pTestPage);
+const mapStateToProps = state => ({
+  dashboard: state.dashboard  
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getDashboard: itemData => {
+      dispatch(getDashboard(itemData))
+    },
+    saveDashboard: itemData => {
+      dispatch(saveDashboard(itemData))
+    }
+  }
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(chartsStyle)(pTestPage));
 
 function getFromLS(key) {
   let ls = {};
@@ -382,6 +441,8 @@ function getFromLS(key) {
 }
 
 function saveToLS(key, value) {
+
+  //return JSON.stringify({[key]: value});
   if (global.localStorage) {
     global.localStorage.setItem(
       "rgl-8",

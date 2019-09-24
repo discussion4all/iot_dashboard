@@ -136,7 +136,7 @@ class Sidebar extends React.Component {
                             className={classes.itemLink + " " + classes.userCollapseButton}                            
                         >
                             <ListItemText
-                                primary={rtlActive ? "تانيا أندرو" : "Dhruti Shah"}
+                                primary={rtlActive ? "تانيا أندرو" : "Distributor Admin"}
                                 secondary={
                                     <b
                                         className={
