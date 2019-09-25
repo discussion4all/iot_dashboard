@@ -34,6 +34,11 @@ import Button from "components/CustomButtons/Button.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getDashboard, saveDashboard } from "../../actions/dashboard_actions";
 
+// react component used to create sweet alerts
+import SweetAlert from "react-bootstrap-sweetalert";
+import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
+import ChartDataForm from "./Components/ChartDataForm";
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
@@ -44,10 +49,11 @@ const originalLayouts =
         x: i * 6,
         y: 0,
         w: 1,
-        h: 9,
+        h: 10,
         minW: 1,
-        minH: 6,
+        minH: 10,
         maxW: 2,
+        maxH: 10,
         add: i === (list.length - 1).toString()
       };
     } else {
@@ -58,8 +64,9 @@ const originalLayouts =
         w: 1,
         h: 11,
         minW: 1,
-        minH: 10,
+        minH: 11,
         maxW: 2,
+        maxH: 11,
         add: i === (list.length - 1).toString()
       };
     }
@@ -72,7 +79,9 @@ class pTestPage extends React.Component {
     this.state = {
       items: JSON.parse(JSON.stringify(originalLayouts)),
       simpleSelect: "selectItem",
-      newCounter: 0
+      newCounter: 0,
+      alert: null,
+      selectedData: null
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
@@ -186,7 +195,7 @@ class pTestPage extends React.Component {
       return (
         <div
           key={i}
-          style={{ paddingBottom: "20px" }}
+          style={{ paddingBottom: "20px", paddingTop: "26px" }}
           data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
           <PlainMqttMsg removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} />
         </div>
@@ -232,41 +241,71 @@ class pTestPage extends React.Component {
   addChart = event => {
     const selectedItem = event.target.value;
     const { items } = this.state;
-
+    this.dataFeedPopup();
     const query = items.filter(item => item.i === selectedItem);
 
-    if (query.length > 0) {
-      alert("Chart Already On The Page");
-    } else {
-      if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
-        this.setState({
-          items: this.state.items.concat({
-            i: selectedItem,
-            x: 0,
-            y: Infinity, // puts it at the bottom
-            w: 1,
-            h: 9,
-            minW: 1,
-            minH: 6,
-            maxW: 2
-          })
-        });
-      } else {
-        this.setState({
-          items: this.state.items.concat({
-            i: selectedItem,
-            x: selectedItem % 2 === 0 ? 6 : 0,
-            y: Infinity, // puts it at the bottom
-            w: 1,
-            h: 11,
-            minW: 1,
-            minH: 10,
-            maxW: 2
-          })
-        });
-      }
-    }
+    // if (query.length > 0) {
+    //   alert("Chart Already On The Page");
+    // } else {
+    //   if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
+    //     this.setState({
+    //       items: this.state.items.concat({
+    //         i: selectedItem,
+    //         x: 0,
+    //         y: Infinity, // puts it at the bottom
+    //         w: 1,
+    //         h: 10,
+    //         minW: 1,
+    //         minH: 10,
+    //         maxW: 2,
+    //         maxH: 10
+    //       })
+    //     });
+    //   } else {
+    //     this.setState({
+    //       items: this.state.items.concat({
+    //         i: selectedItem,
+    //         x: selectedItem % 2 === 0 ? 6 : 0,
+    //         y: Infinity, // puts it at the bottom
+    //         w: 1,
+    //         h: 11,
+    //         minW: 1,
+    //         minH: 11,
+    //         maxW: 2,
+    //         maxH: 11
+    //       })
+    //     });
+    //   }
+    // }
   };
+
+  dataFeedPopup = () => {
+    this.setState({
+      alert: (
+        <SweetAlert
+          showCancel
+          style={{ display: "block", marginTop: "-250px", width: "60%", marginLeft: "-29%" }}
+          title="Set Configuration for this Chart "
+          onConfirm={e => this.inputConfirmAlert(e)}
+          onCancel={() => this.hideAlert()}
+          confirmBtnCssClass={this.props.classes.button + " " + this.props.classes.info}
+          cancelBtnCssClass={this.props.classes.button + " " + this.props.classes.danger}>
+          <ChartDataForm />
+        </SweetAlert>
+      )
+    });
+  };
+
+  inputConfirmAlert(e) {
+    console.log(e);
+    this.setState({ selectedData: e, alert: null });
+  }
+
+  hideAlert() {
+    this.setState({
+      alert: null
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -274,7 +313,7 @@ class pTestPage extends React.Component {
 
     return (
       <div>
-        <Grid container md={12}>
+        <Grid container>
           <Grid item md={8}>
             <InputLabel
               htmlFor="simple-select"
@@ -409,6 +448,8 @@ class pTestPage extends React.Component {
           </Grid>
         </Grid>
 
+        {this.state.alert}
+
         <ResponsiveReactGridLayout
           {...this.props}
           onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
@@ -437,7 +478,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(chartsStyle)(pTestPage));
+)(withStyles(sweetAlertStyle)(pTestPage));
 
 function getFromLS(key) {
   let ls = {};

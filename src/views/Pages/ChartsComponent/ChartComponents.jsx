@@ -180,9 +180,6 @@ class PieChart extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="danger" icon style={{ height: "25%" }}>
-          <CardIcon color="danger">
-            <Timeline />
-          </CardIcon>
           <h4 className={classes.cardIconTitle}>Pie Chart</h4>
         </CardHeader>
         <CardBody style={{ height: "50%" }}>
@@ -219,9 +216,6 @@ class ColouredLineChart extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="info" icon style={{ height: "15%" }}>
-          <CardIcon color="info">
-            <Timeline />
-          </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Coloured Line Chart <small>- Rounded</small>
           </h4>
@@ -261,9 +255,6 @@ class MultipleBarchart extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="rose" icon style={{ height: "15%" }}>
-          <CardIcon color="rose">
-            <Timeline />
-          </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Multiple Bars Chart <small>- Bar Chart</small>
           </h4>
@@ -303,9 +294,6 @@ class ColouredLinesChart extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="warning" icon style={{ height: "20%" }}>
-          <CardIcon color="warning">
-            <Timeline />
-          </CardIcon>
           <h4 className={classes.cardIconTitle}>
             Coloured Lines Chart <small>- Rounded</small>
           </h4>
@@ -365,9 +353,6 @@ class Speedometer extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="warning" icon style={{ height: "15%" }}>
-          <CardIcon color="warning">
-            <Timeline />
-          </CardIcon>
           <h4 style={{ color: "#000" }}>Speedometer Chart</h4>
         </CardHeader>
         <CardBody style={{ height: "75%" }}>
@@ -471,9 +456,6 @@ class DountChart extends Component {
     return (
       <Card style={{ height: "100%" }} className="tr">
         <CardHeader color="warning" icon style={{ height: "10%" }}>
-          <CardIcon color="warning">
-            <Timeline />
-          </CardIcon>
           <h4 style={{ color: "#000" }}>Donut Chart</h4>
         </CardHeader>
         <CardBody style={{ height: "80%" }}>
