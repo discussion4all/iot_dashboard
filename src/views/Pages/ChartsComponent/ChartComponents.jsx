@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -494,30 +494,55 @@ function Row(props) {
 const PlainMqttMsg = props => {
   const root = {
     width: "100%",
-    height: 400,
+    height: 270,
     maxWidth: "100%",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    overflow: "auto"
   };
 
+  const [messageItems, ListMessages] = useState([]);
+  console.log(props);
+  useEffect(() => {
+    ListMessages(props.data);
+  }, [props.data]);
   return (
-    <div style={root} className="tr">
-      <FixedSizeList height={400} width="100%" itemSize={46} itemCount={200}>
-        {Row}
-      </FixedSizeList>
-      <Grid container className="close-btn">
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          <DeleteIcon className="hoverText redcolorClass" />
+    <Card style={{ height: "100%" }} className="tr">
+      <CardHeader color="warning" icon style={{ height: "10%" }}>
+        <h4 style={{ color: "#000" }}>Live Data</h4>
+      </CardHeader>
+      <CardBody style={{ height: "80%" }}>
+        <div style={root}>
+          <List subheader={<li />}>
+            <ul>
+              {messageItems &&
+                messageItems.map((row, key) => {
+                  console.log("row..........", row);
+                  return (
+                    <ListItem key={key}>
+                      <ListItemText primary={row} />{" "}
+                    </ListItem>
+                  );
+                })}
+            </ul>
+          </List>
+        </div>
+      </CardBody>
+      <CardFooter style={{ height: "10%" }}>
+        <Grid container className="close-btn">
+          <Grid item xs={6} style={{ textAlign: "right" }}>
+            <DeleteIcon className="hoverText redcolorClass" />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              className="hoverText redcolorClass"
+              style={{ marginTop: "2%", marginBottom: "2%" }}
+              onClick={() => props.onRemoveItem()}>
+              Remove
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography
-            className="hoverText redcolorClass"
-            style={{ marginTop: "2%", marginBottom: "2%" }}
-            onClick={() => props.onRemoveItem()}>
-            Remove
-          </Typography>
-        </Grid>
-      </Grid>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 
@@ -535,7 +560,11 @@ const ChartPie = withStyles(chartsStyle)(PieChart);
 const LineChartColoured = withStyles(chartsStyle)(ColouredLineChart);
 const BarChartMultipleBars = withStyles(chartsStyle)(MultipleBarchart);
 const LinesChartColoured = withStyles(chartsStyle)(ColouredLinesChart);
-const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
+//const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
+
+const SimpleMqttMsgs = subscribe({
+  topic: "@mqtt/chart/roundline"
+})(PlainMqttMsg);
 
 export {
   LineChartRound,
