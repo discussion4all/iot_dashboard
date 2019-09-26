@@ -51,7 +51,7 @@ class RoundedLineChart extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.data.length !== 0) {
       const newData = nextProps.data.slice(0, 7);
-      console.log("newData", newData);
+
       let seriesA = this.state.series;
       seriesA[0] = newData;
       this.setState(prevState => {
@@ -63,7 +63,6 @@ class RoundedLineChart extends Component {
   render() {
     const { classes, removeStyle, onRemoveItem } = this.props;
 
-    // console.log("in render", this.props.data);
     return (
       <Card chart style={{ height: "100%" }} className="tr">
         <CardHeader style={{ height: "15%" }}>
@@ -501,7 +500,7 @@ const PlainMqttMsg = props => {
   };
 
   const [messageItems, ListMessages] = useState([]);
-  console.log(props);
+
   useEffect(() => {
     ListMessages(props.data);
   }, [props.data]);
@@ -516,7 +515,6 @@ const PlainMqttMsg = props => {
             <ul>
               {messageItems &&
                 messageItems.map((row, key) => {
-                  console.log("row..........", row);
                   return (
                     <ListItem key={key}>
                       <ListItemText primary={row} />{" "}
