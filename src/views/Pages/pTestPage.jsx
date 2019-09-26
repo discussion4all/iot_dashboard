@@ -26,13 +26,13 @@ import {
   LinesChartColoured,
   Speedometer,
   DountChart,
-  PlainMqttMsg
-  // SimpleMqttMsgs
+  SimpleMqttMsgs
 } from "./ChartsComponent/ChartComponents";
 
 import Button from "components/CustomButtons/Button.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getDashboard, saveDashboard } from "../../actions/dashboard_actions";
+import { setSubscriptions } from "../../actions/chartDataBindAction";
 
 // react component used to create sweet alerts
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -80,8 +80,10 @@ class pTestPage extends React.Component {
       items: JSON.parse(JSON.stringify(originalLayouts)),
       simpleSelect: "selectItem",
       newCounter: 0,
+      selectedItem: null,
       alert: null,
-      selectedData: null
+      selectedData: null,
+      makeChart: false
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
@@ -197,7 +199,7 @@ class pTestPage extends React.Component {
           key={i}
           style={{ paddingBottom: "20px", paddingTop: "26px" }}
           data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
-          <PlainMqttMsg removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} />
+          <SimpleMqttMsgs removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} />
         </div>
       );
     }
@@ -240,6 +242,9 @@ class pTestPage extends React.Component {
 
   addChart = event => {
     const selectedItem = event.target.value;
+    this.setState({
+      selectedItem: selectedItem
+    });
     const { items } = this.state;
     this.dataFeedPopup();
     const query = items.filter(item => item.i === selectedItem);
@@ -290,15 +295,15 @@ class pTestPage extends React.Component {
           onCancel={() => this.hideAlert()}
           confirmBtnCssClass={this.props.classes.button + " " + this.props.classes.info}
           cancelBtnCssClass={this.props.classes.button + " " + this.props.classes.danger}>
-          <ChartDataForm />
+          <ChartDataForm getsBindData={this.setChartData} />
         </SweetAlert>
       )
     });
   };
 
   inputConfirmAlert(e) {
-    console.log(e);
-    this.setState({ selectedData: e, alert: null });
+    console.log("trigger 1");
+    this.setState({ alert: null, makeChart: true });
   }
 
   hideAlert() {
@@ -306,6 +311,58 @@ class pTestPage extends React.Component {
       alert: null
     });
   }
+
+  setChartData = config => {
+    console.log("triggered 2");
+    if (this.state.makeChart) {
+      this.setState({
+        selectedData: config,
+        makeChart: false
+      });
+      this.props.setSubscriptions(this.state.selectedItem, config);
+      this.makeChart(this.state.selectedItem, config);
+    }
+  };
+
+  makeChart = (selectedItem, selectedData) => {
+    const { items } = this.state;
+
+    const query = items.filter(item => item.i === selectedItem);
+
+    if (query.length > 0) {
+      alert("Chart Already On The Page");
+    } else {
+      if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
+        this.setState({
+          items: this.state.items.concat({
+            i: selectedItem,
+            x: 0,
+            y: Infinity, // puts it at the bottom
+            w: 1,
+            h: 10,
+            minW: 1,
+            minH: 10,
+            maxW: 2,
+            maxH: 10
+          })
+        });
+      } else {
+        this.setState({
+          items: this.state.items.concat({
+            i: selectedItem,
+            x: selectedItem % 2 === 0 ? 6 : 0,
+            y: Infinity, // puts it at the bottom
+            w: 1,
+            h: 11,
+            minW: 1,
+            minH: 11,
+            maxW: 2,
+            maxH: 11
+          })
+        });
+      }
+    }
+  };
 
   render() {
     const { classes } = this.props;
@@ -472,6 +529,9 @@ const mapDispatchToProps = dispatch => {
     },
     saveDashboard: itemData => {
       dispatch(saveDashboard(itemData));
+    },
+    setSubscriptions: (chart, itsData) => {
+      dispatch(setSubscriptions(chart, itsData));
     }
   };
 };

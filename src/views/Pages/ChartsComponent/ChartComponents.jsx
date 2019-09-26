@@ -10,6 +10,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+import { connect } from "react-redux";
+
 import {
   roundedLineChart,
   straightLinesChart,
@@ -496,6 +498,7 @@ const PlainMqttMsg = props => {
     maxWidth: "100%",
     backgroundColor: "white"
   };
+
   return (
     <div style={root} className="tr">
       <FixedSizeList height={400} width="100%" itemSize={46} itemCount={200}>
@@ -518,6 +521,10 @@ const PlainMqttMsg = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  chartsData: state.chartsData
+});
+
 const LineChartRound = subscribe({
   topic: "@mqtt/chart/roundline"
 })(withStyles(chartsStyle)(RoundedLineChart));
@@ -528,7 +535,7 @@ const ChartPie = withStyles(chartsStyle)(PieChart);
 const LineChartColoured = withStyles(chartsStyle)(ColouredLineChart);
 const BarChartMultipleBars = withStyles(chartsStyle)(MultipleBarchart);
 const LinesChartColoured = withStyles(chartsStyle)(ColouredLinesChart);
-// const SimpleMqttMsgs = withStyles(chartsStyle)(PlainMqttMsg);
+const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
 
 export {
   LineChartRound,
@@ -540,6 +547,5 @@ export {
   LinesChartColoured,
   Speedometer,
   DountChart,
-  PlainMqttMsg
-  // SimpleMqttMsgs
+  SimpleMqttMsgs
 };
