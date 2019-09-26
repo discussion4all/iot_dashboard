@@ -313,7 +313,7 @@ class pTestPage extends React.Component {
   }
 
   setChartData = config => {
-    console.log("triggered 2");
+    console.log("triggered 2", this.state.selectedItem, config);
     if (this.state.makeChart) {
       this.setState({
         selectedData: config,
