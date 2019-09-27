@@ -13,19 +13,14 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
-// Mqtt
-import { Connector } from "mqtt-react";
-
 // components
 import indexRoutes from "routes/index.jsx";
-import Pages from "layouts/Pages.jsx";
+
 import PrivateRoute from "./routes/PrivateRoute";
 import Dashboard from "layouts/Dashboard.jsx";
 
 // Stylesheet
 import "assets/scss/material-dashboard-pro-react.css?v=1.4.0";
-
-// import MQTT from "async-mqtt";
 
 const hist = createBrowserHistory();
 
@@ -52,29 +47,21 @@ if (localStorage.accessToken) {
   }
 }
 
-// const client = MQTT.connect("ws://admin:admin123@mqtt.omnivoltaic.com:9001");
-// console.log(client);
-
-// client.publish("@mqtt/chart/roundline", "Works fine");
-// client.subscribe("@mqtt/chart/roundline");
-
 ReactDOM.render(
   <Provider store={store}>
-    <Connector mqttProps="ws://admin:admin123@mqtt.omnivoltaic.com:9001">
-      <Router history={hist}>
-        <Switch>
-          {indexRoutes.map(({ component, path }, key) => {
-            if (path === "/dashboard") {
-              return <PrivateRoute exact path={path} component={component} key={key} />;
-            }
-            if (!path) {
-              return <Route component={localStorage.jwtTokenTeams ? Dashboard : component} />;
-            }
-            return <Route exact path={path} component={component} key={key} />;
-          })}
-        </Switch>
-      </Router>
-    </Connector>
+    <Router history={hist}>
+      <Switch>
+        {indexRoutes.map(({ component, path }, key) => {
+          if (path === "/dashboard") {
+            return <PrivateRoute exact path={path} component={component} key={key} />;
+          }
+          if (!path) {
+            return <Route component={localStorage.jwtTokenTeams ? Dashboard : component} />;
+          }
+          return <Route exact path={path} component={component} key={key} />;
+        })}
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

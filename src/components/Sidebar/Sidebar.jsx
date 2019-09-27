@@ -48,7 +48,7 @@ class SidebarWrapper extends React.Component {
     render() {
         const { className, user, headerLinks, links } = this.props;
 
-        console.log('Sidebar Props...',this.props);
+      
         return (
             <div className={className} ref="sidebarWrapper">
                 { /*user*/ } 

@@ -52,17 +52,14 @@ class RoundedLineChart extends Component {
   };
 
   componentWillReceiveProps(nextProps, nextState) {
-    if (nextProps.data.length !== 0) {
-      console.log(nextProps);
-
-      const newData = nextProps.data.slice(0, 7);
-
-      let seriesA = this.state.series;
-      seriesA[0] = newData;
-      this.setState(prevState => {
-        series: seriesA;
-      });
-    }
+    // if (nextProps.data.length !== 0) {
+    //   const newData = nextProps.data.slice(0, 7);
+    //   let seriesA = this.state.series;
+    //   seriesA[0] = newData;
+    //   this.setState(prevState => {
+    //     series: seriesA;
+    //   });
+    // }
   }
 
   render() {
@@ -507,12 +504,8 @@ const PlainMqttMsg = props => {
   const [messageItems, ListMessages] = useState([]);
 
   useEffect(() => {
-    // client.publish("@mqtt/chart/roundline", "Works fine");
-    // client.subscribe(props.chartsData.plainmessages.topic).then(msg => console.log(msg));
-    // console.log(props);
-    // console.log(client.subscribe(props.chartsData.plainmessages.topic));
-    ListMessages(props.data);
-  }, [props.data]);
+    ListMessages(props.chartsMessages.plainmessagesData);
+  }, [props.chartsMessages.plainmessagesData]);
   return (
     <Card style={{ height: "100%" }} className="tr">
       <CardHeader color="warning" icon style={{ height: "10%" }}>
@@ -554,12 +547,10 @@ const PlainMqttMsg = props => {
 };
 
 const mapStateToProps = state => ({
-  chartsData: state.chartsData
+  chartsMessages: state.chartsMessages
 });
 
-const LineChartRound = subscribe({
-  topic: "@mqtt/chart/roundline"
-})(withStyles(chartsStyle)(RoundedLineChart));
+const LineChartRound = withStyles(chartsStyle)(RoundedLineChart);
 
 const LineChartStraight = withStyles(chartsStyle)(StraightLineChart);
 const BarChart = withStyles(chartsStyle)(SimpleBarChart);
@@ -568,10 +559,6 @@ const LineChartColoured = withStyles(chartsStyle)(ColouredLineChart);
 const BarChartMultipleBars = withStyles(chartsStyle)(MultipleBarchart);
 const LinesChartColoured = withStyles(chartsStyle)(ColouredLinesChart);
 const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
-
-// const SimpleMqttMsgs = subscribe({
-//   topic: "@mqtt/chart/roundline"
-// })(PlainMqttMsg);
 
 export {
   LineChartRound,
