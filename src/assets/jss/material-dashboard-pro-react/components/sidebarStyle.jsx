@@ -78,8 +78,8 @@ const sidebarStyle = theme => ({
   blackBackground: {
     color: "#FFFFFF",
     "&:after": {
-      background: "#000",
-      opacity: ".8"
+      background: "#0f2f51",
+      opacity: "1"
     }
   },
   blueBackground: {

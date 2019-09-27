@@ -150,7 +150,7 @@ class LoginPage extends React.Component {
           <GridItem xs={12} sm={6} md={4}>            
             <form onSubmit={this.onSubmit}>
               <Card login className={classes[this.state.cardAnimaton]}>
-                <CardHeader className={`${classes.cardHeader} ${classes.textCenter}`} color="rose">
+                <CardHeader className={`${classes.cardHeader} ${classes.textCenter}`} color="info">
                   <h4 className={classes.cardTitle}>Log in</h4>
                 </CardHeader>
                 <CardBody>
@@ -196,7 +196,7 @@ class LoginPage extends React.Component {
                 <CardFooter className={classes.justifyContentCenter}>
                   <div style={{display: "flex" , alignItems : "center"}}>   
                                  
-                      <Button color="rose" style={{paddingRight: "18px"}} simple size="lg" block type="submit" disabled={loading}>
+                      <Button color="primary" style={{paddingRight: "18px"}} simple size="lg" block type="submit" disabled={loading}>
                         Let's Go                      
                       </Button>
                       {loading && <CircularProgress size={24} color="secondary"  />}
