@@ -10,6 +10,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+// client.publish("@mqtt/chart/roundline", "Works fine");
+// client.subscribe("@mqtt/chart/roundline");
+
 import { connect } from "react-redux";
 
 import {
@@ -50,6 +53,8 @@ class RoundedLineChart extends Component {
 
   componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.data.length !== 0) {
+      console.log(nextProps);
+
       const newData = nextProps.data.slice(0, 7);
 
       let seriesA = this.state.series;
@@ -62,7 +67,7 @@ class RoundedLineChart extends Component {
 
   render() {
     const { classes, removeStyle, onRemoveItem } = this.props;
-
+    //console.log(this.props);
     return (
       <Card chart style={{ height: "100%" }} className="tr">
         <CardHeader style={{ height: "15%" }}>
@@ -502,6 +507,10 @@ const PlainMqttMsg = props => {
   const [messageItems, ListMessages] = useState([]);
 
   useEffect(() => {
+    // client.publish("@mqtt/chart/roundline", "Works fine");
+    // client.subscribe(props.chartsData.plainmessages.topic).then(msg => console.log(msg));
+    // console.log(props);
+    // console.log(client.subscribe(props.chartsData.plainmessages.topic));
     ListMessages(props.data);
   }, [props.data]);
   return (
@@ -558,11 +567,11 @@ const ChartPie = withStyles(chartsStyle)(PieChart);
 const LineChartColoured = withStyles(chartsStyle)(ColouredLineChart);
 const BarChartMultipleBars = withStyles(chartsStyle)(MultipleBarchart);
 const LinesChartColoured = withStyles(chartsStyle)(ColouredLinesChart);
-//const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
+const SimpleMqttMsgs = connect(mapStateToProps)(PlainMqttMsg);
 
-const SimpleMqttMsgs = subscribe({
-  topic: "@mqtt/chart/roundline"
-})(PlainMqttMsg);
+// const SimpleMqttMsgs = subscribe({
+//   topic: "@mqtt/chart/roundline"
+// })(PlainMqttMsg);
 
 export {
   LineChartRound,

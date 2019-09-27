@@ -11,11 +11,21 @@ import {
   SET_PLAINMESSAGES_SUBSCRIPTION
 } from "./types";
 
+import MQTT from "async-mqtt";
+const client = MQTT.connect("ws://admin:admin123@mqtt.omnivoltaic.com:9001");
+
 export const setSubscriptions = (chart, itsData) => dispatch => {
   console.log(chart, itsData);
   switch (chart) {
     case "0":
       dispatch({ type: SET_ROUNDLINE_SUBSCRIPTION, payload: itsData });
+      console.log("executing");
+      if (itsData.type === "Live Data") {
+        client.subscribe(itsData.topic);
+        client.on("message", (topic, message) => {
+          console.log("topic", topic, message.toString());
+        });
+      }
       break;
     case "1":
       dispatch({ type: SET_STRAIGHTLINE_SUBSCRIPTION, payload: itsData });

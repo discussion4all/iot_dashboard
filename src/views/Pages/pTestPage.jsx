@@ -302,7 +302,6 @@ class pTestPage extends React.Component {
   };
 
   inputConfirmAlert(e) {
-    console.log("trigger 1");
     this.setState({ alert: null, makeChart: true });
   }
 
@@ -313,7 +312,6 @@ class pTestPage extends React.Component {
   }
 
   setChartData = config => {
-    console.log("triggered 2", this.state.selectedItem, config);
     if (this.state.makeChart) {
       this.setState({
         selectedData: config,

@@ -25,6 +25,8 @@ import Dashboard from "layouts/Dashboard.jsx";
 // Stylesheet
 import "assets/scss/material-dashboard-pro-react.css?v=1.4.0";
 
+// import MQTT from "async-mqtt";
+
 const hist = createBrowserHistory();
 
 // Check for token to keep user logged in
@@ -49,6 +51,12 @@ if (localStorage.accessToken) {
     window.location.href = "./";
   }
 }
+
+// const client = MQTT.connect("ws://admin:admin123@mqtt.omnivoltaic.com:9001");
+// console.log(client);
+
+// client.publish("@mqtt/chart/roundline", "Works fine");
+// client.subscribe("@mqtt/chart/roundline");
 
 ReactDOM.render(
   <Provider store={store}>
