@@ -1,40 +1,20 @@
-# Prerequisites
+Before opening an issue:
 
-Please answer the following questions for yourself before submitting an issue.
+- [Search for duplicate or closed issues](https://github.com/coreui/coreui-free-react-admin-template/issues?utf8=%E2%9C%93&q=is%3Aissue)
+- Prepare a [reduced test case](https://css-tricks.com/reduced-test-cases/) for any bugs
+- Read the [contributing guidelines](https://github.com/coreui/coreui-free-react-admin-template/blob/master/CONTRIBUTING.md)
 
-- [ ] I am running the latest version
-- [ ] I checked the documentation and found no answer
-- [ ] I checked to make sure that this issue has not already been filed
-- [ ] I'm reporting the issue to the correct repository (for multi-repository projects)
+When asking general "how to" questions:
 
-# Expected Behavior
+- Please do not open an issue here
 
-Please describe the behavior you are expecting
+When reporting a bug, include:
 
-# Current Behavior
+- Operating system and version (Windows, Mac OS X, Android, iOS, Win10 Mobile)
+- Browser and version (Chrome, Firefox, Safari, IE, MS Edge, Opera 15+, Android Browser)
+- Reduced test cases and potential fixes using [CodePen](https://codepen.io/) or [JS Bin](https://jsbin.com/)
 
-What is the current behavior?
+When suggesting a feature, include:
 
-# Failure Information (for bugs)
-
-Please help provide information about the failure if this is a bug. If it is not a bug, please remove the rest of this template.
-
-## Steps to Reproduce
-
-Please provide detailed steps for reproducing the issue.
-
-1. step 1
-2. step 2
-3. you get it...
-
-## Context
-
-Please provide any relevant information about your setup. This is important in case the issue is not reproducible except for under certain conditions.
-
-* Device:
-* Operating System:
-* Browser and Version:
-
-## Failure Logs
-
-Please include any relevant log snippets or files here.
+- As much detail as possible for what we should add and why it's important to CoreUI Admin Template
+- Relevant links to prior art, screenshots, or live demos whenever possible

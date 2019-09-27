@@ -1,217 +1,476 @@
-# Change Log
-## [1.4.0] 2018-09-29
-### Styles changed
-- `src/assets/jss/material-dashboard-pro-react/components/customDropdownStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/components/customInputStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/components/snackbarContentStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/components/tasksStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/views/validationFormsStyle.jsx`
-- `src/assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx`
-- `src/assets/scss/material-dashboard-pro-react/plugins/_plugin-nouislider.scss`
-- `src/assets/scss/material-dashboard-pro-react/plugins/_plugin-react-big-calendar.scss`
-### Bug Fixing
-- Run `prettier` (minor code writting bugs)
-- Added `npm run node_modules` (**Mac/Linux**) and `npm run node_modules-w` (**Windows**) scripts (deletes `node_modules` and `package-lock.json`)
-- Added `npm run install:clean` (**Mac/Linux**) and `npm run install:clean-w` (**Windows**) scripts (deletes `node_modules` and `package-lock.json`, runs `npm install` and runs `npm start`)
-- Github own issues solved:
-  - [https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/79](https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/79)
-  - [https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/66](https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/66)
-- Github other issues solved:
-  - [https://github.com/creativetimofficial/material-kit-react/issues/36](https://github.com/creativetimofficial/material-kit-react/issues/36)
-### Deleted dependencies
-- `@babel/runtime`
-- `react-nouislider` (since it was not well maintained)
-### Added dependencies
-- `@babel/core`                      `7.0.0`
-- `nouislider`                      `12.0.0` (instead of `react-nouislider`)
-### Updated dependencies
-- `@material-ui/core`                `1.4.3`   →     `3.1.1`
-- `@material-ui/icons`               `2.0.1`   →     `3.0.1`
-- `@types/googlemaps`              `3.30.11`   →   `3.30.13`
-- `ajv`                              `6.5.2`   →     `5.0.0`
-- `react`                           `16.4.1`   →    `16.5.2`
-- `react-big-calendar`              `0.19.2`   →    `0.20.1`
-- `react-dom`                       `16.4.1`   →    `16.5.2`
-- `react-scripts`                    `1.1.4`   →     `1.1.5`
-- `react-swipeable-views`          `0.12.15`   →    `0.13.0`
-- `eslint-config-prettier`          `^2.9.0`   →     `3.1.0`
-- `eslint-plugin-react`            `^7.10.0`   →    `7.11.1`
-- `prettier`                       `^1.13.7`   →    `1.14.3`
+## [CoreUI](https://coreui.io/) for [react](./REACT.md) changelog
 
-## [1.3.0] 2018-08-09
-### Major style changes
-- Added styles for `svg`'s, **font-awesome** classes and `.material-icons` class inside
-  - `src/assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/pricingPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/cardFooterStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/cardHeaderStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/cardStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/customInputStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/headerLinksStyle.jsx`
-- Others
-  - `src/assets/jss/material-dashboard-pro-react/views/regularFormsStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/customInputStyle.jsx`
-  - `src/assets/scss/material-dashboard-pro-react/plugins/_plugin-react-big-calendar.scss`
-  - `src/assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/registerPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/pricingPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/lockScreenPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/customDropdownStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/customSelectStyle.jsx` (added some special class for the multiple select)
-### Bug Fixing
-- Run `prettier` (minor code writting bugs)
-- Added lint commands (please read the live docs)
-- Added back the `helpText` prop on `CustomInput` component (if the `CustomInput` has the `error` prop set, the `helpText` wil have error color, if the `success` prop is set on `CustomInput` then the `helpText` will have success color)
-- Deleted the `Clear` (icon that appeared on `error` for `CustomInput`) and `Check` (icon that appeared on `success` for `CustomInput`) - now you should use `InputAdornment` from `@material-ui/core`
-- Changed `CustomDropdown`, now it uses `@material-ui/core/Popper`, instead of `{ Manager, Target, Popper }` from `react-popper`
-- Changed the dropdown link in `HeaderLinks`, now it uses `@material-ui/core/Popper`, instead of `{ Manager, Target, Popper }` from `react-popper`
-- Github issues solved:
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/34`
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/35`
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/39`
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/40`
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/54` (added docs for this issue)
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/55`
-  - `https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/62`
-### Deleted dependencies
-### Added dependencies
-- `@babel/runtime v7.0.0-beta.55`
-### Updated dependencies
-- `@material-ui/core v1.2.0` to `@material-ui/core v1.4.3`
-- `@material-ui/icons v1.1.0` to `@material-ui/icons v2.0.1`
-- `@types/googlemaps v3.30.8` to `@types/googlemaps v3.30.11`
-- `ajv v6.5.0` to `ajv v6.5.2`
-- `moment v2.22.1` to `moment v2.22.2`
-- `node-sass-chokidar v1.3.0` to `node-sass-chokidar v1.3.3`
-- `perfect-scrollbar v1.3.0` to `perfect-scrollbar v1.4.0`
-- `react v16.4.0` tp `react v16.4.1`
-- `react-big-calendar v0.19.1` to `react-big-calendar v0.19.2`
-- `react-datetime v2.14.0` to `react-datetime v2.15.0`
-- `react-dom v16.4.0` to `react-dom 16.4.1`
-- `react-router-dom v4.2.2` to `react-router-dom v4.3.1`
-- `react-swipeable-views v0.12.13` to `react-swipeable-views v0.12.15`
+##### `v2.6.0`
+- move to `reactstrap v8`. Breaking changes and deprecations, see: https://github.com/reactstrap/reactstrap/blob/master/CHANGELOG.md#800-2019-04-03
+- fix(DefaultHeader): replace `AppHeaderDropdown` with `UncontrolledDropdown`
+- refactor: add ie polyfills 
 
+###### dependencies update
+- update: `@coreui/coreui` to `^2.1.12`
+- update: `@coreui/coreui-plugin-chartjs-custom-tooltips` to `^1.3.1`
+- update: `@coreui/react` to `^2.5.1`
+- update: `core-js` to `^3.1.4`
+- update: `enzyme` to `^3.10.0`
+- update: `enzyme-adapter-react-16` to `^1.14.0`
+- update: `react-router-config` to `^5.0.1`
+- update: `react-router-dom` to `^5.0.1`
+- update: `reactstrap` to `^8.0.0`
 
-## [1.2.0] 2018-06-08
-### **IMPORTANT!!!**
-- All cards have been changed
-- Please take a look in our [documentation about cards](https://demos.creative-tim.com/material-dashboard-pro-react/#/documentation/cards) and see how to make these changes
-### Breaking changes
-- Some props have been dropped, and some props have been added instead (please read our [live docs](https://demos.creative-tim.com/material-dashboard-pro-react/#/documentation/tutorial))
-- Instead of using Material-UI's Cards, which are the base of our Cards in material-dashboard-pro-react@v1.1.1 and prior, we've decided to start from scratch and create our own components for the Cards
-- All `*NoBackground` colors of the custom Button have been dropped, and have been replaced by adding the properties `simple color="*"` (where `*` is one of `info`, `danger` etc.)
-- Dropped components
-  - CustomButton
-    - **`IconButton.jsx`** (instead of this one - use `Button` with `justIcon` prop)
-  - Cards
-    - **`ChartCard.jsx`**
-    - **`PricingCard.jsx`**
-    - **`FullHeaderCard.jsx`**
-    - **`ProfileCard.jsx`**
-    - **`HeaderCard.jsx`**
-    - **`RegularCard.jsx`**
-    - **`IconCard.jsx`**
-    - **`StatsCard.jsx`**
-    - **`ImagePriceCard.jsx`**
-    - **`TasksCard.jsx`**
-    - **`LoginCard.jsx`**
-    - **`TestimonialCard.jsx`**
-  - Grid
-    - **`ItemGrid.jsx`**
-- Added components
-  - Cards (these are the replacement of the above deleted **Cards**)
-    - **`Card.jsx`**
-    - **`CardBody.jsx`**
-    - **`CardHeader.jsx`**
-    - **`CardFooter.jsx`**
-    - **`CardIcon.jsx`**
-  - **`CustomTabs/CustomTabs.jsx`** instead part of **`TasksCard.jsx`**
-  - Grid
-    - **`GridItem.jsx`** instead of the above deleted **Grid**
-- Renamed the `*cardHeader` variables
-  - from
-    - `orangeCardHeader`
-    - `greenCardHeader`
-    - `redCardHeader`
-    - `blueCardHeader`
-    - `purpleCardHeader`
-  - to
-    - `warningCardHeader`
-    - `successCardHeader`
-    - `dangerCardHeader`
-    - `infoCardHeader`
-    - `primaryCardHeader`
-- Changed the way we render `Switch`, `Select` and `Checkbox` (on Wizard page - Step2 - `IconCheckboxes`) components
-- Changed the `ImageUpload` components - they weren't rendering correctly on apple products
-- Major style changes:
-  - `src/assets/jss/material-dashboard-pro-react/components/accordionStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/customInputStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/headerLinksStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/headerStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/navPillsStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/components/tasksStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/notificationsStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/registerPageStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/userProfileStyles.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/views/validationFormsStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/customSelectStyle.jsx`
-  - `src/assets/jss/material-dashboard-pro-react/modalStyle.jsx`
-  - `src/assets/scss/material-dashboard-pro-react/plugins/_plugin-react-big-calendar.scss`
-  - `src/assets/jss/material-dashboard-pro-react/components/customDropdownStyle.jsx`
-  - `src/assets/scss/material-dashboard-pro-react/_fileupload.scss`
-### Bug Fixing
-- Due to the change of material-ui, all the imports from this library have been changed
-- Added props on the `Wizard` component and **Wizard Steps** components so that you can pass states between them ([please read the docs](https://demos.creative-tim.com/material-dashboard-pro-react/#/documentation/wizard))
-- Used prettier to make the code more readable
-- Added `/*eslint-disable*/` at the start of some files to stop showing warnings about links
-### Deleted dependencies
-- `material-ui@1.0.0-beta.41`
-### Added dependencies
-- `@material-ui/core@1.2.0` (instead of `material-ui@1.0.0-beta.41`)
-- `ajv@6.5.0` to stop the warning `npm **WARN** ajv-keywords@3.2.0 requires a peer of ajv@^6.0.0 but none is installed. You must install peer dependencies yourself.`
-- `@types/markerclustererplus@2.1.33` to stop the warning `npm **WARN** react-google-maps@9.4.5 requires a peer of @types/markerclustererplus@^2.1.29 but none is installed. You must install peer dependencies yourself.`
-- `@types/googlemaps@3.30.8` to stop the warning `npm **WARN** react-google-maps@9.4.5 requires a peer of @types/googlemaps@^3.0.0 but none is installed. You must install peer dependencies yourself.`
-### Updated dependencies
-- `@material-ui/icons@1.0.0-beta.42` to `@material-ui/icons@1.1.0`
-- `node-sass-chokidar@1.2.2` to `node-sass-chokidar@1.3.0`
-- `npm-run-all@4.1.2` to `npm-run-all@4.1.3`
-- `react@16.2.0` to `react@16.4.0`
-- `react-big-calendar@0.18.0` to `react-big-calendar@0.19.1`
-- `react-bootstrap-sweetalert@4.2.3` to `react-bootstrap-sweetalert@4.4.1`
-- `react-dom@16.2.0` to `react-dom@16.4.0`
-- `react-jvectormap@0.0.2` to `react-jvectormap@0.0.3`
-- `react-table@6.8.0` to `react-table@6.8.6`
+##### `v2.5.0`
+- release for use with:
+  - react-router-dom `~5.0.0`
+  - @coreui/react `~2.5.0`
 
-## [1.1.1] 2018-05-22
-### Bug Fixing
-- Changed links for live preview, online documentation and issues
-- Changed links from `http` to `https`
+###### dependencies update
+- update: `@coreui/react` to `~2.5.0`
+- update: `react-router-config` to `^5.0.0`
+- update: `react-router-dom` to `^5.0.0`
 
-## [1.1.0] 2018-04-16
-### Bug Fixing
-- Changes caused by the upgrade of `material-ui`
-### Deleted dependencies
-- `material-ui-icons@1.0.0-beta.36`
-### Added dependencies
-- `@material-ui/icons@1.0.0-beta.42` (instead of `material-ui-icons@1.0.0-beta.36`)
-### Updated dependencies
-- `material-ui@1.0.0-beta.34` to `material-ui@1.0.0-beta.41`
-- `npm-run-all@4.1.1` to `npm-run-all@4.1.2`
-- `react-scripts@1.1.1` to `react-scripts@1.1.4`
-- `node-sass-chokidar@0.0.3` to `node-sass-chokidar@1.2.2`
-- `moment@2.21.0` to `moment@2.22.1`
+It turns out this is not such a breaking change, as it seemed at a glance.
+Just update dependencies and you're good.
 
-## [1.0.0] 2018-03-27
-### Original Release
-- Added Material-UI as base framework
-- Added design from Material Dashboard Pro BS3 by Creative Tim
+#### _migration guide v2.1 -> v2.5_ :boom:
+- update `dependencies` in `package.json`  
+   - [ ] `@coreui/react` to `~2.5.0`
+   - [ ] `react-router-dom` to `^5.0.0`   
+   - [ ] `react-router-config` to `^5.0.0`
+
+<del>
+__BREAKING CHANGES__  :boom: 
+- use React Router `v5`
+- drop 'Breadcrumb' in favour of `Breadcrumb2`
+- drop 'SidebarNav' in favour of `SidebarNav2`
+- __Breadcrumb2__: **mandatory** prop `router` 💥 see > [Breadcrumb](./src/Breadcrumb.md)
+- __SidebarNav2__: **mandatory** prop `router` 💥 see > [SidebarNav](./src/SidebarNav.md) 
+
+React Router v5 uses the new React Context API, which is incompatible with version used in 4.3.
+That's a breaking change. With a raw upgrade to v5, you can encounter an error message: `You should not render a <Route> outside a <Router>` or `You should not use <Link> outside a <Router>` etc... It means that Route, Link etc, can't find the correct context object because `Breadcrumb` and `SidebarNav` components have their own context object.
+ 
+It's important to use the same instance of the `react-router-dom v5` library with template and coreui components. `@coreui/react` version `2.5.0` moves react-router-dom form dependencies to peerDependecies and takes the same library/module from the template/app instead. We have to pass `router` module object as a prop to `<AppSidebarNav>` and `<AppBreadcrumb>`      
+
+#### _migration guide v2.1 -> v2.5_ :boom:
+1. update `dependencies` in `package.json`    
+   - [ ] `@coreui/react` to `~2.5.0`
+   - [ ] `react-router-dom` to `^5.0.0`   
+   - [ ] `react-router-config` to `^5.0.0`
+
+2. modify `DefaultLayout.js`
+   - [ ] import react-router-dom module as an object   
+     ```
+     import * as router from 'react-router-dom';
+     ```
+   - [ ] import new versions of components `AppBreadcrumb2` and `AppSidebarNav2` (alias is optional, just keep consistency with markup)
+     ```jsx
+     import {
+       ... 
+       AppBreadcrumb2 as AppBreadcrumb,
+       AppSidebarNav2 as AppSidebarNav
+       ...
+     } from '@coreui/react';
+     ```
+   - [ ] inject `router` object as a prop to `<AppSidebarNav>` and `<AppBreadcrumb>`
+     ```html
+     <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>  
+     ```  
+    
+     ```html
+     <AppBreadcrumb appRoutes={routes} router={router}/>
+     ```
+</del>
+---
+
+##### `v2.1.7`
+- maintenance release for use with:
+  - react-router `v4.3.x`
+  - reactstrap `v7.x`
+  - @coreui/react `~2.1.7`
+- chore: add `package-lock.json` with updated `tar` dependency  
+- chore: fix `test:cov` script
+- fix(Popovers): add `trigger="legacy" delay={0}` (breaking change in reactstrap) 
+###### dependencies update
+- update: `@coreui/react` to `~2.1.7`
+- update: `@coreui/coreui-plugin-chartjs-custom-tooltips` to `^1.3.0`
+- update: `enzyme-adapter-react-16` to `^1.13.0`
+- update: `node-sass` to `^4.12.0`
+- update: `react` to `^16.8.6`
+- update: `react-app-polyfill` to `^1.0.1`
+- update: `react-chartjs-2` to `^2.7.6`
+- update: `react-dom` to `^16.8.6`
+- update: `react-test-renderer` to `^16.8.6`
+- update: `react-scripts` to `^3.0.1`
+
+##### `v2.1.6`
+- fix(App): remove redundant react-loadable - thanks @sergeyt
+- fix(routes) remove circular dependency - thanks @sergeyt
+- refactor(App): change to render in Route
+- fix(routes): add Home to routes - breadcrumb issue
+- refactor(DefaultHeader): move to ReactRouter `NavLink`
+- refactor(Forms): move to `InputGroupButtonDropdown` where applicable 
+
+###### dependencies update
+- update: `@coreui/coreui` to `^2.1.9`
+- update: `@coreui/react` to `~2.1.5`
+- update: `chart.js` to `^2.8.0`
+- update: `enzyme-adapter-react-16` to `^1.11.2`
+- update: `react` to `^16.8.5`
+- update: `react-app-polyfill` to `^0.2.2`
+- update: `react-dom` to `^16.8.5`
+- update: `react-router-config` to `^4.4.0-beta.8`
+- update: `react-router-dom` to `~4.3.1`
+- update: `react-test-renderer` to `^16.8.5`
+- update: `react-scripts` to `^2.1.8`
+
+##### `v2.1.5`
+- fix: iOS 9 Safari sidebar toggle force issue `@coreui/react@2.1.5`
+
+###### dependencies update
+- update: `@coreui/react` to `^2.1.5`
+- update: `enzyme-adapter-react-16` to `^1.10.0`
+- update: `flag-icon-css` to `^3.3.0`
+- update: `react` to `^16.8.4`
+- update: `react-dom` to `^16.8.4`
+- update: `react-test-renderer` to `^16.8.4`
+
+##### `v2.1.4`
+- maintenance release: fixes #151 #145   
+###### dependencies update
+- update: `@coreui/coreui` to `^2.1.7`
+- update: `@coreui/react` to `^2.1.4`
+- update: `bootstrap` to `^4.3.1`
+- update: `core-js` to `^2.6.5`
+- update: `enzyme` to `^3.9.0`
+- update: `enzyme-adapter-react-16` to `^1.9.1`
+- update: `prop-types` to `^15.7.2`
+- update: `react` to `^16.8.2`
+- update: `react-app-polyfill` to `^0.2.1`
+- update: `react-dom` to `^16.8.2`
+- update: `react-test-renderer` to `^16.8.2`
+- update: `reactstrap` to `^7.1.0`
+- update: `react-scripts` to `2.1.5`
+
+##### `v2.1.3`
+- fix(Collapse): add `mb-0` to accordion cards
+- fix(ButtonGroups): misplaced dropdownOpen
+- chore: update `@coreui/coreui` to `^2.1.5`
+- chore: update `@coreui/react` to `^2.1.3`
+- chore: update `bootstrap` to `^4.2.1`
+- chore: update `core-js` to `^2.6.1`
+- chore: update `enzyme` to `^3.8.0`
+- chore: update `enzyme-adapter-react-16` to `^1.7.1`
+- chore: update `node-sass` to `^4.11.0`
+- chore: update `react` to `^16.7.0`
+- chore: update `react-app-polyfill` to `^0.2.0`
+- chore: update `react-chartjs-2` to `^2.7.4`
+- chore: update `react-dom` to `^16.7.0`
+- chore: update `react-test-renderer` to `^16.7.0`
+- chore: update `reactstrap` to `^7.0.2`
+- chore: update `react-scripts` to `2.1.3`
+
+##### `v2.1.2`
+- fix(scss): floating footer ie11 issue
+- chore: update `@coreui/react` to `^2.1.1`
+
+##### `v2.1.1`
+- refactor(App.js): code splitting with `react-loadable` (waiting for release of `react-router-dom`) 
+- refactor(routes.js): code splitting with `React.lazy`, remove `react-loadable`
+- refactor(DefaultLayout): code splitting with `React.lazy` Aside, Footer, Header, routes 
+- refactor(Dashboard): tweak lazy and Suspense for Widget03 
+- refactor(Login): add router link to `Register` button 
+- refactor(Register): add margins to social-media buttons  
+- chore: disable eslint warning for href="#" attribute
+- chore: update `@coreui/coreui` to `^2.1.1`
+- chore: update `enzyme-adapter-react-16` to `1.7.0`
+- chore: update `react` to `16.6.3`
+- chore: update `react-dom` to `16.6.3`
+- chore: update `react-test-renderer` to `16.6.3`
+
+##### `v2.1.0` 
+- feat(SidebarNav): navLink `attributes` - optional JS object with valid JS API naming:
+  - valid attributes: `rel`, `target`, `hidden`, `disabled`, etc...  
+  - starting with `@coreui/coreui`, `@coreui/react` version `2.1.0` and up
+  - closes #106 
+  - item example(`./src/_nav.js`):
+  ```js
+  [
+    {
+      name: 'Disabled',
+      url: '/disabled',
+      icon: 'icon-ban',
+      attributes: { disabled: true },
+    },
+    {
+      name: 'Try CoreUI PRO',
+      url: 'https://coreui.io/pro/react/',
+      icon: 'cui-layers icons',
+      variant: 'danger',
+      attributes: { target: '_blank', rel: "noopener" },
+    }
+  ]
+  ```
+- fix(Cards): `card-header-actions` added to `CardHeader` for `rtl` support
+- feat(Dashboard): new `Suspense` example with Widget03
+- chore: update `@coreui/coreui` to `2.1.0`
+- chore: update `@coreui/react` to `2.1.0`
+- chore: update `node-sass` to `4.10.0`
+- chore: update `react` to `16.6.1`
+- chore: update `react-dom` to `16.6.1`
+- chore: update `react-test-renderer` to `16.6.1`
+
+##### `v2.0.14` 
+- chore: update `@coreui/coreui` to `2.0.25`
+- chore: update `chart.js` to `2.7.3`
+- chore: update `flag-icon-css` to `3.2.1`
+- chore: update `node-sass` to `4.9.4`
+- chore: update `react` to `16.6.0`
+- chore: update `react-dom` to `16.6.0`
+- chore: update `react-router-config` to `4.4.0-beta.6`
+- chore: update `react-test-renderer` to `16.6.0`
+- chore: update `react-scripts` to `2.1.1`
+
+##### `v2.0.13` 
+- refactor: migration to [Create React App 2.0](https://reactjs.org/blog/2018/10/01/create-react-app-v2.html) cleanup 
+  - cleanup `package.json` scripts
+  - remove `babel-jest` dependency
+  - remove `node-sass-chokidar` dependency
+  - remove `npm-run-all` dependency
+  - move `App.js` import styles to `App.scss` 
+  - replace imports from `node_modules/` with `~` prefix
+- chore: remove unused `src/scss/vendors/charts.js/` directory
+- chore: update `@coreui/coreui` to `^2.0.15`
+- chore: update `@coreui/react` to `^2.0.9`
+
+##### `v2.0.12` 
+fixes some issues with `rtl`, `ie11`, `sidebar-minimized` behaviour and `aside` responsiveness
+- fix(DefaultAside): `ListGroup` with `tag="div"` works better with `rtl` 
+- fix(DefaultLayout): `AppAside` remove deprecated `hidden` prop 
+- chore: update `@coreui/react` to `^2.0.8`
+- chore: update `reactsrtrap` to `^6.5.0`
+- chore: update `react-scripts` to `^2.0.4`
+- chore: `enzyme` to `3.7.0`
+- chore: `enzyme-adapter-react-16` to `1.6.0`
+  
+##### `v2.0.11`
+- chore: update `@coreui/react` to `^2.0.7`
+- chore: migration to [Create React App 2.0](https://reactjs.org/blog/2018/10/01/create-react-app-v2.html)
+  - chore: update `react-scripts` to `^2.0.3`
+  - chore: update `node-sass-chokidar` to `^1.3.3`
+  - chore: add `node-sass v4.9.3`
+  - chore: add `react-app-polyfill v0.1.3` 
+  - chore: add `eslintConfig` in `package.json` 
+  - chore: add `browserslist` in `package.json` 
+  - chore: update `manifest.json`
+  - refactor(index.js): add `react-app-polyfill` for `ie9-11` support
+  - refactor(index.js): migration to `serviceWorker.js`
+
+###### Migrating from CRA 1.x to 2.x:
+affected files: 
+- `package.json` -> dependencies update  
+- `src/index.js` -> move to `serviceWorker`, add `react-app-polyfill` for `ie9-11` support when needed
+
+In most cases bumping the `react-scripts` version in `package.json` and running `npm install` in this folder should be enough, but it’s good to consult the [changelog](https://github.com/facebook/create-react-app/blob/master/CHANGELOG.md#migrating-from-1x-to-203) for potential breaking changes.  
+
+---
+
+##### `v2.0.10`
+- chore: update `@coreui/coreui` to `^2.0.14`
+- chore: update `@coreui/react` to `^2.0.6`
+- chore: update `enzyme` to `^3.6.0`
+- chore: update `enzyme-adapter-react-16` to `^1.5.0`
+- chore: update `flag-icon-css` to `^3.2.0`
+- chore: update `react` to `^16.5.2`
+- chore: update `react-dom` to `^16.5.2`
+- chore: update `react-router-config` to `^4.4.0-beta.1`
+- chore: update `react-test-renderer` to `^16.5.2`
+- chore: update `babel-jest` to `^23.6.0`
+
+##### `v2.0.9`
+- chore: update `@coreui/icons` to `0.3.0`
+- refactor(CoreUIIcons): move to `@coreui/icons v0.3.0`
+- chore: update `enzyme` to `3.5.0`
+- chore: update `enzyme-adapter-react-16` to `1.3.1`
+- chore: update `react-loadable` to `5.5.0`
+- chore: update `reactstrap` to `6.4.0`
+- chore: update `react-scripts` to `1.1.5`
+
+##### `v2.0.8`
+- fix(User): add missing unique key prop
+- fix(Login): add missing form and autoComplete
+- fix(Register): add missing form and autoComplete
+- chore: update `@coreui/react` to `2.0.5`
+- chore: update `bootstrap` to `4.1.3`
+- chore: update `reactstrap` to `6.3.1`
+- chore: update `babel-jest` to `23.4.2`
+
+##### `v2.0.5`
+- feat(router): Users/User Breadcrumb example with `/users/:id`
+- chore: update `@coreui/react` to `2.0.4`,
+- chore: update `prop-types` to `15.6.2`
+- chore: update `react` to `16.4.1`
+- chore: update `react-dom` to `16.4.1`
+- chore: update `react-test-renderer` to `16.4.1`
+- chore: update `npm-run-all` to `4.1.3`
+- chore: add `.env` file
+
+##### `v2.0.4`
+- feat(Forms): FormFeedback valid, toggleFade
+- refactor(Cards): toggleFade
+- chore: update `@coreui/coreui` to `2.0.2`,
+- chore: update `@coreui/react` to `2.0.1`,
+- chore: update `classnames` to `2.2.6`,
+- chore: update `core-js` to `2.5.7`,
+- chore: update `react` to `16.4.0`,
+- chore: update `react-dom` to `16.4.0`,
+- chore: update `react-router-dom` to `4.3.1`,
+- chore: update `react-test-renderer` to `16.4.0`,
+- chore: update `reactstrap` to `6.1.0`,
+- chore: update `babel-jest` to `23.0.1`,
+
+##### `v2.0.3`
+- refactor: disable `ServiceWorker` by default
+- fix(routes): mismatched `SimpleLineIcons` dynamic import
+- refactor: CoreUI Icons `v0.2.0`
+- chore: update`babel-jest` to `v22.4.4`
+
+##### `v2.0.2`
+- chore: update `@coreui/react` to `v2.0.0`,
+
+##### `v2.0.1`
+- refactor: code splitting via dynamic import
+- refactor: switches view rearrange
+- fix: update component names in package.json
+- chore: update `node-sass-chokidar` to `v1.3.0`
+- chore(release): dependencies update
+
+##### `v2.0.0-rc.1`
+- feat: new CoreUI Icons set
+
+##### `v2.0.0-beta.2`
+- feat: CoreUI custom tooltips plugin for chart.js 
+
+##### `v2.0.0-beta.1`
+- refactor(Switches): move to AppSwitch component
+- fix: typo
+
+##### `v2.0.0-beta`
+- update to `@coreui/react: ^2.0.0-beta`
+
+##### `v2.0.0-alpha.3`
+- refactor(Colors): view layout, minor temp tweaks
+- refactor(FullAside): - ListGroup (deprecate callout)
+- refactor(Full*): containers minor fixes
+- refactor(Dropdowns): minor fixes
+- refactor(Forms): `card-header-actions`
+- feat(Forms): `<Input type="date">`
+- feat(Forms): `FormFeedback`
+- feat(Collapses): Accordion, Custom Accordion 
+- feat(ListGroup): with TabPanes
+- refactor(PaginationItem): `tag="button"`
+- refactor(BrandButtons): spacing
+- refactor:(Buttons): view layout
+
+##### `v2.0.0-alpha.2`
+- refactor: FullHeader `<AppHeaderDropdown direction="down">` (required prop `direction`)
+- refactor: ButtonDropdowns `<Dropdown direction="up">` (deprecate 'dropup')
+- refactor: Dashboard legend badge pill
+- refactor: SocialButtons to BrandButtons `btn-brand`
+- refactor: Buttons spacing `mr-1`
+- update: reactstrap to `5.0.0`
+- update: react, react-dom to `16.3.1`
+- update: node-sass-chokidar to `1.1.0`
+- update: prop-types to `15.5.8`
+- update: react-scripts to `1.1.4`
+
+##### `v2.0.0-alpha.1`
+- refactor: separation of concerns - (CoreUI template vs CoreUI components) prepare to use CoreUI as dependency
+- refactor: project structure change
+- refactor: moved to [Create-React-App](CRA.md)
+- chore: moved to [Semantic Versioning](https://semver.org/)
+
+##### `v1.0.10`
+- refactor: `<InputGroupAddon addonType="prepend">`
+- refactor: `<InputGroupAddon addonType="append">`
+- refactor: `<InputGroupText>`
+- refactor: remove `<InputGroupButton>`
+- update: reactstrap to `5.0.0-beta`
+- update: dependencies
+
+###### `v1.0.9`
+- refactor: Sidebar structure change
+
+###### `v1.0.8`
+- refactor: Dashboard radio buttons, new `onRadioBtnClick()` method
+- update: react to `16.2.0`
+- update: Bootstrap `4.0.0-beta.3`
+- update: dependencies
+- feature: some Bootstrap4 components added
+- fix: rollback to webpack-dev-server `2.9.7`
+- temp tweaks(b4 beta3): `InputGroupAddon` and `InputGroupButton` 
+- refactor(checkboxes, radios): temp tweaks 
+- feat: mobile sidebar link click closes the sidebar
+- fix: .nav-tabs .nav-link `cursor: pointer`
+
+###### `v1.0.6`
+
+- update: react to `^16.1.1`
+- update: reactstrap to `^5.0.0-alpha.4`
+- refactor: deprecated reactstrap `NavDropdown` change to `Dropdown` with `nav` prop
+- refactor: use prop `bsSize` instead of the `size` to bootstrap's input sizing
+- update: dependencies
+
+###### `v1.0.5`
+- feature: Sidebar add divider.class
+- refactor: Sidebar
+- moved to react: `^16.1.0`
+- chore: dependencies update
+
+###### `v1.0.4`
+- refactor: scss
+
+###### `v1.0.3`
+- update: bootstrap to `4.0.0-beta.2`
+
+###### `v1.0.2`
+- `HeaderDropdown` component example extracted out of `Header`
+
+###### `v1.0.1`
+- moved to react: `^16.0.0`
+- moved to reactstrap: `^5.0.0-alpha.3`
+- moved to react-text-mask-hoc: `^0.10.4`
+- moved from deprecated CardBlock to `CardBody` reactstrap component
+- moved to `NavDropdown` in `Header` component
+- fix for app-header navbar-nav dropdown-menu-right
+- fix typo in Tables component PaginationItem
+
+###### `v1.0.0`
+- Sidebar component:
+	- item with optional class (_nav.js)
+	- nav link with optional variant (_nav.js)
+	- external urls allowed (_nav.js)
+	- optional SidebarFooter, SidebarHeader, SidebarForm components
+- SidebarMinimizer component
+- .brand-minimized
+- .sidebar-minimized,
+- Header component - sidebarMinimize
+- react-transition-group downgrade to v1 : (modals and alerts reactstrap:v4.8 issue)
+
+###### `2017.08.24`
+- webpack.config env.prod
+- Dashboard .dropdown-menu-right temp.scss hotfix (full)
+- callout.scss .chart-wrapper hotfix (full)
+
+###### `2017.08.11`
+- Bootstrap 4 beta
+- Dashboard component (full):
+	- line chart for social box
+	- sparkline chart for callout
+
+###### `2017.08.01`
+- Sidebar component: 
+	- title item with optional wrapper and class (_nav.js)
+	- nav link item with optional badge
+	- code refactoring
+
+###### `2017.07.31`
+- moved to [reactstrap](https://reactstrap.github.io/)
+- moved to [webpack](https://webpack.js.org/) (dropping gulp)
+- data driven Sidebar component (_nav.js)
