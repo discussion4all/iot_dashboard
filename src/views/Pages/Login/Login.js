@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+
 import {
   Button,
   Card,
@@ -35,7 +35,7 @@ class Login extends Component {
   componentDidMount() {
     // If logged in and user navigates to login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      //this.props.history.push("");
+      this.props.history.push("/dashboard");
     }
   }
 
@@ -46,7 +46,7 @@ class Login extends Component {
         showErrorFromApi: false
       });
 
-      //this.props.history.push("");
+      this.props.history.push("/dashboard");
     }
 
     if (nextProps.errors) {

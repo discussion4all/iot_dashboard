@@ -1,7 +1,5 @@
 import { GET_DASHBOARD_LAYOUT, SAVE_DASHBOARD_LAYOUT } from "../actions/types";
 
-const isEmpty = require("is-empty");
-
 const initialState = {
   layout: [],
   loading: false
