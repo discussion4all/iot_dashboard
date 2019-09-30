@@ -3,6 +3,8 @@ import { Button, Col, Row, Input } from "reactstrap";
 import ChartDataForm from "./components/ChartDataform";
 // react component used to create sweet alerts
 import SweetAlert from "react-bootstrap-sweetalert";
+import { connect } from "react-redux";
+import { setSubscriptions } from "../../actions/chartDataBindAction";
 
 const originalLayouts =
   getFromLS("layouts") ||
@@ -42,6 +44,7 @@ class Dashboard extends Component {
     simpleSelect: "selectItem",
     selectedItem: null,
     alert: null,
+    selectedData: null,
     makeChart: false
   };
 
@@ -83,14 +86,14 @@ class Dashboard extends Component {
 
   setChartData = config => {
     console.log(config);
-    // if (this.state.makeChart) {
-    //   this.setState({
-    //     selectedData: config,
-    //     makeChart: false
-    //   });
-    //   this.props.setSubscriptions(this.state.selectedItem, config);
-    //   this.makeChart(this.state.selectedItem, config);
-    // }
+    if (this.state.makeChart) {
+      this.setState({
+        selectedData: config,
+        makeChart: false
+      });
+      this.props.setSubscriptions(this.state.selectedItem, config);
+      // this.makeChart(this.state.selectedItem, config);
+    }
   };
 
   render() {
@@ -134,7 +137,20 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => ({
+  dashboard: state.dashboard
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSubscriptions: (chart, itsData) => {
+    dispatch(setSubscriptions(chart, itsData));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);
 
 function getFromLS(key) {
   let ls = {};
