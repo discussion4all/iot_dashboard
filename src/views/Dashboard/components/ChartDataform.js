@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
+import { Container, Col, FormGroup, Label, Input } from "reactstrap";
 
 class ChartDataform extends Component {
   state = {

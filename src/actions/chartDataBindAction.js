@@ -22,7 +22,7 @@ import {
 } from "./types";
 
 import MQTT from "async-mqtt";
-const client = MQTT.connect("wss://admin:admin123@mqtt.omnivoltaic.com:9001");
+const client = MQTT.connect("ws://admin:admin123@mqtt.omnivoltaic.com:9001");
 
 export const setSubscriptions = (chart, itsData) => dispatch => {
   switch (chart) {
