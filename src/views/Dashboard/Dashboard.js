@@ -6,11 +6,12 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import { connect } from "react-redux";
 import { setSubscriptions } from "../../actions/chartDataBindAction";
 import { getDashboard, saveDashboard } from "../../actions/dashBoardActions";
-import { WidthProvider, Responsive } from "react-grid-layout";
+import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
+import ResizeDetector, { withResizeDetector } from "react-resize-detector";
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ResponsiveReactGridLayout = withResizeDetector(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
   [0, 1, 2, 4, 5, 7, 8].map(function(i, key, list) {
@@ -46,6 +47,7 @@ const originalLayouts =
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       items: JSON.parse(JSON.stringify(originalLayouts)),
       simpleSelect: "selectItem",
@@ -306,11 +308,16 @@ class Dashboard extends Component {
     }
   };
 
+  onResize = (width, height) => {
+    console.log("called", width, height);
+  };
+
   render() {
     const { items } = this.state;
-    console.log("RENDERED");
+    const { width, height } = this.props;
+    console.log("RENDERED", width, height);
     return (
-      <div className="animated fadeIn" width="100%">
+      <div className="animated fadeIn" ref="mainDivRef">
         <Row>
           <Col xs="12" sm="6" lg="3" className="mb-3 mb-xl-0">
             <Input
@@ -371,7 +378,7 @@ class Dashboard extends Component {
         {this.state.alert}
 
         <ResponsiveReactGridLayout
-          cols={{ lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 }}
+          cols={{ lg: 2, md: 2, sm: 2, xs: 1, xxs: 1 }}
           rowHeight={30}
           onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
           onBreakpointChange={this.onBreakpointChange}>
