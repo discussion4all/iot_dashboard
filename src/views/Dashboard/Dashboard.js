@@ -6,7 +6,11 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import { connect } from "react-redux";
 import { setSubscriptions } from "../../actions/chartDataBindAction";
 import { getDashboard, saveDashboard } from "../../actions/dashBoardActions";
+import { WidthProvider, Responsive } from "react-grid-layout";
+import _ from "lodash";
+import "./dashboard.css";
 
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
   [0, 1, 2, 4, 5, 7, 8].map(function(i, key, list) {
@@ -19,7 +23,7 @@ const originalLayouts =
         h: 10,
         minW: 1,
         minH: 10,
-        maxW: 2,
+        maxW: 3,
         maxH: 10,
         add: i === (list.length - 1).toString()
       };
@@ -32,7 +36,7 @@ const originalLayouts =
         h: 11,
         minW: 1,
         minH: 11,
-        maxW: 2,
+        maxW: 3,
         maxH: 11,
         add: i === (list.length - 1).toString()
       };
@@ -40,14 +44,18 @@ const originalLayouts =
   });
 
 class Dashboard extends Component {
-  state = {
-    items: JSON.parse(JSON.stringify(originalLayouts)),
-    simpleSelect: "selectItem",
-    selectedItem: null,
-    alert: null,
-    selectedData: null,
-    makeChart: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: JSON.parse(JSON.stringify(originalLayouts)),
+      simpleSelect: "selectItem",
+      selectedItem: null,
+      alert: null,
+      selectedData: null,
+      makeChart: false
+    };
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
+  }
 
   componentDidMount() {
     this.props.getDashboard("");
@@ -67,6 +75,131 @@ class Dashboard extends Component {
       });
       saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts)));
     }
+  }
+
+  static get defaultProps() {
+    return {
+      cols: { lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 },
+      rowHeight: 30
+    };
+  }
+
+  createElement(el) {
+    const removeStyle = {
+      position: "absolute",
+      right: "2px",
+      top: 0,
+      cursor: "pointer"
+    };
+
+    const i = el.add ? "+" : el.i;
+
+    if (i === "0") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          0
+          {/* <LineChartRound removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(0)} /> */}
+        </div>
+      );
+    }
+    if (i === "1") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          1
+          {/* <LineChartStraight removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(1)} /> */}
+        </div>
+      );
+    }
+    if (i === "2") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          2{/* <BarChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(2)} /> */}
+        </div>
+      );
+    }
+    if (i === "3") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          3
+          {/* <LineChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(3)} /> */}
+        </div>
+      );
+    }
+    if (i === "4") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          4{/* <ChartPie removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(4)} /> */}
+        </div>
+      );
+    }
+    if (i === "5") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          5
+          {/* <BarChartMultipleBars
+            removeStyle={removeStyle}
+            onRemoveItem={() => this.onRemoveItem(5)}
+          /> */}
+        </div>
+      );
+    }
+    if (i === "6") {
+      return (
+        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
+          {" "}
+          6
+          {/* <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} /> */}
+        </div>
+      );
+    }
+    if (i === "7") {
+      return (
+        <div key={i} style={{ paddingBottom: "20px", border: "1px solid blue" }} data-grid={el}>
+          {" "}
+          7
+          {/* <Speedometer removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(7)} /> */}
+        </div>
+      );
+    }
+    if (i === "8") {
+      return (
+        <div key={i} style={{ paddingBottom: "20px", border: "1px solid blue" }} data-grid={el}>
+          {" "}
+          8
+          {/* <DountChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(8)} /> */}
+        </div>
+      );
+    }
+    if (i === "9") {
+      return (
+        <div
+          key={i}
+          style={{ paddingBottom: "20px", paddingTop: "26px", border: "1px solid blue" }}
+          data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
+          {" "}
+          9
+          {/* <SimpleMqttMsgs removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} /> */}
+        </div>
+      );
+    }
+  }
+
+  onBreakpointChange(breakpoint, cols) {
+    console.log(breakpoint, cols);
+    this.setState({
+      breakpoint: breakpoint,
+      cols: cols
+    });
+  }
+
+  onLayoutChange(layout, layouts) {
+    this.setState({ items: layout });
   }
 
   saveLayout = () => {
@@ -125,7 +258,6 @@ class Dashboard extends Component {
   }
 
   setChartData = config => {
-    console.log(config);
     if (this.state.makeChart) {
       this.setState({
         selectedData: config,
@@ -152,7 +284,7 @@ class Dashboard extends Component {
             h: 10,
             minW: 1,
             minH: 10,
-            maxW: 2,
+            maxW: 3,
             maxH: 10
           })
         });
@@ -166,7 +298,7 @@ class Dashboard extends Component {
             h: 11,
             minW: 1,
             minH: 11,
-            maxW: 2,
+            maxW: 3,
             maxH: 11
           })
         });
@@ -176,9 +308,9 @@ class Dashboard extends Component {
 
   render() {
     const { items } = this.state;
-
+    console.log("RENDERED");
     return (
-      <div className="animated fadeIn">
+      <div className="animated fadeIn" width="100%">
         <Row>
           <Col xs="12" sm="6" lg="3" className="mb-3 mb-xl-0">
             <Input
@@ -237,6 +369,14 @@ class Dashboard extends Component {
         </Row>
         <br />
         {this.state.alert}
+
+        <ResponsiveReactGridLayout
+          cols={{ lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 }}
+          rowHeight={30}
+          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+          onBreakpointChange={this.onBreakpointChange}>
+          {_.map(items, el => this.createElement(el))}
+        </ResponsiveReactGridLayout>
       </div>
     );
   }
