@@ -9,7 +9,20 @@ import { getDashboard, saveDashboard } from "../../actions/dashBoardActions";
 import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
-import ResizeDetector, { withResizeDetector } from "react-resize-detector";
+import { withResizeDetector } from "react-resize-detector";
+
+import {
+  LineChartColoured,
+  PieChart,
+  BarChartMultipleBars,
+  LinesChartColoured,
+  Speedometer,
+  DonutChart,
+  PlainMqttMessages
+} from "./components/ChartComponents";
+const BarChart = React.lazy(() => import("./components/BarChart"));
+const LineChartRound = React.lazy(() => import("./components/LineChartRound"));
+const LineChartStraight = React.lazy(() => import("./components/LineChartStraight"));
 
 const ResponsiveReactGridLayout = withResizeDetector(Responsive);
 const originalLayouts =
@@ -98,83 +111,64 @@ class Dashboard extends Component {
 
     if (i === "0") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          0
-          {/* <LineChartRound removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(0)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <LineChartRound onRemoveItem={() => this.onRemoveItem(0)} />
         </div>
       );
     }
     if (i === "1") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          1
-          {/* <LineChartStraight removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(1)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <LineChartStraight onRemoveItem={() => this.onRemoveItem(1)} />
         </div>
       );
     }
     if (i === "2") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          2{/* <BarChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(2)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <BarChart onRemoveItem={() => this.onRemoveItem(2)} />
         </div>
       );
     }
     if (i === "3") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          3
-          {/* <LineChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(3)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <LineChartColoured onRemoveItem={() => this.onRemoveItem(3)} />
         </div>
       );
     }
     if (i === "4") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          4{/* <ChartPie removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(4)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <PieChart onRemoveItem={() => this.onRemoveItem(4)} />
         </div>
       );
     }
     if (i === "5") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          5
-          {/* <BarChartMultipleBars
-            removeStyle={removeStyle}
-            onRemoveItem={() => this.onRemoveItem(5)}
-          /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <BarChartMultipleBars onRemoveItem={() => this.onRemoveItem(5)} />
         </div>
       );
     }
     if (i === "6") {
       return (
-        <div style={{ paddingBottom: "20px", border: "1px solid blue" }} key={i} data-grid={el}>
-          {" "}
-          6
-          {/* <LinesChartColoured removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(6)} /> */}
+        <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
+          <LinesChartColoured onRemoveItem={() => this.onRemoveItem(6)} />
         </div>
       );
     }
     if (i === "7") {
       return (
-        <div key={i} style={{ paddingBottom: "20px", border: "1px solid blue" }} data-grid={el}>
-          {" "}
-          7
-          {/* <Speedometer removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(7)} /> */}
+        <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
+          <Speedometer onRemoveItem={() => this.onRemoveItem(7)} />
         </div>
       );
     }
     if (i === "8") {
       return (
-        <div key={i} style={{ paddingBottom: "20px", border: "1px solid blue" }} data-grid={el}>
-          {" "}
-          8
-          {/* <DountChart removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(8)} /> */}
+        <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
+          <DonutChart onRemoveItem={() => this.onRemoveItem(8)} />
         </div>
       );
     }
@@ -182,18 +176,19 @@ class Dashboard extends Component {
       return (
         <div
           key={i}
-          style={{ paddingBottom: "20px", paddingTop: "26px", border: "1px solid blue" }}
+          style={{ paddingBottom: "20px" }}
           data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
-          {" "}
-          9
-          {/* <SimpleMqttMsgs removeStyle={removeStyle} onRemoveItem={() => this.onRemoveItem(9)} /> */}
+          <PlainMqttMessages onRemoveItem={() => this.onRemoveItem(9)} />
         </div>
       );
     }
   }
 
+  onRemoveItem = i => {
+    this.setState({ items: _.filter(this.state.items, item => item.i !== i.toString()) });
+  };
+
   onBreakpointChange(breakpoint, cols) {
-    console.log(breakpoint, cols);
     this.setState({
       breakpoint: breakpoint,
       cols: cols
@@ -308,14 +303,9 @@ class Dashboard extends Component {
     }
   };
 
-  onResize = (width, height) => {
-    console.log("called", width, height);
-  };
-
   render() {
     const { items } = this.state;
-    const { width, height } = this.props;
-    console.log("RENDERED", width, height);
+
     return (
       <div className="animated fadeIn" ref="mainDivRef">
         <Row>
