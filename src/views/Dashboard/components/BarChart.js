@@ -51,7 +51,7 @@ class BarChart extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages
+  chartsMessages: state.chartsMessages.barData
 });
 
 export default connect(mapStateToProps)(BarChart);

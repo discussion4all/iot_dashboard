@@ -11,16 +11,17 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 
-class LineChartRound extends Component {
+class BarchartMultipleBars extends Component {
   state = {
     isOpen: false
   };
+
   render() {
     return (
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            Line Chart Round
+            Bar Chart Multiple Bars
             <div className="card-header-actions">
               <ButtonGroup className="float-right">
                 <ButtonDropdown
@@ -50,7 +51,7 @@ class LineChartRound extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.roundlineData
+  chartsMessages: state.chartsMessages.multiplebarData
 });
 
-export default connect(mapStateToProps)(LineChartRound);
+export default connect(mapStateToProps)(BarchartMultipleBars);

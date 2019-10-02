@@ -51,7 +51,7 @@ class LineChartStraight extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages
+  chartsMessages: state.chartsMessages.straightlineData
 });
 
 export default connect(mapStateToProps)(LineChartStraight);

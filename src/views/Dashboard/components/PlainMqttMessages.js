@@ -11,16 +11,18 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 
-class LineChartRound extends Component {
+class PlainMqttMessages extends Component {
   state = {
     isOpen: false
   };
+
   render() {
+    console.log(this.props.chartsMessages);
     return (
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            Line Chart Round
+            Plain MQTT Messages
             <div className="card-header-actions">
               <ButtonGroup className="float-right">
                 <ButtonDropdown
@@ -50,7 +52,7 @@ class LineChartRound extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.roundlineData
+  chartsMessages: state.chartsMessages.plainmessagesData
 });
 
-export default connect(mapStateToProps)(LineChartRound);
+export default connect(mapStateToProps)(PlainMqttMessages);

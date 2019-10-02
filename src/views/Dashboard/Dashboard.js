@@ -10,24 +10,22 @@ import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
 import { withResizeDetector } from "react-resize-detector";
-
-import {
-  LineChartColoured,
-  PieChart,
-  BarChartMultipleBars,
-  LinesChartColoured,
-  Speedometer,
-  DonutChart,
-  PlainMqttMessages
-} from "./components/ChartComponents";
+// Chart Components
 const BarChart = React.lazy(() => import("./components/BarChart"));
 const LineChartRound = React.lazy(() => import("./components/LineChartRound"));
 const LineChartStraight = React.lazy(() => import("./components/LineChartStraight"));
+const LineChartColoured = React.lazy(() => import("./components/LineChartColoured"));
+const PieChart = React.lazy(() => import("./components/PieChart"));
+const BarChartMultipleBars = React.lazy(() => import("./components/BarChartMultipleBars"));
+const LinesChartColoured = React.lazy(() => import("./components/LineschartColoured"));
+const Speedometer = React.lazy(() => import("./components/Speedometer"));
+const DonutChart = React.lazy(() => import("./components/DonutChart"));
+const PlainMqttMessages = React.lazy(() => import("./components/PlainMqttMessages"));
 
 const ResponsiveReactGridLayout = withResizeDetector(Responsive);
 const originalLayouts =
   getFromLS("layouts") ||
-  [0, 1, 2, 4, 5, 7, 8].map(function(i, key, list) {
+  [].map(function(i, key, list) {
     if (i === 0 || i === 1 || i === 2) {
       return {
         i: i.toString(),

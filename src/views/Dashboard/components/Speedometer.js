@@ -11,16 +11,17 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 
-class LineChartRound extends Component {
+class Speedometer extends Component {
   state = {
     isOpen: false
   };
+
   render() {
     return (
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            Line Chart Round
+            Speedometer
             <div className="card-header-actions">
               <ButtonGroup className="float-right">
                 <ButtonDropdown
@@ -50,7 +51,7 @@ class LineChartRound extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.roundlineData
+  chartsMessages: state.chartsMessages.speedometerData
 });
 
-export default connect(mapStateToProps)(LineChartRound);
+export default connect(mapStateToProps)(Speedometer);
