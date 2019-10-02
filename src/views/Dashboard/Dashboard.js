@@ -93,7 +93,7 @@ class Dashboard extends Component {
   static get defaultProps() {
     return {
       cols: { lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 },
-      rowHeight: 30
+      rowHeight: 25
     };
   }
 
@@ -175,7 +175,7 @@ class Dashboard extends Component {
         <div
           key={i}
           style={{ paddingBottom: "20px" }}
-          data-grid={{ ...el, h: 10, i: "9", minH: 10, minW: 1, w: 1, maxW: 2, maxH: 10 }}>
+          data-grid={{ ...el, h: 9.25, i: "9", minH: 9.25, minW: 1, w: 1, maxW: 2, maxH: 9.25 }}>
           <PlainMqttMessages onRemoveItem={() => this.onRemoveItem(9)} />
         </div>
       );
@@ -276,11 +276,11 @@ class Dashboard extends Component {
             x: 0,
             y: Infinity, // puts it at the bottom
             w: 1,
-            h: 10,
+            h: 9,
             minW: 1,
-            minH: 10,
+            minH: 9,
             maxW: 3,
-            maxH: 10
+            maxH: 9
           })
         });
       } else {
@@ -290,11 +290,11 @@ class Dashboard extends Component {
             x: selectedItem % 2 === 0 ? 6 : 0,
             y: Infinity, // puts it at the bottom
             w: 1,
-            h: 11,
+            h: 9,
             minW: 1,
-            minH: 11,
+            minH: 9,
             maxW: 3,
-            maxH: 11
+            maxH: 9
           })
         });
       }

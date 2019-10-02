@@ -7,17 +7,34 @@ import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  ListGroup,
+  ListGroupItem
 } from "reactstrap";
 import { connect } from "react-redux";
+import { Scrollbars } from "react-custom-scrollbars";
 
 class PlainMqttMessages extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    messageItems: []
   };
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      messageItems: nextProps.chartsMessages
+    });
+  }
+
   render() {
-    console.log(this.props.chartsMessages);
+    const root = {
+      width: "100%",
+      height: 270,
+      maxWidth: "100%",
+      backgroundColor: "white",
+      overflow: "auto"
+    };
+    const messageItems = [...this.state.messageItems];
     return (
       <div className="animated fadeIn">
         <Card>
@@ -43,7 +60,16 @@ class PlainMqttMessages extends Component {
             </div>
           </CardHeader>
           <CardBody>
-            <div className="chart-wrapper"></div>
+            <div className="chart-wrapper" style={root}>
+              <Scrollbars autoHide autoHideTimeout={1000} autoHideDuration={200}>
+                <ListGroup>
+                  {messageItems &&
+                    messageItems.map((row, key) => {
+                      return <ListGroupItem key={key}>{row}</ListGroupItem>;
+                    })}
+                </ListGroup>
+              </Scrollbars>
+            </div>
           </CardBody>
         </Card>
       </div>
