@@ -93,18 +93,11 @@ class Dashboard extends Component {
   static get defaultProps() {
     return {
       cols: { lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 },
-      rowHeight: 25
+      rowHeight: 35
     };
   }
 
   createElement(el) {
-    const removeStyle = {
-      position: "absolute",
-      right: "2px",
-      top: 0,
-      cursor: "pointer"
-    };
-
     const i = el.add ? "+" : el.i;
 
     if (i === "0") {
@@ -276,11 +269,11 @@ class Dashboard extends Component {
             x: 0,
             y: Infinity, // puts it at the bottom
             w: 1,
-            h: 9,
+            h: 10.5,
             minW: 1,
-            minH: 9,
+            minH: 10.5,
             maxW: 3,
-            maxH: 9
+            maxH: 10.5
           })
         });
       } else {
@@ -290,11 +283,11 @@ class Dashboard extends Component {
             x: selectedItem % 2 === 0 ? 6 : 0,
             y: Infinity, // puts it at the bottom
             w: 1,
-            h: 9,
+            h: 11,
             minW: 1,
-            minH: 9,
+            minH: 11,
             maxW: 3,
-            maxH: 9
+            maxH: 11
           })
         });
       }
@@ -305,7 +298,7 @@ class Dashboard extends Component {
     const { items } = this.state;
 
     return (
-      <div className="animated fadeIn" ref="mainDivRef">
+      <div className="animated fadeIn">
         <Row>
           <Col xs="12" sm="6" lg="3" className="mb-3 mb-xl-0">
             <Input

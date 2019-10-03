@@ -15,6 +15,7 @@ class LineChartRound extends Component {
   state = {
     isOpen: false
   };
+
   render() {
     return (
       <div className="animated fadeIn">
