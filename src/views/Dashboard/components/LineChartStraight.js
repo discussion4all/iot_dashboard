@@ -15,14 +15,72 @@ import ReactResizeDetector from "react-resize-detector";
 import "./charts.css";
 class LineChartStraight extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    data: [
+        {
+          sale: "202",
+          year: "0"
+        },
+        {
+          sale: "215",
+          year: "1"
+        },
+        {
+          sale: "179",
+          year: "2"
+        },
+        {
+          sale: "199",
+          year: "3"
+        },
+        {
+          sale: "149",
+          year: "4"
+        },
+        {
+          sale: "179",
+          year: "5"
+        },
+        {
+          sale: "157",
+          year: "6"
+        },
+        {
+          sale: "161",
+          year: "7"
+        },
+        {
+          sale: "159",
+          year: "8"
+        },
+        {
+          sale: "176",
+          year: "10"
+        }
+      ],
+    height: 320,
+    width: 460
   };
 
   componentDidMount() {
-    this.drawChart(460, 320);
+   
+    this.drawChart(460, 320,this.state.data);
   }
+  componentWillReceiveProps(nextProps){
 
-  drawChart = (widthP, heightP) => {
+    if(nextProps.chartsMessages){
+        let newmessages = nextProps.chartsMessages.map((item,key) => {
+           
+           return JSON.parse(item)
+        } )
+        
+        if(newmessages.length > 0){
+           this.setState({ data: newmessages});
+           this.drawChart(this.state.width, this.state.height,newmessages);
+        }    
+    }
+  }
+  drawChart = (widthP, heightP,newmessages) => {
     document.getElementById("d3Straight").innerHTML = "";
     var chartConfig = {
       lineConnectorLength: 40,
@@ -297,16 +355,6 @@ class LineChartStraight extends Component {
         .style("fill", "white")
         .text(lineLabel);
 
-      // line to label connector
-      // group.append("line")
-      // .attr({
-      //    x1: xScale(lineData[0].year), y1: yScale(lineData[0].sale), //start of the line
-      //    x2: xScale(lineData[0].year)-chartConfig.lineConnectorLength, y2: yScale(lineData[0].sale)  //end of the line
-      // })
-      // .attr('stroke', lineColor)
-      // .attr('stroke-width', 2)
-      // .attr('fill', lineColor);
-
       return group;
     };
 
@@ -369,25 +417,27 @@ class LineChartStraight extends Component {
     };
 
     // plot lines
-    let lineOne = drawLine(chartConfig.data, "#00b7d4", "15 Days", "line1");
-    let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
+    let lineOne = drawLine(newmessages, "#8f9ba6", "15 Days", "line1");
+   // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
 
     // plot points
-    drawPoints(chartConfig.data, "#00b7d4", lineOne);
-    drawPoints(chartConfig.data2, "#f57738", lineTwo);
+    drawPoints(newmessages, "#8f9ba6", lineOne);
+   // drawPoints(chartConfig.data2, "#f57738", lineTwo);
 
     // add legend
     var marginLegend = 0; // this can be dynamic later and no need to call create legend per line
-    createLegend("#00b7d4", "line1", "15 Days");
-    createLegend("#f57738", "line2", "30 Days");
+    createLegend("#8f9ba6", "line1", "15 Days");
+   // createLegend("#f57738", "line2", "30 Days");
   };
 
   onResize = (width, height) => {
-    this.drawChart(width, height);
+    
+    this.setState({ width , height });
+    this.drawChart(width, height, this.state.data);
   };
 
   render() {
-    console.log(this.props);
+   
     return (
       <div className="animated fadeIn">
         <Card>

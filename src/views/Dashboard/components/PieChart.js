@@ -18,10 +18,29 @@ class PieChart extends Component {
   state = {
     isOpen: false,
     height: 320,
-    width: 460
+    width: 460,
+    initData: [
+      {name: 'test1', value: 1},
+      {name: 'test2', value: 2},
+      {name: 'test3', value: 3}
+    ]
   };
-
+  componentWillReceiveProps(nextProps){
+    console.log('NextProps....',nextProps);
+    if(nextProps.chartsMessages){
+        let newmessages = nextProps.chartsMessages.map((item,key) => {
+           
+           return JSON.parse(item)
+        } )
+        
+        if(newmessages.length > 0){
+           console.log('New messages...',newmessages);
+           this.setState({ initData: newmessages});
+        }    
+    }
+  }
   onResize = (width, height) => {
+    console.log('Resize Called...');
     this.setState({
       width: width,
       height: height
@@ -29,11 +48,9 @@ class PieChart extends Component {
   };
 
   render() {
-    const initData = [
-      { name: "test1", value: 1 },
-      { name: "test2", value: 2 },
-      { name: "test3", value: 3 }
-    ];
+    console.log('Render...',this.state.initData);
+    console.log(this.state.width);
+    console.log(this.state.height);
     return (
       <div className="animated fadeIn">
         <Card>
@@ -61,11 +78,14 @@ class PieChart extends Component {
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize} />
             <div className="chart-wrapper" style={{ textAlign: "center" }}>
+              {
+                this.state.initData.map((value) => <p>{value.name}{" "}{value.value}</p>)
+              }
               <Pie
                 width={this.state.width}
                 height={this.state.height}
-                data={initData}
-                colors={["#b0b5ba", "#999999", "#2f353a"]}
+                data={this.state.initData}
+                colors={["#b0b5ba", "#999999", "#2f353a" , "#abc123"]}
                 innerRadius={0}
                 outerRadius={0.8}
               />

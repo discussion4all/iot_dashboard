@@ -15,21 +15,31 @@ import Gauge from "./gauge";
 class Speedometer extends Component {
   state = {
     isOpen: false,
-    gauges: []
+    gauges: [],
+    currentValue: 0
   };
 
   componentDidMount() {
     this.initialize();
   }
-
-  initialize() {
-    this.createGauges();
-    // setInterval(this.updateGauges, 5000);
-    this.updateGauges();
+  componentWillReceiveProps(nextProps){
+   
+    if(nextProps.chartsMessages){
+        let messageArr = nextProps.chartsMessages;
+        
+        if(!messageArr[0]){
+            messageArr[0] = 0;
+        }
+        this.setState({ currentValue: messageArr[0]});
+          this.updateGauges(messageArr[0]); 
+        
+    }
   }
-
-  createGauges() {
-    this.createGauge("memory", "Memory");
+  initialize() {
+   
+    this.createGauge("memory", "Volt Meter");
+    // setInterval(this.updateGauges, 5000);
+    //this.updateGauges();
   }
 
   createGauge(name, label, min, max) {
@@ -47,14 +57,15 @@ class Speedometer extends Component {
 
     this.state.gauges[name] = new Gauge(name + "GaugeContainer", config);
     this.state.gauges[name].render();
+    
   }
 
-  updateGauges() {
+  updateGauges(currentValue) {
     for (var key in this.state.gauges) {
-      var value = this.getRandomValue(this.state.gauges[key]);
-      console.log(value);
-      this.state.gauges[key].redraw(value);
+     // var value = this.getRandomValue(this.state.gauges[key]);    
+      this.state.gauges[key].redraw(currentValue);
     }
+
   }
 
   getRandomValue(gauge) {
@@ -67,6 +78,7 @@ class Speedometer extends Component {
   }
 
   render() {
+    
     return (
       <div className="animated fadeIn">
         <Card>
