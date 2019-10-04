@@ -12,17 +12,18 @@ import {
 import { connect } from "react-redux";
 import * as d3 from "d3";
 import ReactResizeDetector from "react-resize-detector";
-
+import "./charts.css";
 class LineChartStraight extends Component {
   state = {
     isOpen: false
   };
 
-  // componentDidMount() {
-  //   this.drawChart(460, 320);
-  // }
+  componentDidMount() {
+    this.drawChart(460, 320);
+  }
 
   drawChart = (widthP, heightP) => {
+    document.getElementById("d3Straight").innerHTML = "";
     var chartConfig = {
       lineConnectorLength: 40,
       axisLabel: {
@@ -116,9 +117,9 @@ class LineChartStraight extends Component {
     };
 
     var svgConfig = {
-      id: "straight-chart",
+      id: "mySvg",
       width: widthP,
-      height: 320,
+      height: 280,
       margin: {
         top: 20,
         right: 20,
@@ -128,18 +129,17 @@ class LineChartStraight extends Component {
     };
 
     var tooltipDiv = d3
-      .select("#straight-chart")
+      .select(this.refs.straightLine)
       .append("div")
       .attr("class", "tooltip");
 
-    var bodySelection = d3.select("#straight-chart");
+    var bodySelection = d3.select(this.refs.straightLine);
 
     var svgSelection = bodySelection
       .append("svg")
       .attr("id", svgConfig.id)
       .attr("width", svgConfig.width)
-      .attr("height", svgConfig.height)
-      .call(this.responsivefy);
+      .attr("height", svgConfig.height);
 
     // create x scale
     let xScale = d3
@@ -244,7 +244,7 @@ class LineChartStraight extends Component {
         )
         .text("X  " + legendText)
         .on("click", function() {
-          var opacity = d3.select("." + lineId).style("opacity") == 1 ? 0 : 1;
+          var opacity = d3.select("." + lineId).style("opacity") === 1 ? 0 : 1;
           d3.select("." + lineId)
             .transition()
             .duration(500)
@@ -267,7 +267,7 @@ class LineChartStraight extends Component {
 
       //animate the line
       var totalLength = path.node().getTotalLength();
-      console.log("Totla Length...", totalLength);
+
       path
         .attr("stroke-dasharray", totalLength + " " + totalLength)
         .attr("stroke-dashoffset", totalLength)
@@ -332,6 +332,11 @@ class LineChartStraight extends Component {
           return 3;
         })
         .on("mouseover", function(d) {
+          // Responsibe for the postison of tooltip varying to Xaxis
+          let bodyRect = document.body.getBoundingClientRect(),
+            elemRect = document.getElementById("d3Straight").getBoundingClientRect(),
+            offset = elemRect.left - bodyRect.left;
+
           // animate point useful when we have points ploted close to each other.
           d3.select(this)
             .transition()
@@ -346,8 +351,8 @@ class LineChartStraight extends Component {
           tooltipDiv
             .html(d.year + " : " + d.sale)
             .style("background", pointColor)
-            .style("left", d3.event.pageX - 30 + "px")
-            .style("top", d3.event.pageY - 40 + "px");
+            .style("left", d3.event.pageX - offset + "px")
+            .style("top", d3.event.pageY - 240 + "px");
         })
         .on("mouseout", function(d) {
           // animate point back to origional style
@@ -377,11 +382,12 @@ class LineChartStraight extends Component {
     createLegend("#f57738", "line2", "30 Days");
   };
 
-  // onResize = (width, height) => {
-  //   this.drawChart(width, height);
-  // };
+  onResize = (width, height) => {
+    this.drawChart(width, height);
+  };
 
   render() {
+    console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Card>
@@ -407,7 +413,8 @@ class LineChartStraight extends Component {
             </div>
           </CardHeader>
           <CardBody>
-            <div className="chart-wrapper"></div>
+            <ReactResizeDetector handleWidth onResize={this.onResize} />
+            <div className="chart-wrapper" ref="straightLine" id="d3Straight"></div>
           </CardBody>
         </Card>
       </div>

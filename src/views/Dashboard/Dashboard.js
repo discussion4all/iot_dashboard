@@ -10,6 +10,7 @@ import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
 import { withResizeDetector } from "react-resize-detector";
+
 // Chart Components
 const BarChart = React.lazy(() => import("./components/BarChart"));
 const LineChartRound = React.lazy(() => import("./components/LineChartRound"));
@@ -320,18 +321,18 @@ class Dashboard extends Component {
               <option value="2" disabled={items.filter(item => item.i === "2").length > 0}>
                 Simple Bar Chart
               </option>
-              <option value="3" disabled={items.filter(item => item.i === "3").length > 0}>
+              {/* <option value="3" disabled={items.filter(item => item.i === "3").length > 0}>
                 Coloured Line Chart
-              </option>
+              </option> */}
               <option value="4" disabled={items.filter(item => item.i === "4").length > 0}>
                 Pie Chart
               </option>
               <option value="5" disabled={items.filter(item => item.i === "5").length > 0}>
                 Multiple Bars Chart
               </option>
-              <option value="6" disabled={items.filter(item => item.i === "6").length > 0}>
+              {/* <option value="6" disabled={items.filter(item => item.i === "6").length > 0}>
                 Coloured Lines Chart
-              </option>
+              </option> */}
               <option value="7" disabled={items.filter(item => item.i === "7").length > 0}>
                 Speedometer
               </option>

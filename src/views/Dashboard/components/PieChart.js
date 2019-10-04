@@ -10,13 +10,30 @@ import {
   DropdownItem
 } from "reactstrap";
 import { connect } from "react-redux";
+import { Pie } from "react-d3-pie";
+import ReactResizeDetector from "react-resize-detector";
+import "./charts.css";
 
 class PieChart extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    height: 320,
+    width: 460
+  };
+
+  onResize = (width, height) => {
+    this.setState({
+      width: width,
+      height: height
+    });
   };
 
   render() {
+    const initData = [
+      { name: "test1", value: 1 },
+      { name: "test2", value: 2 },
+      { name: "test3", value: 3 }
+    ];
     return (
       <div className="animated fadeIn">
         <Card>
@@ -42,7 +59,17 @@ class PieChart extends Component {
             </div>
           </CardHeader>
           <CardBody>
-            <div className="chart-wrapper"></div>
+            <ReactResizeDetector handleWidth onResize={this.onResize} />
+            <div className="chart-wrapper" style={{ textAlign: "center" }}>
+              <Pie
+                width={this.state.width}
+                height={this.state.height}
+                data={initData}
+                colors={["#b0b5ba", "#999999", "#2f353a"]}
+                innerRadius={0}
+                outerRadius={0.8}
+              />
+            </div>
           </CardBody>
         </Card>
       </div>

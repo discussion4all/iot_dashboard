@@ -10,11 +10,61 @@ import {
   DropdownItem
 } from "reactstrap";
 import { connect } from "react-redux";
+import Gauge from "./gauge";
 
 class Speedometer extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    gauges: []
   };
+
+  componentDidMount() {
+    this.initialize();
+  }
+
+  initialize() {
+    this.createGauges();
+    // setInterval(this.updateGauges, 5000);
+    this.updateGauges();
+  }
+
+  createGauges() {
+    this.createGauge("memory", "Memory");
+  }
+
+  createGauge(name, label, min, max) {
+    var config = {
+      size: 320,
+      label: label,
+      min: undefined != min ? min : 0,
+      max: undefined != max ? max : 100,
+      minorTicks: 5
+    };
+
+    var range = config.max - config.min;
+    config.yellowZones = [{ from: config.min + range * 0.75, to: config.min + range * 0.9 }];
+    config.redZones = [{ from: config.min + range * 0.9, to: config.max }];
+
+    this.state.gauges[name] = new Gauge(name + "GaugeContainer", config);
+    this.state.gauges[name].render();
+  }
+
+  updateGauges() {
+    for (var key in this.state.gauges) {
+      var value = this.getRandomValue(this.state.gauges[key]);
+      console.log(value);
+      this.state.gauges[key].redraw(value);
+    }
+  }
+
+  getRandomValue(gauge) {
+    var overflow = 0; //10;
+    return (
+      gauge.config.min -
+      overflow +
+      (gauge.config.max - gauge.config.min + overflow * 2) * Math.random()
+    );
+  }
 
   render() {
     return (
@@ -42,7 +92,10 @@ class Speedometer extends Component {
             </div>
           </CardHeader>
           <CardBody>
-            <div className="chart-wrapper"></div>
+            <div
+              className="chart-wrapper"
+              id="memoryGaugeContainer"
+              style={{ textAlign: "center" }}></div>
           </CardBody>
         </Card>
       </div>
