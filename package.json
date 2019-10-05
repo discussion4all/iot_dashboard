@@ -37,7 +37,6 @@
     "react-chartjs-2": "^2.7.6",
     "react-cursor-position": "^3.0.3",
     "react-custom-scrollbars": "^4.2.1",
-    "react-d3-pie": "^1.1.1",
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",
     "react-redux": "^7.1.1",
