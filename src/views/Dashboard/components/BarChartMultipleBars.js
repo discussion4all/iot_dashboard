@@ -15,14 +15,45 @@ import ReactResizeDetector from "react-resize-detector";
 
 class BarchartMultipleBars extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    data: [],
+    width: 460,
+    height: 320
   };
 
   componentDidMount() {
-    this.drawChart(460, 320);
+    let array = [];
+    array[0] = [
+      "State",
+      "Under 5 Years",
+      "5 to 13 Years",
+      "14 to 17 Years",
+      "18 to 24 Years",
+      "25 to 44 Years",
+      "45 to 64 Years",
+      "65 Years and Over"
+    ];
+    this.setState({
+      data: array
+    });
+    this.drawChart(460, 320, array);
   }
 
-  drawChart(widthP, heightP) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartsMessages) {
+      let newMessages = nextProps.chartsMessages.map((item, key) => {
+        return JSON.parse(item);
+      });
+
+      if (newMessages.length > 0) {
+        let data = [this.state.data[0], ...newMessages];
+        this.setState({ data: [this.state.data[0], ...newMessages] });
+        this.drawChart(this.state.width, this.state.height, data);
+      }
+    }
+  }
+
+  drawChart(widthP, heightP, chartData) {
     document.getElementById("barsmultiple").innerHTML = "";
     // let height = 500;
     // let width = 1000;
@@ -39,146 +70,81 @@ class BarchartMultipleBars extends Component {
     //   ),
     //   { y: "Population" }
     // );
-    let data = [];
-    data[0] = {
-      State: "CA",
-      "Under 5 Years": 2704659,
-      "5 to 13 Years": 4499890,
-      "14 to 17 Years": 2159981,
-      "18 to 24 Years": 3853788,
-      "25 to 44 Years": 10604510,
-      "45 to 64 Years": 8819342,
-      "65 Years and Over": 4114496
-    };
-    data[1] = {
-      State: "TX",
-      "Under 5 Years": 2027307,
-      "5 to 13 Years": 3277946,
-      "14 to 17 Years": 1420518,
-      "18 to 24 Years": 2454721,
-      "25 to 44 Years": 7017731,
-      "45 to 64 Years": 5656528,
-      "65 Years and Over": 2472223
-    };
-    data[2] = {
-      State: "NY",
-      "Under 5 Years": 1208495,
-      "5 to 13 Years": 2141490,
-      "14 to 17 Years": 1058031,
-      "18 to 24 Years": 1999120,
-      "25 to 44 Years": 5355235,
-      "45 to 64 Years": 5120254,
-      "65 Years and Over": 2607672
-    };
+    let data = chartData;
+    // data[6] = {
+    //   State: "CA",
+    //   "Under 5 Years": 2704659,
+    //   "5 to 13 Years": 4499890,
+    //   "14 to 17 Years": 2159981,
+    //   "18 to 24 Years": 3853788,
+    //   "25 to 44 Years": 10604510,
+    //   "45 to 64 Years": 8819342,
+    //   "65 Years and Over": 4114496
+    // };
+    // data[1] = {
+    //   State: "TX",
+    //   "Under 5 Years": 2027307,
+    //   "5 to 13 Years": 3277946,
+    //   "14 to 17 Years": 1420518,
+    //   "18 to 24 Years": 2454721,
+    //   "25 to 44 Years": 7017731,
+    //   "45 to 64 Years": 5656528,
+    //   "65 Years and Over": 2472223
+    // };
+    // data[2] = {
+    //   State: "NY",
+    //   "Under 5 Years": 1208495,
+    //   "5 to 13 Years": 2141490,
+    //   "14 to 17 Years": 1058031,
+    //   "18 to 24 Years": 1999120,
+    //   "25 to 44 Years": 5355235,
+    //   "45 to 64 Years": 5120254,
+    //   "65 Years and Over": 2607672
+    // };
 
-    data[3] = {
-      State: "FL",
-      "Under 5 Years": 1140516,
-      "5 to 13 Years": 1938695,
-      "14 to 17 Years": 925060,
-      "18 to 24 Years": 1607297,
-      "25 to 44 Years": 4782119,
-      "45 to 64 Years": 4746856,
-      "65 Years and Over": 3187797
-    };
+    // data[3] = {
+    //   State: "FL",
+    //   "Under 5 Years": 1140516,
+    //   "5 to 13 Years": 1938695,
+    //   "14 to 17 Years": 925060,
+    //   "18 to 24 Years": 1607297,
+    //   "25 to 44 Years": 4782119,
+    //   "45 to 64 Years": 4746856,
+    //   "65 Years and Over": 3187797
+    // };
 
-    data[4] = {
-      State: "IL",
-      "Under 5 Years": 894368,
-      "5 to 13 Years": 1558919,
-      "14 to 17 Years": 725973,
-      "18 to 24 Years": 1311479,
-      "25 to 44 Years": 3596343,
-      "45 to 64 Years": 3239173,
-      "65 Years and Over": 1575308
-    };
+    // data[4] = {
+    //   State: "IL",
+    //   "Under 5 Years": 894368,
+    //   "5 to 13 Years": 1558919,
+    //   "14 to 17 Years": 725973,
+    //   "18 to 24 Years": 1311479,
+    //   "25 to 44 Years": 3596343,
+    //   "45 to 64 Years": 3239173,
+    //   "65 Years and Over": 1575308
+    // };
 
-    data[5] = {
-      State: "PA",
-      "Under 5 Years": 737462,
-      "5 to 13 Years": 1345341,
-      "14 to 17 Years": 679201,
-      "18 to 24 Years": 1203944,
-      "25 to 44 Years": 3157759,
-      "45 to 64 Years": 3414001,
-      "65 Years and Over": 1910571
-    };
+    // data[5] = {
+    //   State: "PA",
+    //   "Under 5 Years": 737462,
+    //   "5 to 13 Years": 1345341,
+    //   "14 to 17 Years": 679201,
+    //   "18 to 24 Years": 1203944,
+    //   "25 to 44 Years": 3157759,
+    //   "45 to 64 Years": 3414001,
+    //   "65 Years and Over": 1910571
+    // };
 
-    data["columns"] = [
-      "State",
-      "Under 5 Years",
-      "5 to 13 Years",
-      "14 to 17 Years",
-      "18 to 24 Years",
-      "25 to 44 Years",
-      "45 to 64 Years",
-      "65 Years and Over"
-    ];
-
-    // let data = [
-    //   {
-    //     State: "CA",
-    //     "Under 5 Years": 2704659,
-    //     "5 to 13 Years": 4499890,
-    //     "14 to 17 Years": 2159981,
-    //     "18 to 24 Years": 3853788,
-    //     "25 to 44 Years": 10604510,
-    //     "45 to 64 Years": 8819342,
-    //     "65 Years and Over": 4114496
-    //   },
-    //   {
-    //     State: "TX",
-    //     "Under 5 Years": 2027307,
-    //     "5 to 13 Years": 3277946,
-    //     "14 to 17 Years": 1420518,
-    //     "18 to 24 Years": 2454721,
-    //     "25 to 44 Years": 7017731,
-    //     "45 to 64 Years": 5656528,
-    //     "65 Years and Over": 2472223
-    //   },
-    //   {
-    //     State: "NY",
-    //     "Under 5 Years": 1208495,
-    //     "5 to 13 Years": 2141490,
-    //     "14 to 17 Years": 1058031,
-    //     "18 to 24 Years": 1999120,
-    //     "25 to 44 Years": 5355235,
-    //     "45 to 64 Years": 5120254,
-    //     "65 Years and Over": 2607672
-    //   },
-    //   {
-    //     State: "FL",
-    //     "Under 5 Years": 1140516,
-    //     "5 to 13 Years": 1938695,
-    //     "14 to 17 Years": 925060,
-    //     "18 to 24 Years": 1607297,
-    //     "25 to 44 Years": 4782119,
-    //     "45 to 64 Years": 4746856,
-    //     "65 Years and Over": 3187797
-    //   },
-    //   {
-    //     State: "IL",
-    //     "Under 5 Years": 894368,
-    //     "5 to 13 Years": 1558919,
-    //     "14 to 17 Years": 725973,
-    //     "18 to 24 Years": 1311479,
-    //     "25 to 44 Years": 3596343,
-    //     "45 to 64 Years": 3239173,
-    //     "65 Years and Over": 1575308
-    //   },
-    //   {
-    //     State: "PA",
-    //     "Under 5 Years": 737462,
-    //     "5 to 13 Years": 1345341,
-    //     "14 to 17 Years": 679201,
-    //     "18 to 24 Years": 1203944,
-    //     "25 to 44 Years": 3157759,
-    //     "45 to 64 Years": 3414001,
-    //     "65 Years and Over": 1910571
-    //   }
+    // data[0] = [
+    //   "State",
+    //   "Under 5 Years",
+    //   "5 to 13 Years",
+    //   "14 to 17 Years",
+    //   "18 to 24 Years",
+    //   "25 to 44 Years",
+    //   "45 to 64 Years",
+    //   "65 Years and Over"
     // ];
-    console.log(data);
-    // data = data.JSON.parse(data);
 
     const svg = d3
       .select(this.refs.mutiplebars)
@@ -190,8 +156,8 @@ class BarchartMultipleBars extends Component {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let groupKey = "State";
-    console.log(data.columns);
-    let keys = data.columns.slice(1);
+
+    let keys = data[0].slice(1);
 
     let legend = svg => {
       const g = svg
@@ -286,10 +252,15 @@ class BarchartMultipleBars extends Component {
   }
 
   onResize = (width, height) => {
-    this.drawChart(width, height);
+    this.setState({
+      width: width,
+      height: height
+    });
+    this.drawChart(width, height, this.state.data);
   };
 
   render() {
+    console.log(this.state.data);
     return (
       <div className="animated fadeIn">
         <Card>

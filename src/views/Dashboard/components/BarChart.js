@@ -18,24 +18,45 @@ class BarChart extends Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      data: [
+        { year: "2014", value: 0.07 },
+        { year: "2015", value: 0.13 },
+        { year: "2016", value: 0.56 },
+        { year: "2017", value: 0.95 },
+        { year: "2018", value: 0.81 }
+      ],
+      width: 460,
+      height: 320
     };
     this.responsivefy = this.responsivefy.bind(this);
   }
 
   componentDidMount() {
-    this.drawChart(460, 320);
+    this.drawChart(460, 320, this.state.data);
   }
 
-  drawChart(widthP, heightP) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartsMessages) {
+      let newMessages = nextProps.chartsMessages.map((item, key) => {
+        return JSON.parse(item);
+      });
+
+      if (newMessages.length > 0) {
+        this.setState({ data: newMessages });
+        this.drawChart(this.state.width, this.state.height, newMessages);
+      }
+    }
+  }
+
+  drawChart(widthP, heightP, newMessages) {
     document.getElementById("bar-chart").innerHTML = "";
     var margin = { top: 40, right: 30, bottom: 30, left: 50 },
       width = widthP - margin.left - margin.right,
       height = 320 - margin.top - margin.bottom;
-    // console.log("width", width);
+
     var greyColor = "#898989";
-    //var barColor = d3.interpolateInferno(0.4);
-    //var highlightColor = d3.interpolateInferno(0.3);
+
     var barColor = "#e91e63";
     var highlightColor = "#1ee983";
 
@@ -61,13 +82,15 @@ class BarChart extends Component {
       .tickPadding(10);
     var yAxis = d3.axisLeft(y).tickFormat(formatPercent);
 
-    var dataset = [
-      { year: "2014", value: 0.07 },
-      { year: "2015", value: 0.13 },
-      { year: "2016", value: 0.56 },
-      { year: "2017", value: 0.95 },
-      { year: "2018", value: 0.81 }
-    ];
+    // var dataset = [
+    //   { year: "2014", value: 0.07 },
+    //   { year: "2015", value: 0.13 },
+    //   { year: "2016", value: 0.56 },
+    //   { year: "2017", value: 0.95 },
+    //   { year: "2018", value: 0.81 }
+    // ];
+
+    let dataset = newMessages;
 
     x.domain(
       dataset.map(d => {
@@ -171,7 +194,6 @@ class BarChart extends Component {
   }
   responsivefy(svg) {
     const resize = () => {
-      // console.log("Resize call...", container);
       let targetWidth = parseInt(container.style("width"));
       let targetHeight = Math.round(targetWidth / aspect);
       if (targetWidth > width2) {
@@ -201,7 +223,11 @@ class BarChart extends Component {
   }
 
   onResize = (width, height) => {
-    this.drawChart(width, height);
+    this.setState({
+      width: width,
+      height: height
+    });
+    this.drawChart(width, height, this.state.data);
   };
 
   render() {
