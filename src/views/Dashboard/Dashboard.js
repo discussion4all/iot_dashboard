@@ -299,7 +299,7 @@ class Dashboard extends Component {
     const { items } = this.state;
 
     return (
-      <div className="animated fadeIn">
+      <div className="animated fadeIn" style={{ height: 0 }}>
         <Row>
           <Col xs="12" sm="6" lg="3" className="mb-3 mb-xl-0">
             <Input
