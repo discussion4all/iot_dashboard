@@ -68,7 +68,7 @@ class LineChartRound extends Component {
     this.drawChart(460, 320,this.state.data);
   }
   componentWillReceiveProps(nextProps){
-  
+    console.log(nextProps.chartsMessages);
     if(nextProps.chartsMessages){
         let newmessages = nextProps.chartsMessages.map((item,key) => {
            
@@ -418,6 +418,7 @@ class LineChartRound extends Component {
         });
     };
 
+    console.log('New Messages..',newmessages);
     // plot lines
     let lineOne = drawLine(newmessages, "#8f9ba6", "15 Days", "line1");
    // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");

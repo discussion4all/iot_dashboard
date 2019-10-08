@@ -21,8 +21,11 @@ import {
   SET_PLAINMESSAGES_DATA
 } from "./types";
 
-import MQTT from "async-mqtt";
-const client = MQTT.connect("ws://admin:admin123@mqtt.omnivoltaic.com:9001");
+//graphQL 
+import { onCreateFilm } from '../graphql/queries';
+
+//import Clients for subscription.
+import { client, Appclient } from '../subscribeClient';
 
 export const setSubscriptions = (chart, itsData) => dispatch => {
   switch (chart) {
@@ -37,6 +40,24 @@ export const setSubscriptions = (chart, itsData) => dispatch => {
             dispatch({ type: SET_ROUNDLINE_DATA, payload: messageInCharacter });
           }
         });
+      }else{
+        
+        Appclient.hydrated().then(function (client) {          
+          const observable = client.subscribe({ query: onCreateFilm});
+          const realtimeResults = function realtimeResults(data) {
+              console.log('(Realtime Subscription) Subscribing posts -----------> ', data.data.onCreateFilm);
+              let obj = { "sale" : data.data.onCreateFilm.episodeId, "year" : "1" };
+              obj = JSON.stringify(obj);
+              
+              dispatch({ type: SET_ROUNDLINE_DATA, payload: obj });
+          };
+          observable.subscribe({
+              next: realtimeResults,
+              complete: console.log,
+              error: console.log,
+          }); 
+        });
+         
       }
       break;
     case "1":
@@ -50,6 +71,24 @@ export const setSubscriptions = (chart, itsData) => dispatch => {
             dispatch({ type: SET_STRAIGHTLINE_DATA, payload: messageInCharacter });
           }
         });
+      }else{
+        
+        Appclient.hydrated().then(function (client) {          
+          const observable = client.subscribe({ query: onCreateFilm});
+          const realtimeResults = function realtimeResults(data) {
+              console.log('(Realtime Subscription) Subscribing posts -----------> ', data.data.onCreateFilm);
+              let obj = { "sale" : data.data.onCreateFilm.episodeId, "year" : "1" };
+              obj = JSON.stringify(obj);
+              
+              dispatch({ type: SET_ROUNDLINE_DATA, payload: obj });
+          };
+          observable.subscribe({
+              next: realtimeResults,
+              complete: console.log,
+              error: console.log,
+          }); 
+        });
+         
       }
       break;
     case "2":

@@ -5,7 +5,7 @@ import ChartDataForm from "./components/ChartDataform";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { connect } from "react-redux";
 import { setSubscriptions } from "../../actions/chartDataBindAction";
-import { getDashboard, saveDashboard } from "../../actions/dashBoardActions";
+import { getDashboard, saveDashboard, saveChartConfig, getChartConfig } from "../../actions/dashBoardActions";
 import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
@@ -66,23 +66,46 @@ class Dashboard extends Component {
       selectedItem: null,
       alert: null,
       selectedData: null,
-      makeChart: false
+      makeChart: false,
+      configArr: []
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
 
   componentDidMount() {
     this.props.getDashboard("");
+    this.props.getChartConfig();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dashboard.layout.length > 0) {
-      let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
+    
 
-      this.setState({
-        items: itemsData.layouts
-      });
-      saveToLS("layouts", itemsData.layouts);
+    //set Subscription according to selected types.
+    if(nextProps.dashboard.config.length > 0){
+
+      for(let i=0;i< nextProps.dashboard.config.length; i++){
+        console.log('config...............................',nextProps.dashboard.config[i]);
+        this.props.setSubscriptions(nextProps.dashboard.config[i].selectedChartIndex, nextProps.dashboard.config[i].chartconfig);
+      }  
+    }
+    
+    if (nextProps.dashboard.layout.length > 0) {
+      if(nextProps.dashboard.layout[0].layoutData !== undefined){
+        let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
+
+        this.setState({
+          items: itemsData.layouts
+        });
+        saveToLS("layouts", itemsData.layouts);  
+      }else{
+
+          this.setState({
+            items: JSON.parse(JSON.stringify(originalLayouts))
+          });
+          saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts)));
+
+      }
+      
     } else {
       this.setState({
         items: JSON.parse(JSON.stringify(originalLayouts))
@@ -197,9 +220,14 @@ class Dashboard extends Component {
 
     let obj = { layouts: tmpdata };
     let data = { layoutData: obj };
-    this.props.saveDashboard(data);
+    
+    if(tmpdata.length > 0){
+      this.props.saveDashboard(data); 
+    }
+    
+    this.props.saveChartConfig(this.state.configArr);
+    
   };
-
   resetLayout = () => {
     let DBLayout = getFromLS("layouts");
     const savedLayout = JSON.parse(JSON.stringify(DBLayout));
@@ -252,8 +280,14 @@ class Dashboard extends Component {
         selectedData: config,
         makeChart: false
       });
+      
       this.props.setSubscriptions(this.state.selectedItem, config);
       this.makeChart(this.state.selectedItem, config);
+      let newconfigobj = { chartconfig: config, selectedChartIndex: this.state.selectedItem }
+      this.setState(prevState => ({
+        configArr: [...prevState.configArr, newconfigobj]
+      }))
+
     }
   };
 
@@ -297,7 +331,7 @@ class Dashboard extends Component {
 
   render() {
     const { items } = this.state;
-
+   
     return (
       <div className="animated fadeIn" style={{ height: 0 }}>
         <Row>
@@ -384,6 +418,12 @@ const mapDispatchToProps = dispatch => ({
   },
   setSubscriptions: (chart, itsData) => {
     dispatch(setSubscriptions(chart, itsData));
+  },
+  saveChartConfig: itemData => {
+    dispatch(saveChartConfig(itemData));
+  },
+  getChartConfig: itemData => {
+    dispatch(getChartConfig(itemData))
   }
 });
 
