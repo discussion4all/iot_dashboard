@@ -55,10 +55,10 @@ class BarChart extends Component {
       width = widthP - margin.left - margin.right,
       height = 320 - margin.top - margin.bottom;
 
-    var greyColor = "#898989";
+    var greyColor = "#2f353a";
 
-    var barColor = "#e91e63";
-    var highlightColor = "#1ee983";
+    var barColor = "#f0f3f5";
+    var highlightColor = "#c8ced3";
 
     var formatPercent = d3.format(".0%");
     var svg = d3
@@ -124,16 +124,16 @@ class BarChart extends Component {
           d3.max(dataset, d => {
             return d.value;
           })
-          ? "#1ee98354"
-          : "#f16d9a82";
+          ? "#c8ced3"
+          : "#f0f3f5";
       })
       .style("stroke", d => {
         return d.value ===
           d3.max(dataset, d => {
             return d.value;
           })
-          ? highlightColor
-          : barColor;
+          ? greyColor
+          : greyColor;
       })
       .attr("x", d => {
         return x(d.year);

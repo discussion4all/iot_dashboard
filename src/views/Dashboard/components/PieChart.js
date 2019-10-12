@@ -60,7 +60,7 @@ class PieChart extends Component {
 
     let chartOptions = [{
       "captions": [{ "INDIA": "INDIA", "CANADA": "CANADA", "USA": "USA" }],
-      "color": [{ "INDIA": "#FFA500", "CANADA": "#0070C0", "USA": "#ff0000" }],
+      "color": [{ "INDIA": "#5c6873", "CANADA": "#8f9ba6", "USA": "#c8ced3" }],
       "xaxis": "Country",
       "yaxis": "Total"
     }];

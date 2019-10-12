@@ -220,10 +220,8 @@ class Dashboard extends Component {
 
     let obj = { layouts: tmpdata };
     let data = { layoutData: obj };
-    
-    if(tmpdata.length > 0){
+  
       this.props.saveDashboard(data); 
-    }
     
     this.props.saveChartConfig(this.state.configArr);
     

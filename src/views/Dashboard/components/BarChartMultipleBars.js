@@ -208,8 +208,9 @@ class BarchartMultipleBars extends Component {
 
     let color = d3
       .scaleOrdinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
+      //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+      .range(["#5c6873", "#73818f", "#8f9ba6", "#acb4bc", "#c8ced3", "#e4e7ea", "#f0f3f5"]);
+      
     let xAxis = g =>
       g
         .attr("transform", `translate(0,${height - margin.bottom})`)
