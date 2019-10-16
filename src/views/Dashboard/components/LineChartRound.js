@@ -18,71 +18,68 @@ class LineChartRound extends Component {
   state = {
     isOpen: false,
     data: [
-        {
-          sale: "202",
-          year: "0"
-        },
-        {
-          sale: "215",
-          year: "1"
-        },
-        {
-          sale: "179",
-          year: "2"
-        },
-        {
-          sale: "199",
-          year: "3"
-        },
-        {
-          sale: "149",
-          year: "4"
-        },
-        {
-          sale: "179",
-          year: "5"
-        },
-        {
-          sale: "157",
-          year: "6"
-        },
-        {
-          sale: "161",
-          year: "7"
-        },
-        {
-          sale: "159",
-          year: "8"
-        },
-        {
-          sale: "176",
-          year: "10"
-        }
-      ],
+      {
+        sale: "202",
+        year: "0"
+      },
+      {
+        sale: "215",
+        year: "1"
+      },
+      {
+        sale: "179",
+        year: "2"
+      },
+      {
+        sale: "199",
+        year: "3"
+      },
+      {
+        sale: "149",
+        year: "4"
+      },
+      {
+        sale: "179",
+        year: "5"
+      },
+      {
+        sale: "157",
+        year: "6"
+      },
+      {
+        sale: "161",
+        year: "7"
+      },
+      {
+        sale: "159",
+        year: "8"
+      },
+      {
+        sale: "176",
+        year: "10"
+      }
+    ],
     height: 320,
     width: 460
   };
 
   componentDidMount() {
-   
-    this.drawChart(460, 320,this.state.data);
+    this.drawChart(460, 320, this.state.data);
   }
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps.chartsMessages);
-    if(nextProps.chartsMessages){
-        let newmessages = nextProps.chartsMessages.map((item,key) => {
-           
-           return JSON.parse(item)
-        } )
-        
-        if(newmessages.length > 0){
-           this.setState({ data: newmessages});
-           this.drawChart(this.state.width, this.state.height,newmessages);
-        }    
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartsMessages) {
+      let newmessages = nextProps.chartsMessages.map((item, key) => {
+        return JSON.parse(item);
+      });
+
+      if (newmessages.length > 0) {
+        this.setState({ data: newmessages });
+        this.drawChart(this.state.width, this.state.height, newmessages);
+      }
     }
   }
-  drawChart = (widthP, heightP,newmessages) => {
-    document.getElementById("d3Round").innerHTML = "";
+  drawChart = (widthP, heightP, newmessages) => {
+    document.getElementById("roundline" + this.props.id).innerHTML = "";
     var chartConfig = {
       lineConnectorLength: 40,
       axisLabel: {
@@ -176,9 +173,9 @@ class LineChartRound extends Component {
     };
 
     var svgConfig = {
-      id: "mySvgRound",
+      id: "roundline" + this.props.id,
       width: widthP,
-      height: 280,
+      height: 320,
       margin: {
         top: 20,
         right: 20,
@@ -188,11 +185,11 @@ class LineChartRound extends Component {
     };
 
     var tooltipDiv = d3
-      .select(this.refs.roundLine)
+      .select("#roundline" + this.props.id)
       .append("div")
       .attr("class", "tooltip");
 
-    var bodySelection = d3.select(this.refs.roundLine);
+    var bodySelection = d3.select("#roundline" + this.props.id);
 
     var svgSelection = bodySelection
       .append("svg")
@@ -232,12 +229,12 @@ class LineChartRound extends Component {
     // add xaxis to chart - it will add it to top of the svg
     svgSelection
       .append("svg:g")
-      .attr("id", "xAxisRound")
+      .attr("id", "xAxisRound" + this.props.id)
       .attr("class", "axis")
       .call(xAxis);
 
     // The X axis is drawn but First, we need to position it vertically downwards using transform property
-    d3.select("#xAxisRound").attr(
+    d3.select("#xAxisRound" + this.props.id).attr(
       "transform",
       "translate(0," + (svgConfig.height - svgConfig.margin.bottom) + ")"
     );
@@ -255,12 +252,15 @@ class LineChartRound extends Component {
     // add yaxis to chart, but this will not add it to correct oorientation
     svgSelection
       .append("svg:g")
-      .attr("id", "yAxisRound")
+      .attr("id", "yAxisRound" + this.props.id)
       .attr("class", "axis")
       .call(yAxis);
 
     // apply transform logic to bring it to correct place
-    d3.select("#yAxisRound").attr("transform", "translate(" + svgConfig.margin.left + ",0)");
+    d3.select("#yAxisRound" + this.props.id).attr(
+      "transform",
+      "translate(" + svgConfig.margin.left + ",0)"
+    );
 
     // now lets generate line
     var lineSelection = d3
@@ -317,7 +317,7 @@ class LineChartRound extends Component {
     const drawLine = (lineData, lineColor, lineLabel, lineId) => {
       // append line to svg
       var group = svgSelection.append("g").attr("class", lineId);
-     
+
       var path = group
         .append("svg:path")
         .attr("d", lineSelection(lineData))
@@ -383,8 +383,10 @@ class LineChartRound extends Component {
         })
         .on("mouseover", function(d) {
           // Responsibe for the postison of tooltip varying to Xaxis
-          let bodyRect = document.body.getBoundingClientRect(),
-            elemRect = document.getElementById("d3Round").getBoundingClientRect(),
+          let bodyRect = document
+              .getElementById("roundline" + this.props.id)
+              .getBoundingClientRect(),
+            elemRect = document.getElementById("roundline" + this.props.id).getBoundingClientRect(),
             offset = elemRect.left - bodyRect.left;
 
           // animate point useful when we have points ploted close to each other.
@@ -418,29 +420,27 @@ class LineChartRound extends Component {
         });
     };
 
-    console.log('New Messages..',newmessages);
     // plot lines
     let lineOne = drawLine(newmessages, "#8f9ba6", "15 Days", "line1");
-   // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
+    // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
 
     // plot points
     drawPoints(newmessages, "#8f9ba6", lineOne);
-   // drawPoints(chartConfig.data2, "#f57738", lineTwo);
+    // drawPoints(chartConfig.data2, "#f57738", lineTwo);
 
     // add legend
     var marginLegend = 0; // this can be dynamic later and no need to call create legend per line
     createLegend("#8f9ba6", "line1", "15 Days");
-   // createLegend("#f57738", "line2", "30 Days");
+    // createLegend("#f57738", "line2", "30 Days");
   };
 
   onResize = (width, height) => {
-    
-    this.setState({ width , height });
+    this.setState({ width, height });
     this.drawChart(width, height, this.state.data);
   };
 
   render() {
-   
+    const { id } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -467,7 +467,11 @@ class LineChartRound extends Component {
           </CardHeader>
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize} />
-            <div className="chart-wrapper" ref="roundLine" id="d3Round"></div>
+            <div
+              className="chart-wrapper"
+              ref={id}
+              id={"roundline" + id}
+              style={{ height: "100%", maxHeight: "100%" }}></div>
           </CardBody>
         </Card>
       </div>

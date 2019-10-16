@@ -22,22 +22,19 @@ class Speedometer extends Component {
   componentDidMount() {
     this.initialize();
   }
-  componentWillReceiveProps(nextProps){
-   
-    if(nextProps.chartsMessages){
-        let messageArr = nextProps.chartsMessages;
-        
-        if(!messageArr[0]){
-            messageArr[0] = 0;
-        }
-        this.setState({ currentValue: messageArr[0]});
-          this.updateGauges(messageArr[0]); 
-        
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartsMessages) {
+      let messageArr = nextProps.chartsMessages;
+
+      if (!messageArr[0]) {
+        messageArr[0] = 0;
+      }
+      this.setState({ currentValue: messageArr[0] });
+      this.updateGauges(messageArr[0]);
     }
   }
   initialize() {
-   
-    this.createGauge("memory", "Volt Meter");
+    this.createGauge("memory" + this.props.id, "Volt Meter");
     // setInterval(this.updateGauges, 5000);
     //this.updateGauges();
   }
@@ -46,26 +43,24 @@ class Speedometer extends Component {
     var config = {
       size: 320,
       label: label,
-      min: undefined != min ? min : 0,
-      max: undefined != max ? max : 100,
+      min: undefined !== min ? min : 0,
+      max: undefined !== max ? max : 100,
       minorTicks: 5
     };
 
     var range = config.max - config.min;
     config.yellowZones = [{ from: config.min + range * 0.75, to: config.min + range * 0.9 }];
     config.redZones = [{ from: config.min + range * 0.9, to: config.max }];
-
-    this.state.gauges[name] = new Gauge(name + "GaugeContainer", config);
+    console.log(name);
+    this.state.gauges[name] = new Gauge("memoryGaugeContainer" + this.props.id, config);
     this.state.gauges[name].render();
-    
   }
 
   updateGauges(currentValue) {
     for (var key in this.state.gauges) {
-     // var value = this.getRandomValue(this.state.gauges[key]);    
+      // var value = this.getRandomValue(this.state.gauges[key]);
       this.state.gauges[key].redraw(currentValue);
     }
-
   }
 
   getRandomValue(gauge) {
@@ -78,7 +73,6 @@ class Speedometer extends Component {
   }
 
   render() {
-    
     return (
       <div className="animated fadeIn">
         <Card>
@@ -106,7 +100,7 @@ class Speedometer extends Component {
           <CardBody>
             <div
               className="chart-wrapper"
-              id="memoryGaugeContainer"
+              id={"memoryGaugeContainer" + this.props.id}
               style={{ textAlign: "center" }}></div>
           </CardBody>
         </Card>

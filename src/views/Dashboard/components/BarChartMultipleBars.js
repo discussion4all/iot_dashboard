@@ -54,7 +54,7 @@ class BarchartMultipleBars extends Component {
   }
 
   drawChart(widthP, heightP, chartData) {
-    document.getElementById("barsmultiple").innerHTML = "";
+    document.getElementById("barsmultiple" + this.props.id).innerHTML = "";
     // let height = 500;
     // let width = 1000;
     let maxWidth = widthP;
@@ -147,7 +147,7 @@ class BarchartMultipleBars extends Component {
     // ];
 
     const svg = d3
-      .select(this.refs.mutiplebars)
+      .select("#barsmultiple" + this.props.id)
       .append("svg")
       //.call(this.responsivefy)
       .attr("width", width + margin.left + margin.right)
@@ -210,7 +210,7 @@ class BarchartMultipleBars extends Component {
       .scaleOrdinal()
       //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
       .range(["#5c6873", "#73818f", "#8f9ba6", "#acb4bc", "#c8ced3", "#e4e7ea", "#f0f3f5"]);
-      
+
     let xAxis = g =>
       g
         .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -261,7 +261,7 @@ class BarchartMultipleBars extends Component {
   };
 
   render() {
-    console.log(this.state.data);
+    const { id } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -288,7 +288,7 @@ class BarchartMultipleBars extends Component {
           </CardHeader>
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize} />
-            <div className="chart-wrapper" ref="mutiplebars" id="barsmultiple"></div>
+            <div className="chart-wrapper" ref={id} id={"barsmultiple" + id}></div>
           </CardBody>
         </Card>
       </div>

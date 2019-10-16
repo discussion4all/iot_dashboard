@@ -29,7 +29,6 @@ class BarChart extends Component {
       width: 460,
       height: 320
     };
-    this.responsivefy = this.responsivefy.bind(this);
   }
 
   componentDidMount() {
@@ -50,23 +49,22 @@ class BarChart extends Component {
   }
 
   drawChart(widthP, heightP, newMessages) {
-    document.getElementById("bar-chart").innerHTML = "";
+    document.getElementById("barchart" + this.props.id).innerHTML = "";
     var margin = { top: 40, right: 30, bottom: 30, left: 50 },
       width = widthP - margin.left - margin.right,
       height = 320 - margin.top - margin.bottom;
 
     var greyColor = "#2f353a";
 
-    var barColor = "#f0f3f5";
+    // var barColor = "#f0f3f5";
     var highlightColor = "#c8ced3";
 
     var formatPercent = d3.format(".0%");
     var svg = d3
-      .select(this.refs.chartDiv)
+      .select("#barchart" + this.props.id)
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      .call(this.responsivefy)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -192,35 +190,6 @@ class BarChart extends Component {
       })
       .attr("dy", "-.7em");
   }
-  responsivefy(svg) {
-    const resize = () => {
-      let targetWidth = parseInt(container.style("width"));
-      let targetHeight = Math.round(targetWidth / aspect);
-      if (targetWidth > width2) {
-        targetWidth = width2;
-      }
-      if (targetHeight > height2) {
-        targetHeight = height2;
-      }
-      svg.attr("width", targetWidth);
-      svg.attr("height", targetHeight);
-    };
-    // Container is the DOM element, svg is appended.
-    // Then we measure the container and find its
-    // aspect ratio.
-    const container = d3.select(svg.node().parentNode),
-      width2 = parseInt(svg.style("width"), 10),
-      height2 = parseInt(svg.style("height"), 10),
-      aspect = width2 / height2;
-    // Add viewBox attribute to set the value to initial size
-    // add preserveAspectRatio attribute to specify how to scale
-    // and call resize so that svg resizes on page load
-    svg
-      .attr("viewBox", `0 0 ${width2} ${height2}`)
-      .attr("preserveAspectRatio", "xMinYMid")
-      .call(resize);
-    d3.select(window).on("resize." + container.attr("id"), resize);
-  }
 
   onResize = (width, height) => {
     this.setState({
@@ -231,6 +200,7 @@ class BarChart extends Component {
   };
 
   render() {
+    const { id } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -257,7 +227,7 @@ class BarChart extends Component {
           </CardHeader>
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize}>
-              <div className="chart-wrapper" ref="chartDiv" id="bar-chart"></div>
+              <div className="chart-wrapper" ref={id} id={"barchart" + this.props.id}></div>
             </ReactResizeDetector>
           </CardBody>
         </Card>

@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import ReactResizeDetector from "react-resize-detector";
-import * as d3 from 'd3';
+import * as d3 from "d3";
 import "./charts.css";
 
 class PieChart extends Component {
@@ -21,60 +21,58 @@ class PieChart extends Component {
     width: 460,
     piechartData: []
   };
-  componentDidMount(){
+  componentDidMount() {
     this.Plot();
   }
-  componentWillReceiveProps(nextProps){
-    console.log('NextProps....',nextProps);
-    if(nextProps.chartsMessages){
-        let newmessages = nextProps.chartsMessages.map((item,key) => {
-           
-           return JSON.parse(item)
-        } )
-        
-        if(newmessages.length > 0){
-           console.log('New messages...',newmessages);
-           this.setState({ piechartData: newmessages});
-           this.Plot(newmessages);
-        }    
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartsMessages) {
+      let newmessages = nextProps.chartsMessages.map((item, key) => {
+        return JSON.parse(item);
+      });
+
+      if (newmessages.length > 0) {
+        this.setState({ piechartData: newmessages });
+        this.Plot(newmessages);
+      }
     }
   }
-  Plot(piechartData){
-    var chartData = [
-    {
-      "Country": "USA",
-      "Model": "Model 1",
-      "Total": 487
-    },
-    {
-      "Country": "INDIA",
-      "Model": "Model 1",
-      "Total": 411
-    },
-    {
-      "Country": "CANADA",
-      "Model": "Model 1",
-      "Total": 7
-    }
+  Plot(piechartData) {
+    // var chartData = [
+    //   {
+    //     Country: "USA",
+    //     Model: "Model 1",
+    //     Total: 487
+    //   },
+    //   {
+    //     Country: "INDIA",
+    //     Model: "Model 1",
+    //     Total: 411
+    //   },
+    //   {
+    //     Country: "CANADA",
+    //     Model: "Model 1",
+    //     Total: 7
+    //   }
+    // ];
+
+    let chartOptions = [
+      {
+        captions: [{ INDIA: "INDIA", CANADA: "CANADA", USA: "USA" }],
+        color: [{ INDIA: "#5c6873", CANADA: "#8f9ba6", USA: "#c8ced3" }],
+        xaxis: "Country",
+        yaxis: "Total"
+      }
     ];
 
-    let chartOptions = [{
-      "captions": [{ "INDIA": "INDIA", "CANADA": "CANADA", "USA": "USA" }],
-      "color": [{ "INDIA": "#5c6873", "CANADA": "#8f9ba6", "USA": "#c8ced3" }],
-      "xaxis": "Country",
-      "yaxis": "Total"
-    }];
-   
-    this.BuildPie("pieChart", piechartData, chartOptions);
+    this.BuildPie("pieChart" + this.props.id, piechartData, chartOptions);
   }
-  BuildPie(id,chartData,options){
+  BuildPie(id, chartData, options) {
+    document.getElementById(id).innerHTML = "";
 
-    document.getElementById(id).innerHTML = '';
-   
-    let Data = this.TransformChartData(chartData,options);
-    
-    let runningData = Data['runningData'];
-    let runningColors = Data['runningColors'];
+    let Data = this.TransformChartData(chartData, options);
+
+    let runningData = Data["runningData"];
+    let runningColors = Data["runningColors"];
     var xVarName;
     var divisionRatio = 2.5;
     var legendoffset = 0;
@@ -89,109 +87,122 @@ class PieChart extends Component {
 
     xVarName = options[0].xaxis;
 
-
     var rcolor = d3.scaleOrdinal().range(runningColors);
 
-    let arc = d3.arc()
-    .outerRadius(radius)
-    .innerRadius(radius - radius);
+    let arc = d3
+      .arc()
+      .outerRadius(radius)
+      .innerRadius(radius - radius);
 
-    var arcOver = d3.arc().outerRadius(radius + 10 ).innerRadius(radius - radius);
+    var arcOver = d3
+      .arc()
+      .outerRadius(radius + 10)
+      .innerRadius(radius - radius);
 
-    let chart = d3.select(this.refs.pieChart)
-            .append("svg")  //append svg element inside #chart
-            .attr("width", width)    //set width
-            .attr("height", height)  //set height
-            .append("g")
-            .attr("transform", "translate(" + (width / divisionRatio) + "," + ((height / divisionRatio) + 30) + ")");
+    let chart = d3
+      .select("#piechart" + this.props.id)
+      .append("svg") //append svg element inside #chart
+      .attr("width", width) //set width
+      .attr("height", height) //set height
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + width / divisionRatio + "," + (height / divisionRatio + 30) + ")"
+      );
 
-            var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
-              return d.Total;
-            });
+    var pie = d3
+      .pie()
+      .sort(null)
+      .value(function(d) {
+        return d.Total;
+      });
 
-            var g = chart.selectAll(".arc")
-            .data(pie(runningData))
-            .enter().append("g")
-            .attr("class", "arc");
+    var g = chart
+      .selectAll(".arc")
+      .data(pie(runningData))
+      .enter()
+      .append("g")
+      .attr("class", "arc");
 
-            var count = 0;
+    var count = 0;
 
-            var path = g.append("path")
-            .attr("d", arc)
-            .attr("id", function (d) { return "arc-" + (count++); })
-            .style("opacity", function (d) {
-              return d.data["op"];
-            });
+    var path = g
+      .append("path")
+      .attr("d", arc)
+      .attr("id", function(d) {
+        return "arc-" + count++;
+      })
+      .style("opacity", function(d) {
+        return d.data["op"];
+      });
 
-            path.on("mouseenter", function (d) {
-              console.log('Mouse Enter...',arcOver);
-              d3.select(this)
-              .attr("stroke", "white")
-              .transition()
-              .duration(200)
-              .attr("d", arcOver)
-              .attr("stroke-width", 1);
-            })
-            .on("mouseleave", function (d) {
-              console.log('Mouse leave')
-              d3.select(this).transition()
-              .duration(200)
-              .attr("d", arc)
-              .attr("stroke", "none");
-            })
+    path
+      .on("mouseenter", function(d) {
+        d3.select(this)
+          .attr("stroke", "white")
+          .transition()
+          .duration(200)
+          .attr("d", arcOver)
+          .attr("stroke-width", 1);
+      })
+      .on("mouseleave", function(d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("d", arc)
+          .attr("stroke", "none");
+      });
 
-            path.append("svg:title")
-            .text(function (d) {
-              return d.data["title"] + " (" + d.data[yVarName] + ")";
-            });
+    path.append("svg:title").text(function(d) {
+      return d.data["title"] + " (" + d.data[yVarName] + ")";
+    });
 
-            path.style("fill", function (d) {
-              return rcolor(d.data[xVarName]);
-            })
+    path.style("fill", function(d) {
+      return rcolor(d.data[xVarName]);
+    });
 
-            g.append("text")
-            .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
-            .attr("dy", ".35em")
-            .style("text-anchor", "middle")
-            .style("opacity", 1)
-            .text(function (d) {
-              return d.data[yVarName];
-            });
+    g.append("text")
+      .attr("transform", function(d) {
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .style("opacity", 1)
+      .text(function(d) {
+        return d.data[yVarName];
+      });
 
+    count = 0;
+    //  var legend = chart.selectAll(".legend")
+    // .data(runningData).enter()
+    // .append("g").attr("class", "legend")
+    // .attr("legend-id", function (d) {
+    //   return count++;
+    // })
+    // .attr("transform", function (d, i) {
+    //   return "translate(15," + (parseInt("-" + (runningData.length * 10)) + i * 28 + legendoffset) + ")";
+    // })
+    // .style("cursor", "pointer")
 
-            count = 0;
-            //  var legend = chart.selectAll(".legend")
-            // .data(runningData).enter()
-            // .append("g").attr("class", "legend")
-            // .attr("legend-id", function (d) {
-            //   return count++;
-            // })
-            // .attr("transform", function (d, i) {
-            //   return "translate(15," + (parseInt("-" + (runningData.length * 10)) + i * 28 + legendoffset) + ")";
-            // })
-            // .style("cursor", "pointer")
+    // var leg = legend.append("rect");
+    // leg.attr("x", (width / 2))
+    // .attr("y",0)
+    // .attr("width", 18).attr("height", 18)
+    // .style("fill", function (d) {
+    //   return rcolor(d[yVarName]);
+    // })
+    // legend.append("text").attr("x", (width / 2) - 5)
+    // .attr("y", 9).attr("dy", ".35em")
+    // .style("text-anchor", "end").text(function (d) {
+    //   return d.caption;
+    // });
 
-            // var leg = legend.append("rect");
-            // leg.attr("x", (width / 2))
-            // .attr("y",0)
-            // .attr("width", 18).attr("height", 18)
-            // .style("fill", function (d) {
-            //   return rcolor(d[yVarName]);
-            // })
-            // legend.append("text").attr("x", (width / 2) - 5)
-            // .attr("y", 9).attr("dy", ".35em")
-            // .style("text-anchor", "end").text(function (d) {
-            //   return d.caption;
-            // });
-
-            // leg.append("svg:title")
-            // .text(function (d) {
-            //   return d["title"] + " (" + d[yVarName] + ")";
-            // });
-   }
-  TransformChartData(chartData,opts){
+    // leg.append("svg:title")
+    // .text(function (d) {
+    //   return d["title"] + " (" + d[yVarName] + ")";
+    // });
+  }
+  TransformChartData(chartData, opts) {
     var result = [];
     var resultColors = [];
     var counter = 0;
@@ -216,23 +227,25 @@ class PieChart extends Component {
         let ditem = {};
         ditem[xVarName] = chartData[i][xVarName];
         ditem[yVarName] = chartData[i][yVarName];
-        ditem["caption"] = opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
-        ditem["title"] = opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
+        ditem["caption"] =
+          opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
+        ditem["title"] =
+          opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
         result.push(ditem);
 
-        resultColors[counter] = opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
+        resultColors[counter] =
+          opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
 
         counter += 1;
       }
     }
 
     let resultArr = new Array();
-    resultArr['runningData'] = result;
-    resultArr['runningColors'] = resultColors;
+    resultArr["runningData"] = result;
+    resultArr["runningColors"] = resultColors;
     return resultArr;
   }
   onResize = (width, height) => {
-    console.log('Resize Called...');
     this.setState({
       width: width,
       height: height
@@ -240,8 +253,8 @@ class PieChart extends Component {
   };
 
   render() {
-     console.log('Render Called');
     // console.log(this.state.height);
+    const { id } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -268,9 +281,11 @@ class PieChart extends Component {
           </CardHeader>
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize} />
-            <div className="chart-wrapper" style={{ textAlign: "center" }} id="pieChart" ref="pieChart" >
-              
-            </div>
+            <div
+              className="chart-wrapper"
+              style={{ textAlign: "center" }}
+              id={"pieChart" + id}
+              ref={id}></div>
           </CardBody>
         </Card>
       </div>

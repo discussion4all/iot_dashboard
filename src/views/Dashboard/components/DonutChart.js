@@ -58,7 +58,7 @@ class DonutChart extends Component {
   }
 
   drawChart(widthP, heightP, newMessages) {
-    document.getElementById("donut-Chart").innerHTML = "";
+    document.getElementById("donutChart" + this.props.id).innerHTML = "";
     //let width = document.getElementById("chart").offsetWidth;
     let width = widthP;
     let height = 340;
@@ -110,18 +110,18 @@ class DonutChart extends Component {
     //   { name: "80-84", value: 5811429 },
     //   { name: "=85", value: 5938752 }
     // ];
-    
+
     let data = newMessages;
 
     let color = d3
       .scaleOrdinal()
       .domain(data.map(d => d.name))
-     // .range(d3.quantize(t => { console.log('t value...',t);  return (d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse() } ));
-      .range(d3.quantize(t => d3.interpolatePuBu(t * 0.8 + 0.1),data.length).reverse())
+      // .range(d3.quantize(t => { console.log('t value...',t);  return (d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse() } ));
+      .range(d3.quantize(t => d3.interpolatePuBu(t * 0.8 + 0.1), data.length).reverse());
     const arcs = pie(data);
 
     const svg = d3
-      .select(this.refs.chartDiv)
+      .select("#donutChart" + this.props.id)
       .append("svg")
       .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
@@ -179,7 +179,7 @@ class DonutChart extends Component {
   };
 
   render() {
-    console.log(this.state.data);
+    const { id } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -206,7 +206,7 @@ class DonutChart extends Component {
           </CardHeader>
           <CardBody>
             <ReactResizeDetector handleWidth onResize={this.onResize}>
-              <div className="chart-wrapper" ref="chartDiv" id="donut-Chart"></div>
+              <div className="chart-wrapper" ref={id} id={"donutChart" + this.props.id}></div>
             </ReactResizeDetector>
           </CardBody>
         </Card>

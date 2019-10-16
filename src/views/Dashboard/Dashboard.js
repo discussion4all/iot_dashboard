@@ -5,7 +5,12 @@ import ChartDataForm from "./components/ChartDataform";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { connect } from "react-redux";
 import { setSubscriptions } from "../../actions/chartDataBindAction";
-import { getDashboard, saveDashboard, saveChartConfig, getChartConfig } from "../../actions/dashBoardActions";
+import {
+  getDashboard,
+  saveDashboard,
+  saveChartConfig,
+  getChartConfig
+} from "../../actions/dashBoardActions";
 import { Responsive } from "react-grid-layout";
 import _ from "lodash";
 import "./dashboard.css";
@@ -78,34 +83,30 @@ class Dashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
-
     //set Subscription according to selected types.
-    if(nextProps.dashboard.config.length > 0){
-
-      for(let i=0;i< nextProps.dashboard.config.length; i++){
-        console.log('config...............................',nextProps.dashboard.config[i]);
-        this.props.setSubscriptions(nextProps.dashboard.config[i].selectedChartIndex, nextProps.dashboard.config[i].chartconfig);
-      }  
+    if (nextProps.dashboard.config.length > 0) {
+      for (let i = 0; i < nextProps.dashboard.config.length; i++) {
+        this.props.setSubscriptions(
+          nextProps.dashboard.config[i].selectedChartIndex,
+          nextProps.dashboard.config[i].chartconfig
+        );
+      }
     }
-    
+
     if (nextProps.dashboard.layout.length > 0) {
-      if(nextProps.dashboard.layout[0].layoutData !== undefined){
+      if (nextProps.dashboard.layout[0].layoutData !== undefined) {
         let itemsData = JSON.parse(nextProps.dashboard.layout[0].layoutData);
 
         this.setState({
           items: itemsData.layouts
         });
-        saveToLS("layouts", itemsData.layouts);  
-      }else{
-
-          this.setState({
-            items: JSON.parse(JSON.stringify(originalLayouts))
-          });
-          saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts)));
-
+        saveToLS("layouts", itemsData.layouts);
+      } else {
+        this.setState({
+          items: JSON.parse(JSON.stringify(originalLayouts))
+        });
+        saveToLS("layouts", JSON.parse(JSON.stringify(originalLayouts)));
       }
-      
     } else {
       this.setState({
         items: JSON.parse(JSON.stringify(originalLayouts))
@@ -122,26 +123,26 @@ class Dashboard extends Component {
   }
 
   createElement(el) {
-    const i = el.add ? "+" : el.i;
+    const i = el.i;
 
-    if (i === "0") {
+    if (i[0] === "0") {
       return (
         <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
-          <LineChartRound onRemoveItem={() => this.onRemoveItem(0)} />
+          <LineChartRound onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
-    if (i === "1") {
+    if (i[0] === "1") {
       return (
         <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
-          <LineChartStraight onRemoveItem={() => this.onRemoveItem(1)} />
+          <LineChartStraight onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
-    if (i === "2") {
+    if (i[0] === "2") {
       return (
         <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
-          <BarChart onRemoveItem={() => this.onRemoveItem(2)} />
+          <BarChart onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
@@ -152,17 +153,17 @@ class Dashboard extends Component {
         </div>
       );
     }
-    if (i === "4") {
+    if (i[0] === "4") {
       return (
         <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
-          <PieChart onRemoveItem={() => this.onRemoveItem(4)} />
+          <PieChart onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
-    if (i === "5") {
+    if (i[0] === "5") {
       return (
         <div style={{ paddingBottom: "20px" }} key={i} data-grid={el}>
-          <BarChartMultipleBars onRemoveItem={() => this.onRemoveItem(5)} />
+          <BarChartMultipleBars onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
@@ -173,27 +174,27 @@ class Dashboard extends Component {
         </div>
       );
     }
-    if (i === "7") {
+    if (i[0] === "7") {
       return (
         <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
-          <Speedometer onRemoveItem={() => this.onRemoveItem(7)} />
+          <Speedometer onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
-    if (i === "8") {
+    if (i[0] === "8") {
       return (
         <div key={i} style={{ paddingBottom: "20px" }} data-grid={el}>
-          <DonutChart onRemoveItem={() => this.onRemoveItem(8)} />
+          <DonutChart onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
-    if (i === "9") {
+    if (i[0] === "9") {
       return (
         <div
           key={i}
           style={{ paddingBottom: "20px" }}
           data-grid={{ ...el, h: 9.25, i: "9", minH: 9.25, minW: 1, w: 1, maxW: 2, maxH: 9.25 }}>
-          <PlainMqttMessages onRemoveItem={() => this.onRemoveItem(9)} />
+          <PlainMqttMessages onRemoveItem={() => this.onRemoveItem(i)} id={i} />
         </div>
       );
     }
@@ -220,11 +221,10 @@ class Dashboard extends Component {
 
     let obj = { layouts: tmpdata };
     let data = { layoutData: obj };
-  
-      this.props.saveDashboard(data); 
-    
+
+    this.props.saveDashboard(data);
+
     this.props.saveChartConfig(this.state.configArr);
-    
   };
   resetLayout = () => {
     let DBLayout = getFromLS("layouts");
@@ -278,58 +278,67 @@ class Dashboard extends Component {
         selectedData: config,
         makeChart: false
       });
-      
+
       this.props.setSubscriptions(this.state.selectedItem, config);
       this.makeChart(this.state.selectedItem, config);
-      let newconfigobj = { chartconfig: config, selectedChartIndex: this.state.selectedItem }
+      let newconfigobj = { chartconfig: config, selectedChartIndex: this.state.selectedItem };
       this.setState(prevState => ({
         configArr: [...prevState.configArr, newconfigobj]
-      }))
-
+      }));
     }
   };
 
   makeChart = (selectedItem, selectedData) => {
-    const { items } = this.state;
-    const query = items.filter(item => item.i === selectedItem);
-    if (query.length > 0) {
-      alert("Chart Already On The Page");
-    } else {
-      if (selectedItem === "0" || selectedItem === "1" || selectedItem === "2") {
-        this.setState({
-          items: this.state.items.concat({
-            i: selectedItem,
-            x: 0,
-            y: Infinity, // puts it at the bottom
-            w: 1,
-            h: 10.5,
-            minW: 1,
-            minH: 10.5,
-            maxW: 3,
-            maxH: 10.5
-          })
-        });
-      } else {
-        this.setState({
-          items: this.state.items.concat({
-            i: selectedItem,
-            x: selectedItem % 2 === 0 ? 6 : 0,
-            y: Infinity, // puts it at the bottom
-            w: 1,
-            h: 11,
-            minW: 1,
-            minH: 11,
-            maxW: 3,
-            maxH: 11
-          })
-        });
-      }
+    const items = [...this.state.items];
+
+    switch (selectedItem) {
+      case "0":
+        selectedItem = "0" + new Date().getTime().toString();
+        break;
+      case "1":
+        selectedItem = "1" + new Date().getTime().toString();
+        break;
+      case "2":
+        selectedItem = "2" + new Date().getTime().toString();
+        break;
+      case "4":
+        selectedItem = "4" + new Date().getTime().toString();
+        break;
+      case "5":
+        selectedItem = "5" + new Date().getTime().toString();
+        break;
+      case "7":
+        selectedItem = "7" + new Date().getTime().toString();
+        break;
+      case "8":
+        selectedItem = "8" + new Date().getTime().toString();
+        break;
+      case "9":
+        selectedItem = "9" + new Date().getTime().toString();
+        break;
+      default:
+        break;
+      // }
     }
+    const withNewItems = items.concat({
+      i: selectedItem,
+      x: 0,
+      y: Infinity, // puts it at the bottom
+      w: 1,
+      h: 11,
+      minW: 1,
+      minH: 11,
+      maxW: 3,
+      maxH: 11
+    });
+    this.setState({
+      items: withNewItems
+    });
   };
 
   render() {
     const { items } = this.state;
-   
+
     return (
       <div className="animated fadeIn" style={{ height: 0 }}>
         <Row>
@@ -344,36 +353,20 @@ class Dashboard extends Component {
               <option value="selectItem" disabled>
                 Select Item
               </option>
-              <option value="0" disabled={items.filter(item => item.i === "0").length > 0}>
-                Rounded Line Chart
-              </option>
-              <option value="1" disabled={items.filter(item => item.i === "1").length > 0}>
-                Straight Lines Chart
-              </option>
-              <option value="2" disabled={items.filter(item => item.i === "2").length > 0}>
-                Simple Bar Chart
-              </option>
-              {/* <option value="3" disabled={items.filter(item => item.i === "3").length > 0}>
+              <option value="0">Rounded Line Chart</option>
+              <option value="1">Straight Lines Chart</option>
+              <option value="2">Simple Bar Chart</option>
+              {/* <option value="3" >
                 Coloured Line Chart
               </option> */}
-              <option value="4" disabled={items.filter(item => item.i === "4").length > 0}>
-                Pie Chart
-              </option>
-              <option value="5" disabled={items.filter(item => item.i === "5").length > 0}>
-                Multiple Bars Chart
-              </option>
-              {/* <option value="6" disabled={items.filter(item => item.i === "6").length > 0}>
+              <option value="4">Pie Chart</option>
+              <option value="5">Multiple Bars Chart</option>
+              {/* <option value="6" >
                 Coloured Lines Chart
               </option> */}
-              <option value="7" disabled={items.filter(item => item.i === "7").length > 0}>
-                Speedometer
-              </option>
-              <option value="8" disabled={items.filter(item => item.i === "8").length > 0}>
-                Donut chart
-              </option>
-              <option value="9" disabled={items.filter(item => item.i === "9").length > 0}>
-                MQTT MSGs
-              </option>
+              <option value="7">Speedometer</option>
+              <option value="8">Donut chart</option>
+              <option value="9">MQTT MSGs</option>
             </Input>
           </Col>
           <Col xs="12" sm="6" lg="3"></Col>
@@ -421,7 +414,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(saveChartConfig(itemData));
   },
   getChartConfig: itemData => {
-    dispatch(getChartConfig(itemData))
+    dispatch(getChartConfig(itemData));
   }
 });
 
