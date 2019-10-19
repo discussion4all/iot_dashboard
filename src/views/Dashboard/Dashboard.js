@@ -273,12 +273,14 @@ class Dashboard extends Component {
   }
 
   setChartData = config => {
+    config.chartID = this.state.selectedItem+config.chartID;
     if (this.state.makeChart) {
       this.setState({
         selectedData: config,
         makeChart: false
       });
 
+      //console.log(this.state.selectedItem,'Config....',config);
       this.props.setSubscriptions(this.state.selectedItem, config);
       this.makeChart(this.state.selectedItem, config);
       let newconfigobj = { chartconfig: config, selectedChartIndex: this.state.selectedItem };
@@ -293,33 +295,34 @@ class Dashboard extends Component {
 
     switch (selectedItem) {
       case "0":
-        selectedItem = "0" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "1":
-        selectedItem = "1" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "2":
-        selectedItem = "2" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "4":
-        selectedItem = "4" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "5":
         selectedItem = "5" + new Date().getTime().toString();
         break;
       case "7":
-        selectedItem = "7" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "8":
-        selectedItem = "8" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       case "9":
-        selectedItem = "9" + new Date().getTime().toString();
+        selectedItem = selectedData.chartID;
         break;
       default:
         break;
       // }
     }
+
     const withNewItems = items.concat({
       i: selectedItem,
       x: 0,
@@ -360,7 +363,7 @@ class Dashboard extends Component {
                 Coloured Line Chart
               </option> */}
               <option value="4">Pie Chart</option>
-              <option value="5">Multiple Bars Chart</option>
+              {/* <option value="5">Multiple Bars Chart</option> */}
               {/* <option value="6" >
                 Coloured Lines Chart
               </option> */}

@@ -12,10 +12,6 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./PrivateRoute";
 
-import AWSAppSyncClient from 'aws-appsync';
-import { ApolloProvider } from 'react-apollo';
-import { Rehydrated } from 'aws-appsync-react';
-
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
 // Containers
@@ -50,17 +46,6 @@ if (localStorage.accessToken) {
   }
 }
 
-
-
-// const client = new AWSAppSyncClient({
-//   url: 'https://4urrtrh5cbek5e7tefv6qmku2i.appsync-api.ap-southeast-1.amazonaws.com/graphql',
-//   region: 'ap-southeast-1',
-//   auth: {
-//     type: 'API_KEY',
-//     apiKey: 'da2-uybvqvefkfdzvior3cddv4h4gu',
-//     // jwtToken: async () => token, // Required when you use Cognito UserPools OR OpenID Connect. token object is obtained previously
-//   }
-// })
 
 
 class App extends Component {

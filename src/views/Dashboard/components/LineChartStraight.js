@@ -66,15 +66,34 @@ class LineChartStraight extends Component {
     this.drawChart(460, 320, this.state.data);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.chartsMessages) {
-      let newmessages = nextProps.chartsMessages.map((item, key) => {
-        return JSON.parse(item);
-      });
+    //console.log('Next Props called..');
+    // if (nextProps.chartsMessages) {
+    //   let newmessages = nextProps.chartsMessages.map((item, key) => {
+    //     return JSON.parse(item);
+    //   });
 
-      if (newmessages.length > 0) {
-        this.setState({ data: newmessages });
-        this.drawChart(this.state.width, this.state.height, newmessages);
-      }
+    //   if (newmessages.length > 0) {
+    //     this.setState({ data: newmessages });
+    //     this.drawChart(this.state.width, this.state.height, newmessages);
+    //   }
+    // }
+
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    console.log(Object.keys(foo));
+    if(Object.keys(foo).indexOf(myID) !== -1){
+      let keyIndex = Object.keys(foo).indexOf(myID);
+      v = foo[Object.keys(foo)[keyIndex]];
+       if(v !== undefined){
+          let newMessages = v.map((item, key) => { 
+            return JSON.parse(item);
+          });
+          if (newMessages.length > 0) {            
+              this.setState({ data: newMessages });
+              this.drawChart(this.state.width, this.state.height, newMessages);        
+          }
+       }        
     }
   }
   drawChart = (widthP, heightP, newmessages) => {
@@ -359,7 +378,7 @@ class LineChartStraight extends Component {
     };
 
     //drawpoints function
-    const drawPoints = (pointData, pointColor, onLine) => {
+    const drawPoints = (pointData, pointColor, onLine,id) => {
       onLine
         .selectAll(".points")
         .data(pointData)
@@ -382,9 +401,9 @@ class LineChartStraight extends Component {
         .on("mouseover", function(d) {
           // Responsibe for the postison of tooltip varying to Xaxis
           let bodyRect = document
-              .getElementById("straight" + this.props.id)
+              .body
               .getBoundingClientRect(),
-            elemRect = document.getElementById("straight" + this.props.id).getBoundingClientRect(),
+            elemRect = document.getElementById(id).getBoundingClientRect(),
             offset = elemRect.left - bodyRect.left;
 
           // animate point useful when we have points ploted close to each other.
@@ -423,7 +442,7 @@ class LineChartStraight extends Component {
     // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
 
     // plot points
-    drawPoints(newmessages, "#8f9ba6", lineOne);
+    drawPoints(newmessages, "#8f9ba6", lineOne,"straight"+this.props.id);
     // drawPoints(chartConfig.data2, "#f57738", lineTwo);
 
     // add legend
@@ -443,7 +462,7 @@ class LineChartStraight extends Component {
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            Line Chart Straight
+            Line Chart Straight - {this.props.id}
             <div className="card-header-actions">
               <ButtonGroup className="float-right">
                 <ButtonDropdown
@@ -477,8 +496,10 @@ class LineChartStraight extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.straightlineData
-});
+const mapStateToProps = state => {
+  return {
+  //chartsMessages: state.chartsMessages.straightlineData
+  chartsMessages: Object.assign({},state.chartsMessages.straightlineData)
+}};
 
 export default connect(mapStateToProps)(LineChartStraight);

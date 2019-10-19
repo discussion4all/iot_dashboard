@@ -23,15 +23,29 @@ class Speedometer extends Component {
     this.initialize();
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.chartsMessages) {
-      let messageArr = nextProps.chartsMessages;
 
-      if (!messageArr[0]) {
-        messageArr[0] = 0;
-      }
-      this.setState({ currentValue: messageArr[0] });
-      this.updateGauges(messageArr[0]);
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    if(Object.keys(foo)[0] === myID){
+
+       console.log('V',v); 
+       if(v !== undefined){
+          this.setState({ currentValue: v[0]});
+          this.updateGauges(foo[Object.keys(foo)[0]]); 
+       }
+        
     }
+
+    // if (nextProps.chartsMessages) {
+    //   let messageArr = nextProps.chartsMessages;
+
+    //   if (!messageArr[0]) {
+    //     messageArr[0] = 0;
+    //   }
+    //   this.setState({ currentValue: messageArr[0] });
+    //   this.updateGauges(messageArr[0]);
+    // }
   }
   initialize() {
     this.createGauge("memory" + this.props.id, "Volt Meter");
@@ -43,15 +57,15 @@ class Speedometer extends Component {
     var config = {
       size: 320,
       label: label,
-      min: undefined !== min ? min : 0,
-      max: undefined !== max ? max : 100,
+      min: undefined !== min ? min : 1000,
+      max: undefined !== max ? max : 10000,
       minorTicks: 5
     };
 
     var range = config.max - config.min;
     config.yellowZones = [{ from: config.min + range * 0.75, to: config.min + range * 0.9 }];
     config.redZones = [{ from: config.min + range * 0.9, to: config.max }];
-    console.log(name);
+    //console.log(name);
     this.state.gauges[name] = new Gauge("memoryGaugeContainer" + this.props.id, config);
     this.state.gauges[name].render();
   }
@@ -109,8 +123,10 @@ class Speedometer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.speedometerData
-});
+const mapStateToProps = state => {
+     return {
+      chartsMessages: state.chartsMessages.speedometerData
+    }  
+};
 
 export default connect(mapStateToProps)(Speedometer);

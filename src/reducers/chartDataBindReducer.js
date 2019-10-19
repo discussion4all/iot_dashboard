@@ -25,18 +25,19 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
+ // console.log('Set Subscription reducer',action)
   switch (action.type) {
-    case SET_ROUNDLINE_SUBSCRIPTION:
+    case SET_ROUNDLINE_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         roundline: action.payload
       };
-    case SET_STRAIGHTLINE_SUBSCRIPTION:
+    case SET_STRAIGHTLINE_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         straightline: action.payload
       };
-    case SET_BAR_SUBSCRIPTION:
+    case SET_BAR_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         bar: action.payload
@@ -46,7 +47,7 @@ export default function(state = initialState, action) {
         ...state,
         colouredline: action.payload
       };
-    case SET_PIE_SUBSCRIPTION:
+    case SET_PIE_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         pie: action.payload
@@ -61,17 +62,17 @@ export default function(state = initialState, action) {
         ...state,
         colouredlines: action.payload
       };
-    case SET_SPEEDOMETER_SUBSCRIPTION:
+    case SET_SPEEDOMETER_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         speedometer: action.payload
       };
-    case SET_DONUT_SUBSCRIPTION:
+    case SET_DONUT_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         donut: action.payload
       };
-    case SET_PLAINMESSAGES_SUBSCRIPTION:
+    case SET_PLAINMESSAGES_SUBSCRIPTION+action.chartID:
       return {
         ...state,
         plainmessages: action.payload

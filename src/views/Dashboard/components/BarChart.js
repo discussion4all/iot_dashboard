@@ -36,19 +36,50 @@ class BarChart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.chartsMessages) {
-      let newMessages = nextProps.chartsMessages.map((item, key) => {
-        return JSON.parse(item);
-      });
+    // console.log('nextProps',nextProps);
 
-      if (newMessages.length > 0) {
-        this.setState({ data: newMessages });
-        this.drawChart(this.state.width, this.state.height, newMessages);
-      }
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    console.log(Object.keys(foo));
+    if(Object.keys(foo).indexOf(myID) !== -1){
+       let keyIndex = Object.keys(foo).indexOf(myID);
+       v = foo[Object.keys(foo)[keyIndex]];
+       let itemArr = [];
+       if(v !== undefined){
+          let newMessages = v.map((item, key) => {
+           let parsedItem = JSON.parse(item);              
+           return JSON.parse(item);
+        });
+
+        if (newMessages.length > 0) {
+
+          const getUnique = (msgArr, comp)=> {
+              const unique = msgArr.map(e => e[comp]).map((e,i,final) => final.indexOf(e) === i && i)
+                     .filter(e => msgArr[e]).map(e => msgArr[e]);
+              return unique; 
+          }
+          newMessages = getUnique(newMessages,'year');
+          this.setState({ data: newMessages });
+          this.drawChart(this.state.width, this.state.height, newMessages);
+        }
+       }
+        
     }
+    // if (nextProps.chartsMessages) {
+    //   let newMessages = nextProps.chartsMessages.map((item, key) => {
+    //     return JSON.parse(item);
+    //   });
+
+    //   if (newMessages.length > 0) {
+    //     this.setState({ data: newMessages });
+    //     this.drawChart(this.state.width, this.state.height, newMessages);
+    //   }
+    // }
   }
 
   drawChart(widthP, heightP, newMessages) {
+
     document.getElementById("barchart" + this.props.id).innerHTML = "";
     var margin = { top: 40, right: 30, bottom: 30, left: 50 },
       width = widthP - margin.left - margin.right,
@@ -236,8 +267,11 @@ class BarChart extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.barData
-});
+const mapStateToProps = state => {
+  return {
+    //chartsMessages: state.chartsMessages.barData
+    chartsMessages: Object.assign({}, state.chartsMessages.barData)
+  }
+};
 
 export default connect(mapStateToProps)(BarChart);

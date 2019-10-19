@@ -4,7 +4,9 @@ import { Container, Col, FormGroup, Label, Input, Row } from "reactstrap";
 class ChartDataform extends Component {
   state = {
     dataTypeBinding: "Live Data",
-    selectedTopic: "@mqtt/chart/roundline"
+    selectedTopic: "@mqtt/chart/roundline",
+    deviceType: "BH12V",
+    deviceID: "303AH1900000300"
   };
 
   bindData = e => {
@@ -18,11 +20,24 @@ class ChartDataform extends Component {
       selectedTopic: e.target.value
     });
   };
-
+  selectDeviceType = e => {
+    this.setState({
+      deviceType: e.target.value
+    })
+  };
+  selectDeviceID = e => {
+    this.setState({
+      deviceID: e.target.value
+    })
+  }
   componentWillUnmount() {
     this.props.getsBindData({
       type: this.state.dataTypeBinding,
-      topic: this.state.selectedTopic
+      //topic: this.state.selectedTopic
+      topic: this.state.deviceType+'/'+this.state.deviceID,
+      deviceType: this.state.deviceType,
+      deviceID: this.state.deviceID,
+      chartID: new Date().getTime()
     });
     this.setState({
       dataTypeBinding: null,
@@ -81,7 +96,15 @@ class ChartDataform extends Component {
             </Col>
           </Row>
           <Row>
-               <Col md="6">
+
+              <Col xs="12" md="6">
+                <Input type="text" id="text-input" value={this.state.deviceType} name="text-input" onChange={this.selectDeviceType} placeholder="Device Type" />                
+              </Col>
+              <Col xs="12" md="6">
+                <Input type="text" id="text-input" value={this.state.deviceID} name="text-input" onChange={this.selectDeviceID} placeholder="Device ID" />                
+              </Col>
+
+               <Col md="6" style={{display: "none"}}>
                  <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                   <Input
                     className="form-check-input"
@@ -97,7 +120,7 @@ class ChartDataform extends Component {
                   </Label>
                 </FormGroup>
                </Col>
-               <Col md="6">
+               <Col md="6" style={{display: "none"}}>
                  <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                   <Input
                     className="form-check-input"
@@ -113,7 +136,7 @@ class ChartDataform extends Component {
                   </Label>
                 </FormGroup>
                </Col>
-               <Col md="6">
+               <Col md="6" style={{display: "none"}}>
                     <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                 <Input
                   className="form-check-input"
@@ -129,7 +152,7 @@ class ChartDataform extends Component {
                 </Label>
               </FormGroup>
                </Col> 
-               <Col md="6">
+               <Col md="6" style={{display: "none"}}>
                     <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                   <Input
                     className="form-check-input"
@@ -145,7 +168,7 @@ class ChartDataform extends Component {
                   </Label>
               </FormGroup>
                </Col>
-               <Col md="6">
+               <Col md="6" style={{display: "none"}}>
                     <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <Input
                       className="form-check-input"
@@ -161,7 +184,7 @@ class ChartDataform extends Component {
                 </Label>
               </FormGroup>
                </Col>
-               <Col md="6">
+               <Col md="6" style={{display: "none"}}>
                     <FormGroup check className="radio" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <Input
                       className="form-check-input"

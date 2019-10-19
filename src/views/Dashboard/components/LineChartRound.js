@@ -67,18 +67,41 @@ class LineChartRound extends Component {
     this.drawChart(460, 320, this.state.data);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.chartsMessages) {
-      let newmessages = nextProps.chartsMessages.map((item, key) => {
-        return JSON.parse(item);
-      });
+    console.log('Props called.');
+    // if (nextProps.chartsMessages) {
+    //   let newmessages = nextProps.chartsMessages.map((item, key) => {
+    //     return JSON.parse(item);
+    //   });
 
-      if (newmessages.length > 0) {
-        this.setState({ data: newmessages });
-        this.drawChart(this.state.width, this.state.height, newmessages);
-      }
+    //   if (newmessages.length > 0) {
+    //     this.setState({ data: newmessages });
+    //     this.drawChart(this.state.width, this.state.height, newmessages);
+    //   }
+    // }
+
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    console.log(Object.keys(foo));
+    if(Object.keys(foo).indexOf(myID) !== -1){
+       let keyIndex = Object.keys(foo).indexOf(myID);
+       v = foo[Object.keys(foo)[keyIndex]];
+       if(v !== undefined){
+          let newMessages = v.map((item, key) => {
+            // console.log('Item...',item);
+            // console.log('Key...',key);  
+            return JSON.parse(item);
+          });
+          if (newMessages.length > 0) {            
+              this.setState({ data: newMessages });
+              this.drawChart(this.state.width, this.state.height, newMessages);        
+          }
+       }        
     }
+
   }
   drawChart = (widthP, heightP, newmessages) => {
+    console.log('New messagess.',newmessages)
     document.getElementById("roundline" + this.props.id).innerHTML = "";
     var chartConfig = {
       lineConnectorLength: 40,
@@ -173,7 +196,7 @@ class LineChartRound extends Component {
     };
 
     var svgConfig = {
-      id: "roundline" + this.props.id,
+      id: "roundlineSvg" + this.props.id,
       width: widthP,
       height: 320,
       margin: {
@@ -361,7 +384,7 @@ class LineChartRound extends Component {
     };
 
     //drawpoints function
-    const drawPoints = (pointData, pointColor, onLine) => {
+    const drawPoints = (pointData, pointColor, onLine,id) => {
       onLine
         .selectAll(".points")
         .data(pointData)
@@ -383,12 +406,11 @@ class LineChartRound extends Component {
         })
         .on("mouseover", function(d) {
           // Responsibe for the postison of tooltip varying to Xaxis
-          let bodyRect = document
-              .getElementById("roundline" + this.props.id)
-              .getBoundingClientRect(),
-            elemRect = document.getElementById("roundline" + this.props.id).getBoundingClientRect(),
-            offset = elemRect.left - bodyRect.left;
 
+          let bodyRect = document.body.getBoundingClientRect(),
+            elemRect = document.getElementById(id).getBoundingClientRect(),
+            offset = elemRect.left - bodyRect.left;
+            console.log('Offset...',offset);
           // animate point useful when we have points ploted close to each other.
           d3.select(this)
             .transition()
@@ -425,7 +447,7 @@ class LineChartRound extends Component {
     // let lineTwo = drawLine(chartConfig.data2, "#f57738", "30 Days", "line2");
 
     // plot points
-    drawPoints(newmessages, "#8f9ba6", lineOne);
+    drawPoints(newmessages, "#8f9ba6", lineOne,"roundline"+this.props.id);
     // drawPoints(chartConfig.data2, "#f57738", lineTwo);
 
     // add legend
@@ -480,7 +502,8 @@ class LineChartRound extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.roundlineData
+  //chartsMessages: state.chartsMessages.roundlineData
+  chartsMessages: Object.assign({}, state.chartsMessages.roundlineData)
 });
 
 export default connect(mapStateToProps)(LineChartRound);

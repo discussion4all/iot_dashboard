@@ -78,7 +78,7 @@ function Gauge(placeholderName, configuration) {
       );
     }
 
-    if (undefined != this.config.label) {
+    if (undefined !== this.config.label) {
       var fontSize = Math.round(this.config.size / 9);
       this.body
         .append("svg:text")
@@ -126,7 +126,7 @@ function Gauge(placeholderName, configuration) {
         .style("stroke", "#333")
         .style("stroke-width", "2px");
 
-      if (major == this.config.min || major == this.config.max) {
+      if (major === this.config.min || major === this.config.max) {
         var point = this.valueToPoint(major, 0.63);
 
         this.body
@@ -134,7 +134,7 @@ function Gauge(placeholderName, configuration) {
           .attr("x", point.x)
           .attr("y", point.y)
           .attr("dy", fontSize / 3)
-          .attr("text-anchor", major == this.config.min ? "start" : "end")
+          .attr("text-anchor", major === this.config.min ? "start" : "end")
           .text(major)
           .style("font-size", fontSize + "px")
           .style("fill", "#333")
@@ -245,7 +245,7 @@ function Gauge(placeholderName, configuration) {
     pointer
       .transition()
       .duration(
-        undefined != transitionDuration ? transitionDuration : this.config.transitionDuration
+        undefined !== transitionDuration ? transitionDuration : this.config.transitionDuration
       )
       //.delay(0)
       //.ease("linear")

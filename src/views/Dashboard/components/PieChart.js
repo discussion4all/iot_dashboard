@@ -25,32 +25,49 @@ class PieChart extends Component {
     this.Plot();
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.chartsMessages) {
-      let newmessages = nextProps.chartsMessages.map((item, key) => {
-        return JSON.parse(item);
-      });
+    //console.log('Component Will receive props..',nextProps);
+    // if (nextProps.chartsMessages) {
+    //   let newmessages = nextProps.chartsMessages.map((item, key) => {
+    //     return JSON.parse(item);
+    //   });
 
-      if (newmessages.length > 0) {
-        this.setState({ piechartData: newmessages });
-        this.Plot(newmessages);
-      }
+    //   if (newmessages.length > 0) {
+    //     this.setState({ piechartData: newmessages });
+    //     this.Plot(newmessages);
+    //   }
+    // }
+
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    console.log(Object.keys(foo));
+    if(Object.keys(foo).indexOf(myID) !== -1){
+      let keyIndex = Object.keys(foo).indexOf(myID);
+      v = foo[Object.keys(foo)[keyIndex]];
+       if(v !== undefined){
+          let newMessages = v.map((item, key) => { 
+            return JSON.parse(item);
+          });
+          if (newMessages.length > 0) {            
+              this.setState({ piechartData: newMessages });
+              this.Plot(newMessages);       
+          }
+       }        
     }
   }
   Plot(piechartData) {
+    console.log('Plot called');
     // var chartData = [
     //   {
     //     Country: "USA",
-    //     Model: "Model 1",
     //     Total: 487
     //   },
     //   {
     //     Country: "INDIA",
-    //     Model: "Model 1",
     //     Total: 411
     //   },
     //   {
     //     Country: "CANADA",
-    //     Model: "Model 1",
     //     Total: 7
     //   }
     // ];
@@ -59,23 +76,24 @@ class PieChart extends Component {
       {
         captions: [{ INDIA: "INDIA", CANADA: "CANADA", USA: "USA" }],
         color: [{ INDIA: "#5c6873", CANADA: "#8f9ba6", USA: "#c8ced3" }],
-        xaxis: "Country",
-        yaxis: "Total"
+        xaxis: "year",
+        yaxis: "value"
       }
     ];
 
     this.BuildPie("pieChart" + this.props.id, piechartData, chartOptions);
   }
   BuildPie(id, chartData, options) {
+    console.log('Build pie');
     document.getElementById(id).innerHTML = "";
 
     let Data = this.TransformChartData(chartData, options);
-
+   // console.log('Data---',Data);
     let runningData = Data["runningData"];
     let runningColors = Data["runningColors"];
     var xVarName;
     var divisionRatio = 2.5;
-    var legendoffset = 0;
+   // var legendoffset = 0;
 
     //chart = d3.select("#" + id + " .innerCont");
     var yVarName = options[0].yaxis;
@@ -100,7 +118,7 @@ class PieChart extends Component {
       .innerRadius(radius - radius);
 
     let chart = d3
-      .select("#piechart" + this.props.id)
+      .select("#pieChart" + this.props.id)
       .append("svg") //append svg element inside #chart
       .attr("width", width) //set width
       .attr("height", height) //set height
@@ -114,7 +132,7 @@ class PieChart extends Component {
       .pie()
       .sort(null)
       .value(function(d) {
-        return d.Total;
+        return d.value;
       });
 
     var g = chart
@@ -173,34 +191,7 @@ class PieChart extends Component {
       });
 
     count = 0;
-    //  var legend = chart.selectAll(".legend")
-    // .data(runningData).enter()
-    // .append("g").attr("class", "legend")
-    // .attr("legend-id", function (d) {
-    //   return count++;
-    // })
-    // .attr("transform", function (d, i) {
-    //   return "translate(15," + (parseInt("-" + (runningData.length * 10)) + i * 28 + legendoffset) + ")";
-    // })
-    // .style("cursor", "pointer")
 
-    // var leg = legend.append("rect");
-    // leg.attr("x", (width / 2))
-    // .attr("y",0)
-    // .attr("width", 18).attr("height", 18)
-    // .style("fill", function (d) {
-    //   return rcolor(d[yVarName]);
-    // })
-    // legend.append("text").attr("x", (width / 2) - 5)
-    // .attr("y", 9).attr("dy", ".35em")
-    // .style("text-anchor", "end").text(function (d) {
-    //   return d.caption;
-    // });
-
-    // leg.append("svg:title")
-    // .text(function (d) {
-    //   return d["title"] + " (" + d[yVarName] + ")";
-    // });
   }
   TransformChartData(chartData, opts) {
     var result = [];
@@ -216,31 +207,37 @@ class PieChart extends Component {
       hasMatch = false;
       for (var index = 0; index < result.length; ++index) {
         var data = result[index];
-
-        if (data[xVarName] == chartData[i][xVarName]) {
+        if (data[xVarName] === chartData[i][xVarName]) {
           result[index][yVarName] = result[index][yVarName] + chartData[i][yVarName];
           hasMatch = true;
           break;
         }
       }
-      if (hasMatch == false) {
+      if (hasMatch === false) {
         let ditem = {};
         ditem[xVarName] = chartData[i][xVarName];
         ditem[yVarName] = chartData[i][yVarName];
-        ditem["caption"] =
-          opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
-        ditem["title"] =
-          opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
+        // ditem["caption"] =
+        //   opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
+        // ditem["title"] =
+        //   opts[0].captions != undefined ? opts[0].captions[0][chartData[i][xVarName]] : "";
+        ditem["caption"] = chartData[i][xVarName];
+        ditem["title"] = chartData[i][xVarName];
         result.push(ditem);
 
-        resultColors[counter] =
-          opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
+        const getRandomInRange = (min,max) => {
+          let v = (Math.random()*(256)|0).toString(16);//bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
+          return "#" + v + v + v;
+          //return Math.random() * (max - min) + min;
+        }
+        resultColors[counter] = getRandomInRange(0.2, 0.8);
+         // opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
 
         counter += 1;
       }
     }
 
-    let resultArr = new Array();
+    let resultArr = [];
     resultArr["runningData"] = result;
     resultArr["runningColors"] = resultColors;
     return resultArr;
@@ -253,7 +250,7 @@ class PieChart extends Component {
   };
 
   render() {
-    // console.log(this.state.height);
+     console.log("render Call...");
     const { id } = this.props;
     return (
       <div className="animated fadeIn">
@@ -294,7 +291,8 @@ class PieChart extends Component {
 }
 
 const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.pieData
+  //chartsMessages: state.chartsMessages.pieData
+  chartsMessages: Object.assign({},state.chartsMessages.pieData)
 });
 
 export default connect(mapStateToProps)(PieChart);

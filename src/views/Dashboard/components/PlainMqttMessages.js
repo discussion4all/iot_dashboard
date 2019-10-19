@@ -21,9 +21,29 @@ class PlainMqttMessages extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
+    /*this.setState({
       messageItems: nextProps.chartsMessages
-    });
+    });*/
+    let myID = this.props.id;
+    let foo = nextProps.chartsMessages;
+    let v = foo[Object.keys(foo)[0]];
+    console.log(Object.keys(foo));
+    if(Object.keys(foo).indexOf(myID) !== -1){
+       let keyIndex = Object.keys(foo).indexOf(myID);
+       v = foo[Object.keys(foo)[keyIndex]];
+       if(v !== undefined){
+          let newMessages = v.map((item, key) => {
+            // console.log('Item...',item);
+            // console.log('Key...',key);  
+            return JSON.parse(item);
+          });
+          if (newMessages.length > 0) {            
+              this.setState({
+                  messageItems: newMessages
+              });          
+          }
+       }        
+    }
   }
 
   render() {
@@ -34,7 +54,8 @@ class PlainMqttMessages extends Component {
       backgroundColor: "white",
       overflow: "auto"
     };
-    const messageItems = [...this.state.messageItems];
+    //const messageItems = [...this.state.messageItems];
+    const { messageItems } = this.state;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -77,8 +98,13 @@ class PlainMqttMessages extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  chartsMessages: state.chartsMessages.plainmessagesData
-});
+const mapStateToProps = state => {
+
+  console.log('Reducer state...',state);
+  return {
+    //chartsMessages: state.chartsMessages.plainmessagesData
+    chartsMessages: Object.assign({}, state.chartsMessages.plainmessagesData)
+  }
+};
 
 export default connect(mapStateToProps)(PlainMqttMessages);

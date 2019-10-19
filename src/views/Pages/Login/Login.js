@@ -155,7 +155,7 @@ class Login extends Component {
                         <FormFeedback>Password is Required</FormFeedback>
                       </InputGroup>
                       <Row>
-                        <Col xs="6">
+                        <Col xs="3">
                           <Button
                             color="dark"
                             className="px-4"
@@ -167,7 +167,9 @@ class Login extends Component {
                             <Spinner style={{ width: "1.5rem", height: "1.5rem" }} color="dark" />
                           )}
                         </Col>
-                        {this.state.showErrorFromApi && this.state.errors}
+                        <Col xs="9">
+                          <span style={{color:"#f86c6b"}}>{this.state.showErrorFromApi && this.state.errors}</span>
+                        </Col>                        
                       </Row>
                     </Form>
                   </CardBody>
