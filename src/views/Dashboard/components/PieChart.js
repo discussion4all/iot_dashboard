@@ -41,22 +41,22 @@ class PieChart extends Component {
     let foo = nextProps.chartsMessages;
     let v = foo[Object.keys(foo)[0]];
     console.log(Object.keys(foo));
-    if(Object.keys(foo).indexOf(myID) !== -1){
+    if (Object.keys(foo).indexOf(myID) !== -1) {
       let keyIndex = Object.keys(foo).indexOf(myID);
       v = foo[Object.keys(foo)[keyIndex]];
-       if(v !== undefined){
-          let newMessages = v.map((item, key) => { 
-            return JSON.parse(item);
-          });
-          if (newMessages.length > 0) {            
-              this.setState({ piechartData: newMessages });
-              this.Plot(newMessages);       
-          }
-       }        
+      if (v !== undefined) {
+        let newMessages = v.map((item, key) => {
+          return JSON.parse(item);
+        });
+        if (newMessages.length > 0) {
+          this.setState({ piechartData: newMessages });
+          if (newMessages.length !== this.state.piechartData.length) this.Plot(newMessages);
+        }
+      }
     }
   }
   Plot(piechartData) {
-    console.log('Plot called');
+    console.log("Plot called");
     // var chartData = [
     //   {
     //     Country: "USA",
@@ -84,16 +84,16 @@ class PieChart extends Component {
     this.BuildPie("pieChart" + this.props.id, piechartData, chartOptions);
   }
   BuildPie(id, chartData, options) {
-    console.log('Build pie');
+    console.log("Build pie");
     document.getElementById(id).innerHTML = "";
 
     let Data = this.TransformChartData(chartData, options);
-   // console.log('Data---',Data);
+    // console.log('Data---',Data);
     let runningData = Data["runningData"];
     let runningColors = Data["runningColors"];
     var xVarName;
     var divisionRatio = 2.5;
-   // var legendoffset = 0;
+    // var legendoffset = 0;
 
     //chart = d3.select("#" + id + " .innerCont");
     var yVarName = options[0].yaxis;
@@ -191,7 +191,6 @@ class PieChart extends Component {
       });
 
     count = 0;
-
   }
   TransformChartData(chartData, opts) {
     var result = [];
@@ -225,13 +224,13 @@ class PieChart extends Component {
         ditem["title"] = chartData[i][xVarName];
         result.push(ditem);
 
-        const getRandomInRange = (min,max) => {
-          let v = (Math.random()*(256)|0).toString(16);//bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
+        const getRandomInRange = (min, max) => {
+          let v = ((Math.random() * 256) | 0).toString(16); //bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
           return "#" + v + v + v;
           //return Math.random() * (max - min) + min;
-        }
+        };
         resultColors[counter] = getRandomInRange(0.2, 0.8);
-         // opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
+        // opts[0].color != undefined ? opts[0].color[0][chartData[i][xVarName]] : "";
 
         counter += 1;
       }
@@ -250,7 +249,7 @@ class PieChart extends Component {
   };
 
   render() {
-     console.log("render Call...");
+    console.log("render Call...");
     const { id } = this.props;
     return (
       <div className="animated fadeIn">
@@ -292,7 +291,7 @@ class PieChart extends Component {
 
 const mapStateToProps = state => ({
   //chartsMessages: state.chartsMessages.pieData
-  chartsMessages: Object.assign({},state.chartsMessages.pieData)
+  chartsMessages: Object.assign({}, state.chartsMessages.pieData)
 });
 
 export default connect(mapStateToProps)(PieChart);

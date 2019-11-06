@@ -273,7 +273,7 @@ class Dashboard extends Component {
   }
 
   setChartData = config => {
-    config.chartID = this.state.selectedItem+config.chartID;
+    config.chartID = this.state.selectedItem + config.chartID;
     if (this.state.makeChart) {
       this.setState({
         selectedData: config,
